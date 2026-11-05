@@ -772,9 +772,9 @@ function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';tpic.src=ch.pic;tpic.
  const tw=el('<form class="typeit" autocomplete="off"><label class="sr" for="typeAns">Type your answer</label><input id="typeAns" type="text" placeholder="Type your answer (+2 bonus)" maxlength="40"><button class="btn" type="submit">Check</button></form>');
  tw.onsubmit=e=>{e.preventDefault();const v=tw.querySelector('input').value.trim();if(!v)return;const k=bestMatch([v],r.o);const bs=c.querySelectorAll('button');if(k===r.a){TYPED=true;bs[k].click()}else if(k>=0&&!bs[k].disabled){bs[k].click()}else{toast('Not quite. Check your spelling, or try again.');say('Not quite. Try again.')}};rcard.append(tw);
  const vb=el('<div class="row"></div>');const rbk=vbtn('Read Chapter '+rch+' first','<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5z"/></svg>');rbk.onclick=()=>BOOK.open(rch);vb.append(rbk);const rd=vbtn('Read it to me',SPK);rd.onclick=()=>{GESTURE=true;sayRiddle()};const mb=vbtn('Say your answer',MIC,'mic');const hh=el('<span class="heard"></span>');mb.onclick=()=>listen(mb,hh,alts=>{const k=bestMatch(alts,r.o);const bs=c.querySelectorAll('button');if(k>=0&&!bs[k].disabled)bs[k].click();else toast('Gogo didn’t catch that. Try again, or tap your answer.')});vb.append(rd,mb,hh);rcard.append(vb);
- const rv=el('<button class="review" type="button">Leave a note about this riddle</button>');rv.onclick=()=>reviewNote(rcard);rcard.append(rv)}
+ const rv=el('<button class="review" type="button">Leave a note about this riddle</button>');rv.onclick=()=>reviewNote(rcard,'riddle-'+rch+'-'+(ri+1),'Chapter '+rch+', riddle '+(ri+1));rcard.append(rv)}
 let CMT=null;if(window.claude&&claude.use){claude.use('comments').then(c=>{CMT=c})}
-function reviewNote(node){window.open('https://form.jotform.com/263087088389069','_blank','noopener');return;CMT.openComposer({element:node}).catch(()=>toast('Review notes are off in this view.'))}
+function reviewNote(node,spot,where){if(window.GGC&&GGC.on){GGC.inline(node.lastElementChild,{spot:spot||'game',where:where||'the game'});return}window.open('https://form.jotform.com/263087088389069','_blank','noopener');return;CMT.openComposer({element:node}).catch(()=>toast('Review notes are off in this view.'))}
 
 // ===== Dracula's bats =====
 const bats=[{t:'Millions of bats pour out of the sky. Eva shouts that Dracula is behind this. What do you do?',o:[['Run toward the lake',1],['Climb the tallest tree',0],['Stand still and hide your face',0]]},
@@ -859,5 +859,6 @@ goal();wrapPics();newRound();tabs();riddle();batStep();drawCouncil();
 const start=screens.findIndex(s=>'#'+s.dataset.name===location.hash);go(start>=0?start:0,true);
 </script>
 
+<script src="/comments.js" defer></script>
 </body>
 </html>
