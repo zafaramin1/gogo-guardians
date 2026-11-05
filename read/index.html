@@ -73,7 +73,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 </style>
 
 <div class="bar">
-  <a class="brand" href="/" style="text-decoration:none">GOGO GUARDIANS</a>
+  <a class="brand" href="/" style="text-decoration:none">&larr; Home</a><span class="brand" style="margin-left:4px">GOGO GUARDIANS</span>
   <span class="ver">Reading copy · Version 11</span>
   <label for="toc" hidden>Go to chapter</label>
   <select id="toc" aria-label="Go to chapter"><option value="">Contents</option><option value="preface">Preface</option><option value="prologue">Prologue: Hidden Wonders of Sumner County</option><option value="ch-1">Chapter 1: The Midnight Glow</option><option value="ch-2">Chapter 2: Birthday Buzz</option><option value="ch-3">Chapter 3: The Mysterious Gift Unveiled</option><option value="ch-4">Chapter 4: Gogo, Jack, and the Other World</option><option value="ch-5">Chapter 5: The Ancestral Connection</option><option value="ch-6">Chapter 6: Unveiling Powers</option><option value="ch-7">Chapter 7: The Hidden Realms Unveiled – A New Encounter</option><option value="ch-8">Chapter 8: Light After Darkness</option><option value="ch-9">Chapter 9: Sands of Time</option><option value="ch-10">Chapter 10: The Thieves&#x27; Gambit</option><option value="ch-11">Chapter 11: Mysteries Unfold on the Way to Zolara</option><option value="ch-12">Chapter 12: Echoes of Ancient Wisdom</option><option value="ch-13">Chapter 13: Ascent to the Sky City and Descent into the Verdant Wilds</option><option value="ch-14">Chapter 14: Emerald of Discord: Unveiling the Heart of Raptor</option><option value="ch-15">Chapter 15: The Heist of Harmony: Alibaba&#x27;s Gambit</option><option value="ch-16">Chapter 16: Shadows and Schemes: The Emerald Encounter</option><option value="ch-17">Chapter 17: The Emerald Uproar: Chaos in Sapharia</option><option value="ch-18">Chapter 18: The Emerald Exodus: Journey to the Mountain Haven</option><option value="ch-19">Chapter 19: Emeralds, Urgency, and Diplomacy</option><option value="ch-20">Chapter 20: A New Dawn on Raptor</option><option value="ch-21">Chapter 21: Farewells and New Beginnings</option><option value="about">About the Author</option></select>
@@ -1368,35 +1368,37 @@ The moment of departure had arrived, cloaked in a mix of excitement and nostalgi
 
 <script>
 (function(){
+  var FORM='https://form.jotform.com/263087088389069';
   var toc=document.getElementById('toc');
   toc.addEventListener('change',function(){ if(toc.value){ location.hash=toc.value; toc.value=''; } });
-  var C=null, howto=document.getElementById('howto');
-  var paras=document.querySelectorAll('.chap p');
-  if(window.claude&&claude.use){
-    claude.use('comments').then(function(c){
-      if(!c){ howto.innerHTML='<b>Comments:</b> sign in to claude.ai to leave notes on this book.'; document.querySelectorAll('.picbtn').forEach(function(b){b.hidden=true}); return; }
-      C=c;
-      paras.forEach(function(p){ var b=document.createElement('button'); b.type='button'; b.className='pbtn'; b.title='Comment on this paragraph'; b.setAttribute('aria-label','Comment on this paragraph'); b.textContent='“'; p.prepend(b); });
-    });
-  }
-  function open(t){ if(!C) return; C.openComposer(t).catch(function(e){ if(e&&e.code==='unavailable'){ howto.innerHTML='<b>Comments are off in this view.</b>'; } }); }
+  // note box
+  var box=document.createElement('div');box.id='notebox';box.hidden=true;
+  box.innerHTML='<div class="nb-in"><div class="nb-top"><b>Leave a note</b><button type="button" id="nbclose" aria-label="Close">&times;</button></div><p class="nb-about" id="nbabout"></p><iframe id="nbframe" title="Leave a note" src="about:blank"></iframe></div>';
+  document.body.appendChild(box);
+  var st=document.createElement('style');st.textContent='#notebox{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.7);display:grid;place-items:center;padding:12px}#notebox[hidden]{display:none!important}.nb-in{width:min(560px,100%);height:min(720px,100%);display:grid;grid-template-rows:auto auto minmax(0,1fr);background:#fffdf7;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px #000}.nb-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#0b1030;color:#f6d27a;font-family:Cinzel,Georgia,serif}.nb-top button{font-size:26px;line-height:1;background:none;border:0;color:#f6d27a;cursor:pointer}.nb-about{margin:0;padding:10px 16px;font:14px/1.4 Georgia,serif;color:#2a2118;background:#f3ead6;border-bottom:1px solid #e0d2b0}#nbframe{width:100%;height:100%;border:0}.pbtn{opacity:.55!important}.chap p:hover .pbtn{opacity:1!important}@media (max-width:820px){.pbtn{display:inline-grid!important;position:static!important;vertical-align:middle;margin-right:6px;width:22px!important;height:22px!important;font-size:12px!important}}';
+  document.head.appendChild(st);
+  function chapterOf(el){var c=el.closest('.chap');if(!c)return 'the book';var l=c.querySelector('.ch-label'),t=c.querySelector('.ch-title');return ((l&&l.textContent?l.textContent+': ':'')+(t?t.textContent:'')).replace(/\u270E/g,'').trim();}
+  function openNote(about){document.getElementById('nbabout').textContent='About: '+about+'. Please mention this in your note.';
+    var q='?pageOr='+encodeURIComponent(about)+'&pageOrChapter='+encodeURIComponent(about)+'&whereAre=Reading%20the%20book';
+    document.getElementById('nbframe').src=FORM+q;box.hidden=false;try{navigator.clipboard.writeText(about).catch(function(){})}catch(e){}}
+  document.getElementById('nbclose').onclick=function(){box.hidden=true;document.getElementById('nbframe').src='about:blank'};
+  box.addEventListener('click',function(e){if(e.target===box)document.getElementById('nbclose').click()});
+  // buttons on pictures, paragraphs and the cover
+  document.querySelectorAll('.picbtn').forEach(function(b){b.textContent='Leave a note about this picture'});
+  document.querySelectorAll('.chap p:not(.ch-label):not(.orn):not(.dedi)').forEach(function(p){var b=document.createElement('button');b.type='button';b.className='pbtn';b.title='Leave a note about this paragraph';b.setAttribute('aria-label','Leave a note about this paragraph');b.textContent='✎';p.prepend(b)});
+  var cv=document.querySelector('.cover');if(cv){var cb=document.createElement('button');cb.type='button';cb.className='cbtn';cb.id='covernote';cb.textContent='Leave a note about the cover';cb.style.cssText='display:block;margin:10px auto 0;background:#120c02;color:#f6d27a;border-color:#8a5a14';cv.insertAdjacentElement('afterend',cb);cb.onclick=function(){openNote('The cover')}}
   document.addEventListener('click',function(e){
-    var b=e.target.closest('.picbtn'); if(b){ open({element:b.parentNode.querySelector('img')}); return; }
-    var pb=e.target.closest('.pbtn'); if(pb){ open({element:pb.parentNode}); return; }
+    var b=e.target.closest('.picbtn');if(b){openNote(chapterOf(b)+', picture '+b.dataset.pic);return}
+    var pb=e.target.closest('.pbtn');if(pb){var t=pb.parentNode.textContent.replace('✎','').trim().slice(0,60);openNote(chapterOf(pb)+', the paragraph starting "'+t+'..."');return}
   });
-  var sel=document.getElementById('selbtn'), range=null;
-  function place(){
-    var s=window.getSelection();
-    if(!C||!s||s.isCollapsed||!s.rangeCount){ sel.hidden=true; return; }
-    var r=s.getRangeAt(0); if(!document.getElementById('book').contains(r.commonAncestorContainer)){ sel.hidden=true; return; }
-    range=r.cloneRange(); var rc=r.getBoundingClientRect();
-    sel.style.top=(rc.bottom+window.scrollY+8)+'px';
-    sel.style.left=Math.max(8,Math.min(document.documentElement.clientWidth-110, rc.left+window.scrollX+rc.width/2-45))+'px';
-    sel.hidden=false;
-  }
-  document.addEventListener('selectionchange',function(){ clearTimeout(place.t); place.t=setTimeout(place,250); });
-  sel.addEventListener('mousedown',function(e){ e.preventDefault(); });
-  sel.addEventListener('click',function(){ if(range) open({range:range}); sel.hidden=true; });
+  var sel=document.getElementById('selbtn'),picked='',holder=null;sel.textContent='Leave a note';
+  function place(){var s=window.getSelection();if(!s||s.isCollapsed||!s.rangeCount){sel.hidden=true;return}
+    var r=s.getRangeAt(0);if(!document.getElementById('book').contains(r.commonAncestorContainer)){sel.hidden=true;return}
+    picked=s.toString().trim().slice(0,120);holder=r.startContainer.parentElement;var rc=r.getBoundingClientRect();
+    sel.style.top=(rc.bottom+window.scrollY+8)+'px';sel.style.left=Math.max(8,Math.min(document.documentElement.clientWidth-130,rc.left+window.scrollX+rc.width/2-60))+'px';sel.hidden=false}
+  document.addEventListener('selectionchange',function(){clearTimeout(place.t);place.t=setTimeout(place,250)});
+  sel.addEventListener('mousedown',function(e){e.preventDefault()});
+  sel.addEventListener('click',function(){if(picked)openNote(chapterOf(holder)+', the words "'+picked+'"');sel.hidden=true});
 })();
 </script>
 
