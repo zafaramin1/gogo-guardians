@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="/img/pose_happy.jpg">
+<style>html,body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<div id="gate" style="position:fixed;inset:0;z-index:999;background:radial-gradient(circle at 50% 40%,#1a1206,#000 75%);display:grid;place-items:center;font-family:Georgia,serif;color:#f6d27a;padding:16px">
+<form id="gateform" style="display:grid;gap:12px;justify-items:center;text-align:center;max-width:360px">
+<img src="/img/pose_happy.jpg" alt="" style="width:120px;border-radius:50%;-webkit-mask-image:radial-gradient(#000 60%,transparent 72%);mask-image:radial-gradient(#000 60%,transparent 72%)">
+<div style="font-size:26px;font-weight:bold">Gogo Guardians</div>
+<div style="color:#e8dcbc;font-family:system-ui,sans-serif">Family preview. Enter the secret word.</div>
+<label for="gatecode" style="position:absolute;left:-9999px">Secret word</label>
+<input id="gatecode" autocomplete="off" style="font-size:18px;padding:10px 14px;border-radius:10px;border:1px solid #b9862c;background:#120c02;color:#fff3d6;text-align:center">
+<button style="font:bold 17px system-ui,sans-serif;padding:10px 22px;border-radius:999px;border:0;background:linear-gradient(#f3cf78,#a86e1e);color:#1e1202;cursor:pointer">Enter</button>
+<div id="gatemsg" style="color:#ff9aa5;font-family:system-ui,sans-serif;min-height:1em"></div></form></div>
+<script>(function(){var ok=false;try{ok=localStorage.getItem('gg_family')==='1'}catch(e){}var g=document.getElementById('gate');if(ok){g.remove();return}
+document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(document.getElementById('gatecode').value.trim().toLowerCase()==='emerald'){try{localStorage.setItem('gg_family','1')}catch(e){}g.remove()}else document.getElementById('gatemsg').textContent='Not quite. Ask the author for the secret word.'}})();</script>
+<title>Gogo Guardians</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;800&family=Nunito:wght@500;700;800&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap">
+<style>
+/* Layout: one screen at a time, like turning pages in a magic book. Night-paper navy, aged gold frames, deep glassy emeralds. */
+:root{
+  --night:#080b22; --night-2:#0e1336; --ink:#f1ead6; --muted:#c3b9a0;
+  --gold:#d9a441; --gold-hi:#f6d27a; --gold-deep:#8a5a14;
+  --emerald:#36c287; --ruby:#ff8a96;
+  --display:"Cinzel",Georgia,serif; --deco:"Cinzel Decorative","Cinzel",Georgia,serif; --body:"Nunito",system-ui,sans-serif;
+  --paper:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .85  0 0 0 0 .75  0 0 0 0 .5  0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  --hatch:repeating-linear-gradient(33deg,rgba(217,164,65,.025) 0 1px,transparent 1px 7px),repeating-linear-gradient(-57deg,rgba(255,255,255,.018) 0 1px,transparent 1px 9px);
+  --fiber:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .35' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .9  0 0 0 0 .8  0 0 0 0 .55  0 0 0 .07 -.01'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23f)'/%3E%3C/svg%3E");
+  --frame:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='t' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%235a3a0c'/%3E%3Cstop offset='.12' stop-color='%23fbe3a0'/%3E%3Cstop offset='.45' stop-color='%23d9a441'/%3E%3Cstop offset='.8' stop-color='%239a6a1c'/%3E%3Cstop offset='1' stop-color='%233a2306'/%3E%3C/linearGradient%3E%3ClinearGradient id='l' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%235a3a0c'/%3E%3Cstop offset='.12' stop-color='%23f3cf78'/%3E%3Cstop offset='.45' stop-color='%23c99234'/%3E%3Cstop offset='.8' stop-color='%238a5a14'/%3E%3Cstop offset='1' stop-color='%233a2306'/%3E%3C/linearGradient%3E%3ClinearGradient id='r' x1='1' y1='0' x2='0' y2='0'%3E%3Cstop offset='0' stop-color='%232a1802'/%3E%3Cstop offset='.15' stop-color='%23a8711c'/%3E%3Cstop offset='.5' stop-color='%237a4a10'/%3E%3Cstop offset='.85' stop-color='%23c99234'/%3E%3Cstop offset='1' stop-color='%233a2306'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' y1='1' x2='0' y2='0'%3E%3Cstop offset='0' stop-color='%232a1802'/%3E%3Cstop offset='.15' stop-color='%239a6a1c'/%3E%3Cstop offset='.5' stop-color='%236a4210'/%3E%3Cstop offset='.85' stop-color='%23b9862c'/%3E%3Cstop offset='1' stop-color='%233a2306'/%3E%3C/linearGradient%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9 .35' numOctaves='3' seed='9' result='t'/%3E%3CfeColorMatrix in='t' values='0 0 0 0 .1  0 0 0 0 .06  0 0 0 0 0  0 0 0 .55 -.1'/%3E%3CfeComposite in2='SourceGraphic' operator='in'/%3E%3C/filter%3E%3Cmask id='ring'%3E%3Crect width='200' height='200' fill='white'/%3E%3Crect x='40' y='40' width='120' height='120' fill='black'/%3E%3C/mask%3E%3C/defs%3E%3Cpolygon points='0%2C0 200%2C0 160%2C40 40%2C40' fill='url%28%23t%29'/%3E%3Cpolygon points='0%2C0 40%2C40 40%2C160 0%2C200' fill='url%28%23l%29'/%3E%3Cpolygon points='200%2C0 200%2C200 160%2C160 160%2C40' fill='url%28%23r%29'/%3E%3Cpolygon points='0%2C200 40%2C160 160%2C160 200%2C200' fill='url%28%23b%29'/%3E%3Crect width='200' height='200' fill='%23000' filter='url%28%23n%29' mask='url%28%23ring%29'/%3E%3Crect x='1' y='1' width='198' height='198' fill='none' stroke='%231a0f02' stroke-width='2'/%3E%3Crect x='14' y='14' width='172' height='172' fill='none' stroke='%232a1802' stroke-opacity='.55' stroke-width='3'/%3E%3Crect x='15.5' y='15.5' width='169' height='169' fill='none' stroke='%23fff0b8' stroke-opacity='.35' stroke-width='1'/%3E%3Crect x='37' y='37' width='126' height='126' fill='none' stroke='%23fbe3a0' stroke-width='2'/%3E%3Crect x='39.5' y='39.5' width='121' height='121' fill='none' stroke='%231a0f02' stroke-width='1.5'/%3E%3Cpath d='M0 0 L40 40 M200 0 L160 40 M0 200 L40 160 M200 200 L160 160' stroke='%232a1802' stroke-opacity='.6' stroke-width='1.2'/%3E%3C/svg%3E");
+  --gold-grad:linear-gradient(180deg,#fffbe6 0%,#ffe08a 18%,#e9b04a 36%,#b9781e 48%,#fff1b8 56%,#f2c766 66%,#a8691a 84%,#e8b54a 100%);
+  --scratch:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='120'%3E%3Cg stroke-width='.6' fill='none'%3E%3Cpath d='M8 20l60 9M90 6l48 14M30 70l70-10M150 40l60 6M120 95l50-12M10 104l44 6M170 80l40 18M60 40l30 4' stroke='%23fff3c4' stroke-opacity='.45'/%3E%3Cpath d='M20 50l50 7M100 30l40-8M140 110l60-6M70 90l36 10M180 20l30 12' stroke='%232a1600' stroke-opacity='.5'/%3E%3C/g%3E%3C/svg%3E");
+  --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.004 .55' numOctaves='3' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .95  0 0 0 0 .8  0 0 0 .28 -.05'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23b)'/%3E%3C/svg%3E");
+  --emerald-glass:linear-gradient(160deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.05) 28%,rgba(255,255,255,0) 42%),radial-gradient(120% 120% at 50% 72%,#0e5a3b 0%,#063523 45%,#021a10 100%);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background-color:#000;background-image:var(--paper),radial-gradient(120% 90% at 50% 40%,#0a0a0c 0%,#000 70%);
+  color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;overflow:hidden;
+  padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--night)}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(1.2px 1.2px at 12% 18%,#fff9 50%,transparent 51%),radial-gradient(1px 1px at 68% 9%,#fff8 50%,transparent 51%),radial-gradient(1.4px 1.4px at 88% 42%,#ffe9b0aa 50%,transparent 51%),radial-gradient(1px 1px at 33% 76%,#fff7 50%,transparent 51%),radial-gradient(1.3px 1.3px at 52% 30%,#fff6 50%,transparent 51%),radial-gradient(1px 1px at 7% 60%,#ffe9b088 50%,transparent 51%);background-size:420px 420px}
+h1,h2,h3,p{margin:0}
+.agedgold{background:linear-gradient(110deg,transparent 40%,rgba(255,255,245,.95) 50%,transparent 60%),var(--scratch),var(--paper),var(--gold-grad);background-size:250% 100%,220px 120px,240px 240px,100% 100%;background-position:120% 0,0 0,0 0,0 0;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #1e1102) drop-shadow(0 0 16px rgba(255,200,80,.45))}
+@media (prefers-reduced-motion:no-preference){
+  .stars{animation:tw 5s ease-in-out infinite alternate}@keyframes tw{to{opacity:.45}}
+  .agedgold.shine{animation:shine 4.5s ease-in-out infinite}@keyframes shine{0%,40%{background-position:120% 0,0 0,0 0,0 0}70%,100%{background-position:-30% 0,0 0,0 0,0 0}}
+}
+/* app shell */
+.app{position:relative;z-index:1;height:100%;max-width:1440px;margin:0 auto;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr) 290px;grid-template-areas:"top top" "main speech" "dock dock";column-gap:14px;gap:10px;padding-block:max(10px,env(safe-area-inset-top,0px)) max(10px,env(safe-area-inset-bottom,0px))}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--deco);font-weight:900;font-size:clamp(20px,3vw,26px);letter-spacing:.03em}
+.mock{font:800 11px var(--body);letter-spacing:.08em;color:#1e1202;background:var(--brush),linear-gradient(180deg,#f3cf78,#a86e1e);background-size:300px 300px,100% 100%;border-radius:999px;padding:3px 10px}
+.right{display:flex;align-items:center;gap:10px}
+.gems{display:inline-flex;align-items:center;gap:7px;font:800 17px var(--body);color:var(--emerald);font-variant-numeric:tabular-nums;text-shadow:0 0 10px #0f8a5a88}
+.gemi{width:26px;height:26px;filter:drop-shadow(0 0 6px #2fe39a)}
+/* brass voice switch */
+.vswitch{display:inline-flex;align-items:center;gap:9px;cursor:pointer;border-radius:999px;padding:5px 14px 5px 6px;
+  background:var(--brush),linear-gradient(180deg,#4a3410 0%,#2a1c08 55%,#160e03 100%);background-size:300px 300px,100% 100%;
+  border:1px solid #b9862c;box-shadow:inset 0 1px 0 #f6d27a66,inset 0 -2px 4px #000a,0 3px 10px #0009;color:var(--gold-hi)}
+.lamp{position:relative;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c4,#c99234 40%,#5a3a0c 75%);box-shadow:0 1px 2px #000c}
+.lamp i{position:absolute;inset:4px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#6a3a3a,#2a0c0c 70%);box-shadow:inset 0 0 3px #000}
+.vswitch.on .lamp i{background:radial-gradient(circle at 35% 30%,#ffe2e2 0%,#ff3a3a 38%,#9a0000 100%);box-shadow:0 0 8px #ff3030,0 0 18px #ff2a2a99}
+@media (prefers-reduced-motion:no-preference){.vswitch.on .lamp i{animation:flick 3s ease-in-out infinite}@keyframes flick{50%{box-shadow:0 0 6px #ff3030,0 0 12px #ff2a2a77}}}
+.vlbl{display:grid;line-height:1.05;text-align:left}
+.vlbl b{font:800 10px var(--display);letter-spacing:.18em;color:#d9b46a}
+.vlbl em{font:800 15px var(--display);font-style:normal;letter-spacing:.08em;text-shadow:0 1px 0 #000,0 -1px 0 #f6d27a33}
+/* screens */
+.screens{position:relative;min-height:0}
+.screen{position:absolute;inset:0;display:none;min-height:0}
+.screen.on{display:grid}
+@media (prefers-reduced-motion:no-preference){.screen.on{animation:enter .45s ease-out}@keyframes enter{from{opacity:0;transform:translateY(14px) scale(.99)}}}
+.frame{border:36px solid transparent;border-image:var(--frame) 40 / 36px stretch;background:var(--paper),var(--fiber),radial-gradient(120% 100% at 50% 0%,#0e1440 0%,#080b26 55%,#03040f 100%);background-clip:padding-box;box-shadow:0 14px 50px #000b;min-height:0}
+.panel{display:grid;gap:14px;align-content:start;min-height:0;overflow:auto;padding:16px 18px;scrollbar-width:thin}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:16px;min-height:0}
+.pic{min-height:0;display:grid;place-items:center;position:relative}
+.pic img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:10px;box-shadow:0 0 0 1px #8a5a14,0 10px 30px #000a}
+.eyebrow{font:800 12px var(--body);letter-spacing:.16em;text-transform:uppercase;color:#2fae78}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.4vw,34px);line-height:1.15;text-wrap:balance}
+.lead{color:var(--muted);font-size:17px}
+/* buttons */
+.btn{font:800 17px var(--body);border:1px solid #4a300a;border-radius:12px;padding:12px 20px;cursor:pointer;color:#1e1202;
+  background:var(--brush),var(--paper),linear-gradient(180deg,#f3cf78 0%,#d29a3a 40%,#a86e1e 70%,#7a4c10 100%);background-size:300px 300px,240px 240px,100% 100%;
+  text-shadow:0 1px 0 #f6d27a99;box-shadow:inset 0 1px 0 #fff3c499,inset 0 -2px 6px #3a2304aa,0 4px 14px #0008}
+.btn.ghost{background:var(--paper),linear-gradient(180deg,#1a1440,#0d0b26);background-size:240px 240px,100% 100%;color:var(--gold-hi);border-color:#8a5a14;text-shadow:none;box-shadow:inset 0 0 0 1px #00000080}
+.btn:focus-visible,.choice:focus-visible,.pill:focus-visible,.tab:focus-visible,.vbtn:focus-visible,.vswitch:focus-visible,.navb:focus-visible{outline:3px solid #36c287;outline-offset:3px}
+.choices{display:grid;gap:9px}
+.choice{text-align:left;font:700 16px var(--body);color:#efe6cc;border:1px solid #6a4e1c;border-radius:12px;padding:11px 14px;cursor:pointer;
+  background:var(--paper),linear-gradient(180deg,#151c46,#0a0f2a);background-size:240px 240px,100% 100%;transition:border-color .2s,box-shadow .2s,transform .2s}
+.choice:hover{border-color:var(--gold);box-shadow:0 0 14px #d9a44133;transform:translateY(-1px)}
+.choice.right,.tab.on,.lvl.on,.pill.on{background:var(--emerald-glass);color:var(--gold-hi);border:1.5px solid var(--gold);box-shadow:inset 0 0 12px #000c,0 0 14px #0f8a5a55}
+.choice.wrong{border-color:#ff8a96;opacity:.55}
+@media (prefers-reduced-motion:no-preference){.choice.wrong{animation:shake .3s}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tab,.lvl,.pill{font:800 14px var(--body);border-radius:999px;padding:7px 14px;cursor:pointer;color:var(--gold-hi);border:1px solid #8a5a14;background:var(--paper),linear-gradient(180deg,#151c46,#0a0f2a);background-size:240px 240px,100% 100%}
+.gogo{background:var(--paper),linear-gradient(180deg,#2a1d06,#170f03);background-size:240px 240px,100% 100%;border:1px solid #8a6420;color:#ffe7a8;border-radius:12px;padding:10px 14px}
+.step{font:800 13px var(--body);letter-spacing:.06em;color:#d9b46a;text-transform:uppercase}
+.result-good{color:var(--emerald);font-weight:800;text-shadow:0 0 10px #0f8a5a88}
+.result-bad{color:var(--ruby);font-weight:800}
+.note{font-size:13px;color:#a99f86}
+/* voice buttons */
+.vbtn{position:relative;display:inline-flex;align-items:center;gap:8px;font:800 15px var(--body);border-radius:999px;padding:9px 16px;cursor:pointer;color:var(--gold-hi);border:1px solid #8a5a14;background:var(--paper),linear-gradient(180deg,#1a1440,#0d0b26);background-size:240px 240px,100% 100%}
+.vbtn svg{width:18px;height:18px}
+.vbtn.mic::after{content:"";position:absolute;inset:-4px;border-radius:999px;border:2px solid #d9a441;opacity:0}
+@media (prefers-reduced-motion:no-preference){.vbtn.mic::after{animation:ring 2.2s ease-out infinite}@keyframes ring{0%{opacity:.7;transform:scale(.96)}100%{opacity:0;transform:scale(1.18)}}}
+.vbtn.listen{background:radial-gradient(circle,#8a1f2c,#3a0a12);color:#ffd9de;border-color:#ff8a96}
+.heard{font-size:14px;color:var(--muted)}
+/* home */
+.home{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.home .logo{font-family:var(--deco);font-weight:900;font-size:clamp(40px,7vw,84px);line-height:.95;letter-spacing:.03em}
+.home .orn{color:var(--gold);letter-spacing:.4em}
+.home .copy{display:grid;gap:16px;align-content:center;min-width:0}
+/* chat */
+.chat{display:grid;gap:10px;align-content:start;overflow:auto;min-height:0;max-height:100%}
+.msg{padding:10px 14px;border-radius:14px;max-width:88%}
+.msg.g{justify-self:start;background:var(--paper),linear-gradient(180deg,#2a1d06,#170f03);background-size:240px 240px,100% 100%;border:1px solid #8a6420;color:#ffe7a8}
+.msg.u{justify-self:end;background:var(--emerald-glass);border:1px solid #2a7a52;color:#e8fff3}
+/* guards overlay */
+.pic:has(.scene){container-type:size;width:100%;height:100%}
+.scene{position:relative;width:min(100cqw,100cqh);height:min(100cqw,100cqh);margin:auto}
+.scene img{display:block;width:100%;height:100%;max-height:none;border-radius:10px}
+.scene .ov{position:absolute;inset:0;width:100%;height:100%}
+.scene .tapg,.scene .tapp{cursor:pointer}
+@media (prefers-reduced-motion:no-preference){
+ .flow{animation:flow 1s linear infinite}@keyframes flow{to{stroke-dashoffset:-34}}
+ .bob{animation:bob 1s ease-in-out infinite}@keyframes bob{50%{transform:translateY(10px)}}
+ .pulse{animation:pulse 1.4s ease-in-out infinite}@keyframes pulse{50%{opacity:.3}}
+ .zz{animation:zz 2.4s ease-in-out infinite}@keyframes zz{0%{opacity:0;transform:translate(0,0)}30%{opacity:1}100%{opacity:0;transform:translate(18px,-34px)}}
+}
+.guards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.guard{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;text-align:left;font:800 16px var(--body);color:var(--ink);border:1px solid #6a4e1c;border-radius:12px;padding:8px 10px;cursor:pointer;background:var(--paper),linear-gradient(180deg,#151c46,#0a0f2a);background-size:240px 240px,100% 100%}
+.guard .face{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:800 16px var(--display);color:var(--gold-hi);background:radial-gradient(circle at 35% 30%,#5a4214,#2a1c06);border:1.5px solid #b9862c}
+.guard small{display:block;font-weight:700;color:var(--muted);font-size:12px}
+.guard.sel{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold),0 0 14px #d9a44144}
+.guard[disabled]{cursor:default}
+/* riddle trail */
+.rmeta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font:700 13px var(--body);color:var(--muted)}
+.diff{border-radius:999px;padding:3px 10px;font-size:11px;font-weight:800;letter-spacing:.06em}
+.diff.easy{background:#04261a;color:#4fcf96;border:1px solid #11603f}.diff.medium{background:#2a1d06;color:var(--gold-hi);border:1px solid #7a5a1c}.diff.hard{background:#3a0f18;color:#ff9aa5;border:1px solid #7a2232}
+.dots{display:flex;gap:6px}.dot{width:10px;height:10px;border-radius:50%;background:#2a2f5a;border:1px solid #6a4e1c}.dot.cur{background:var(--gold)}.dot.done{background:#1d9a64;box-shadow:0 0 6px #0f8a5a}
+.rq{font-size:clamp(18px,2.2vw,22px);font-weight:800;line-height:1.4}
+.review{justify-self:start;font:700 12px var(--body);background:transparent;color:#a99f86;border:1px dashed #6a4e1c;border-radius:999px;padding:5px 11px;cursor:pointer}
+/* council, worlds, join */
+.cgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;min-height:0}
+.cbox{display:grid;gap:8px;align-content:start;padding:12px;border:1px solid #6a4e1c;border-radius:12px;background:#0a0e2a99;min-width:0}
+.cbar{display:grid;gap:3px;font-size:14px}.ct{display:block;height:9px;background:#141a44;border-radius:99px;overflow:hidden}.cf{display:block;height:100%;background:linear-gradient(90deg,#0b5a3a,#1fa36a);border-radius:99px;transition:width .5s}.cn{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.log p{color:var(--muted);font-size:14px}.log b{color:var(--gold-hi)}
+.worlds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;min-height:0}
+.world{border:1px solid #8a5a14;border-radius:12px;overflow:hidden;display:grid;background:#0a0e2a;min-width:0}
+.world img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.world.lock img{filter:grayscale(.85) brightness(.5)}
+.world .cap{padding:8px 10px;display:grid;gap:2px}
+.world h3{font:800 16px var(--display);color:var(--gold-hi)}
+.world .tag{font-size:12px;font-weight:800}.open{color:var(--emerald)}.locked{color:var(--muted)}
+.offers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.offer{display:grid;gap:10px;align-content:start;padding:14px;border:1px solid #8a5a14;border-radius:12px;background:#0a0e2acc;min-width:0}
+.offer.best{border:2px solid var(--gold);box-shadow:0 0 30px #d9a44122}
+.offer h3{font:800 18px var(--display);color:var(--gold-hi)}
+.price{font:800 30px var(--display);color:var(--gold-hi)}.price small{font:600 14px var(--body);color:var(--muted)}
+.offer ul{margin:0;padding-left:18px;display:grid;gap:4px;color:var(--muted);font-size:15px}
+/* dock */
+.dock{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
+.navb{font:800 16px var(--body);border-radius:999px;padding:10px 18px;cursor:pointer;color:var(--gold-hi);border:1px solid #8a5a14;background:var(--paper),linear-gradient(180deg,#1a1440,#0d0b26);background-size:240px 240px,100% 100%}
+.navb.next{color:#1e1202;background:var(--brush),linear-gradient(180deg,#f3cf78,#a86e1e);background-size:300px 300px,100% 100%;border-color:#4a300a}
+.navb[disabled]{opacity:.35;cursor:default}
+.pages{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+.pdot{width:11px;height:11px;border-radius:50%;border:1px solid #b9862c;background:transparent;padding:0;cursor:pointer}
+.pdot.on{background:radial-gradient(circle at 35% 30%,#fff0b8,#d9a441 50%,#7a4a10);box-shadow:0 0 8px #d9a44199}
+.pname{font:800 13px var(--display);letter-spacing:.1em;color:#d9b46a;text-transform:uppercase;width:100%;text-align:center}
+/* reward reveal */
+.reveal{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:16px;background:radial-gradient(circle,#0b1a3acc,#03050fee)}
+.reveal[hidden]{display:none!important}
+.rv{max-width:min(620px,100%);max-height:100%;display:grid;gap:10px;justify-items:center;text-align:center;padding:16px}
+.rv img{max-width:100%;max-height:46vh;border-radius:10px;box-shadow:0 0 0 1px #8a5a14,0 0 60px #d9a44155}
+.rv h3{font:900 clamp(22px,3vw,30px) var(--deco)}
+.rv p{color:var(--ink)}
+.rv .plus{display:inline-flex;gap:8px;align-items:center;font:800 18px var(--body);color:var(--emerald);text-shadow:0 0 10px #0f8a5a88}
+@media (prefers-reduced-motion:no-preference){.reveal:not([hidden]) .rv{animation:pop .55s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{opacity:0;transform:scale(.7) rotate(-2deg)}}
+ .burst{position:fixed;width:22px;height:22px;z-index:45;pointer-events:none;animation:fly 1.1s ease-out forwards}@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(260deg);opacity:0}}}
+/* caption + toast */
+.caption{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom,0px));width:min(720px,calc(100% - 32px));display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;z-index:50;
+ border:14px solid transparent;border-image:var(--frame) 40 / 12px stretch;background:var(--paper),linear-gradient(180deg,#1d1404,#0f0a02);background-clip:padding-box;padding:8px 12px;box-shadow:0 10px 40px #000c}
+.caption[hidden],.toast[hidden]{display:none!important}
+body.rvopen .caption{bottom:auto;top:calc(10px + env(safe-area-inset-top,0px))}
+.caption .who{font:900 16px var(--deco)}
+.caption .txt{color:#ffeec4;font-size:18px;line-height:1.45;font-weight:700}
+.toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(64px + env(safe-area-inset-top,0px));z-index:55;background:var(--emerald-glass);border:1px solid var(--gold);color:#f6d27a;font-weight:800;padding:10px 16px;border-radius:12px;box-shadow:0 8px 24px #000a}
+@media (max-width:820px){
+ .split,.home{grid-template-columns:1fr;grid-template-rows:minmax(0,30%) minmax(0,1fr);gap:10px}
+ .rq{font-size:17px} .intro{font-size:15px} h2{font-size:22px} .choice{padding:9px 12px;font-size:15px} .vbtn{padding:7px 12px;font-size:14px}
+ .note,.offer h3+.price+ul:not(.keep),.log,.offer:not(.best) ul,.offer:not(.best) .price small,.review{display:none} .lead{font-size:15px} .offer{padding:10px;gap:6px} .price{font-size:24px} .cgrid{grid-template-columns:1fr 1fr}
+ .home{grid-template-rows:minmax(0,42%) auto}
+ .cgrid,.worlds,.offers{grid-template-columns:1fr 1fr}
+ .frame{border-width:20px;border-image-width:20px}
+ .panel{padding:10px 8px}
+ .pname{display:none}
+}
+@media (max-width:480px){.offers{grid-template-columns:1fr}.worlds{grid-template-columns:1fr 1fr}.guards{grid-template-columns:1fr 1fr}.brand{display:none}}
+
+/* ===== mockup 8 ===== */
+.panel{scrollbar-width:none;overflow-x:hidden}.panel::-webkit-scrollbar,.chat::-webkit-scrollbar{display:none}.chat{scrollbar-width:none}
+.home .copy{container-type:inline-size}
+.home .logo{font-size:min(12.6cqw,84px)}
+.pic{container-type:size;width:100%;height:100%}
+.imgbox{position:relative;aspect-ratio:var(--ar,1);width:min(100cqw,calc(100cqh * var(--ar,1)));margin:auto;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #8a5a14,0 10px 30px #000a}
+.imgbox>img{display:block;width:100%;height:100%;max-width:none;max-height:none;border-radius:0;box-shadow:none}
+.sky{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.cloud{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.55),rgba(255,255,255,0));filter:blur(4px)}
+.bird{position:absolute;width:34px;height:14px}
+@media (prefers-reduced-motion:no-preference){
+ .cloud{animation:drift linear infinite}@keyframes drift{from{transform:translateX(-30cqw)}to{transform:translateX(130cqw)}}
+ .bird{animation:flyb 14s linear infinite}@keyframes flyb{0%{transform:translate(-10cqw,0)}100%{transform:translate(110cqw,-6cqh)}}
+ .bird path{animation:flap .45s ease-in-out infinite alternate;transform-origin:17px 7px}@keyframes flap{to{transform:scaleY(-.6)}}
+}
+/* choices you want to press */
+.choice{max-width:36em;display:flex;align-items:center;gap:12px;font-size:16px;padding:12px 16px;border-radius:14px;border:1.5px solid #9a6a1c;
+ background:var(--paper),linear-gradient(180deg,#1c2560 0%,#0e1440 60%,#080b26 100%);background-size:240px 240px,100% 100%;
+ box-shadow:inset 0 1px 0 #f6d27a44,inset 0 -3px 8px #000a,0 4px 0 #3a2306,0 6px 14px #000a}
+.choice::before{content:"";flex:none;width:12px;height:12px;transform:rotate(45deg);background:linear-gradient(135deg,#fff0b8,#c99234 50%,#7a4a10);box-shadow:0 0 6px #d9a44188}
+.choice:active{transform:translateY(3px);box-shadow:inset 0 1px 0 #f6d27a44,0 1px 0 #3a2306}
+/* mirror medallions for riddle answers */
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.med{display:grid;justify-items:center;gap:8px;padding:10px 8px 12px;border-radius:16px;cursor:pointer;color:#f6e7c4;font:800 15px var(--body);text-align:center;
+ border:1.5px solid #9a6a1c;background:var(--paper),linear-gradient(180deg,#1c2560,#080b26);background-size:240px 240px,100% 100%;
+ box-shadow:inset 0 1px 0 #f6d27a44,0 4px 0 #3a2306,0 8px 18px #000a;transition:transform .2s,box-shadow .2s}
+.med:hover,.med:focus-visible{transform:translateY(-3px);box-shadow:inset 0 1px 0 #f6d27a66,0 6px 0 #3a2306,0 0 24px #d9a44155}
+.med:active{transform:translateY(2px)}
+.mirror{position:relative;width:min(100%,108px);aspect-ratio:4/5;border-radius:50%;padding:5px;background:linear-gradient(135deg,#fff0b8,#c99234 30%,#6a3e0c 55%,#e8b54a 80%,#7a4a10);box-shadow:0 0 0 2px #2a1802,0 6px 14px #000c}
+.mirror .glass{position:absolute;inset:5px;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 40% 30%,#3a4a8a,#0b1030 70%)}
+.mirror .glass img{width:100%;height:100%;object-fit:cover;filter:blur(5px) brightness(.55) saturate(.6);transform:scale(1.08);transition:filter .45s,transform .45s}
+.mirror .mist{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.45),rgba(255,255,255,0) 40%),radial-gradient(circle at 60% 70%,rgba(160,190,255,.35),rgba(255,255,255,0) 55%);transition:opacity .45s}
+.mirror .word{position:absolute;inset:0;display:grid;place-items:center;padding:10px;font:900 15px var(--deco);color:#f6d27a;text-shadow:0 2px 6px #000;text-align:center;line-height:1.1}
+.mirror .word.num{font-size:40px}
+.med:hover .glass img,.med:focus-visible .glass img,.med.clear .glass img{filter:none;transform:scale(1)}
+.med:hover .mist,.med:focus-visible .mist,.med.clear .mist{opacity:.25}
+.med.right{background:var(--emerald-glass);border-color:var(--gold)}
+.med.wrong{opacity:.5;border-color:#ff8a96}
+@media (prefers-reduced-motion:no-preference){.mirror .mist{animation:swirl 6s linear infinite}@keyframes swirl{to{transform:rotate(360deg)}}.med.wrong{animation:shake .3s}}
+/* floating reward + treasure */
+.reveal{background:radial-gradient(circle at 50% 40%,rgba(10,14,40,.9),rgba(0,0,0,.97));place-items:stretch;padding:0}
+.rv2{position:relative;width:100%;height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;justify-items:center;gap:10px;padding:max(14px,env(safe-area-inset-top,0px)) 16px max(14px,env(safe-area-inset-bottom,0px))}
+.rv2 h3{font:900 clamp(26px,4vw,44px) var(--deco);text-align:center}
+.rv2 .cap2{color:var(--ink);text-align:center;max-width:44em;font-size:17px}
+.floatpic{position:relative;aspect-ratio:var(--ar,1);height:min(calc(100vh - 250px),calc(min(78vw,900px) / var(--ar,1)));align-self:center;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.floatpic img{width:100%;height:100%;object-fit:cover;border-radius:14px;box-shadow:0 0 0 2px #d9a441,0 0 80px #d9a44166,0 30px 60px #000c;pointer-events:none}
+.floatpic.drag{cursor:grabbing}
+@media (prefers-reduced-motion:no-preference){.floatpic.idle{animation:hover 3.6s ease-in-out infinite}@keyframes hover{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}}
+.treasure{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));display:grid;justify-items:center;gap:6px;cursor:pointer;background:none;border:0;color:var(--gold-hi);font:800 14px var(--body)}
+.treasure .tbox{width:clamp(130px,16vw,220px);aspect-ratio:1.25;border-radius:50%;overflow:hidden;border:4px solid #d9a441;box-shadow:0 0 0 3px #2a1802,0 0 30px #d9a44166}
+.treasure .tbox img{width:100%;height:100%;object-fit:cover}
+.treasure.hot .tbox{box-shadow:0 0 0 3px #2a1802,0 0 50px #36c287;border-color:#7dffc4}
+@media (prefers-reduced-motion:no-preference){.treasure .tbox{animation:beckon 1.6s ease-in-out infinite}@keyframes beckon{50%{transform:scale(1.06) rotate(-2deg)}}.treasure.gulp .tbox{animation:gulp .5s}@keyframes gulp{40%{transform:scale(1.25)}}}
+.rvbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center}
+.floatplus{position:fixed;z-index:60;font:900 28px var(--deco);color:#7dffc4;text-shadow:0 0 14px #0f8a5a,0 2px 0 #021a10;pointer-events:none;display:flex;gap:8px;align-items:center}
+@media (prefers-reduced-motion:no-preference){.floatplus{animation:rise 1.4s ease-in forwards}@keyframes rise{to{transform:translate(var(--tx),var(--ty)) scale(.6);opacity:.2}}}
+.tally{font:800 17px var(--body);color:#ffe7a8;text-align:center}
+/* bats */
+.batlayer{position:fixed;inset:0;pointer-events:none;z-index:35;overflow:hidden}
+.bat{position:absolute;width:70px;height:36px}
+.bat svg{width:100%;height:100%;overflow:visible}
+.bat .w{transform-origin:35px 18px}
+@media (prefers-reduced-motion:no-preference){.bat{animation:batfly var(--d,2.6s) ease-in forwards}@keyframes batfly{0%{transform:translate(0,0) scale(.3);opacity:0}12%{opacity:1}100%{transform:translate(var(--bx),var(--by)) scale(var(--bs,1.6));opacity:1}}
+ .bat .w{animation:bflap .18s ease-in-out infinite alternate}@keyframes bflap{to{transform:scaleY(-.5)}}}
+@media (max-width:820px){.opts{gap:8px}.med{font-size:13px;padding:8px 4px 10px}.mirror{width:min(100%,78px)}.treasure .tbox{width:96px}.floatpic{height:min(calc(100vh - 330px),calc(92vw / var(--ar,1)))}.rv2{padding-bottom:150px}.treasure{right:50%;transform:translateX(50%)}}
+
+/* ===== mockup 9 ===== */
+.goal{display:grid;gap:3px;justify-items:end;font:800 12px var(--body);color:#ffe7a8;min-width:0}
+.gtxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+.gbar{width:150px;height:7px;border-radius:99px;background:#1a1204;border:1px solid #8a5a14;overflow:hidden}
+.gbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#0b8a52,#2fe39a);box-shadow:0 0 8px #2fe39a;transition:width .6s}
+.mirror .glass{background:radial-gradient(circle at 40% 30%,#4a5aa8,#151c52 70%)}
+.mirror .word{font-size:16px;color:#fff0b8;text-shadow:0 0 10px #d9a441,0 2px 4px #000}
+.mirror .glass:not(:has(img)) .mist{opacity:.5}
+.spark{position:fixed;width:6px;height:6px;border-radius:50%;z-index:62;pointer-events:none;background:radial-gradient(circle,#fff8d0,#f6d27a 40%,rgba(246,210,122,0) 70%)}
+@media (prefers-reduced-motion:no-preference){.spark{animation:spark .9s ease-out forwards}@keyframes spark{to{transform:translateY(-24px) scale(.2);opacity:0}}}
+.biggem{position:absolute;left:50%;top:18%;transform:translateX(-50%);display:grid;justify-items:center;gap:6px;z-index:5;pointer-events:none;perspective:600px}
+.biggem svg{width:clamp(120px,16vw,190px);height:auto;filter:drop-shadow(0 0 22px #2fe39a) drop-shadow(0 10px 20px #000)}
+.bg-num{font:900 clamp(30px,4vw,44px) var(--deco);color:#b8ffe0;text-shadow:0 0 14px #2fe39a,0 2px 0 #04452a}
+@media (prefers-reduced-motion:no-preference){.biggem{animation:gemin .7s cubic-bezier(.2,1.4,.4,1)}@keyframes gemin{from{transform:translateX(-50%) scale(.2);opacity:0}}
+ .biggem svg{animation:gemspin 6s linear infinite}@keyframes gemspin{0%{transform:rotateY(0) rotateZ(-4deg)}50%{transform:rotateY(180deg) rotateZ(4deg)}100%{transform:rotateY(360deg) rotateZ(-4deg)}}}
+.floatplus{display:none}
+@media (max-width:820px){.goal{display:none}}
+
+/* ===== flip book ===== */
+.peek{justify-self:start;display:inline-flex;align-items:center;gap:8px;font:800 14px var(--body);letter-spacing:.04em;color:#f6d27a;cursor:pointer;border-radius:999px;padding:8px 14px;border:1px solid #b9862c;background:var(--paper),linear-gradient(180deg,#2a1d06,#120c02);background-size:240px 240px,100% 100%;box-shadow:0 0 18px #d9a44133}
+.peek svg{width:20px;height:20px}
+@media (prefers-reduced-motion:no-preference){.peek{animation:peekglow 2.6s ease-in-out infinite}@keyframes peekglow{50%{box-shadow:0 0 26px #d9a44177}}}
+.flip{position:fixed;inset:0;z-index:45;display:grid;grid-template-rows:minmax(0,1fr) auto;justify-items:center;gap:12px;padding:max(16px,env(safe-area-inset-top,0px)) 16px max(14px,env(safe-area-inset-bottom,0px));background:radial-gradient(circle at 50% 45%,#1a1206 0%,#000 75%)}
+.flip[hidden]{display:none!important}
+.fbook{position:relative;align-self:center;aspect-ratio:5/7;width:min(100%,calc((100vh - 130px) * 5 / 7));perspective:1800px;container-type:size}
+.pg{font-size:2.45cqh!important;line-height:1.55!important}.pg h4{font-size:4cqh!important}.pg img.pic{max-height:58%}
+.pg{position:absolute;inset:0;transform-origin:left center;backface-visibility:hidden;border-radius:4px 12px 12px 4px;overflow:hidden;padding:clamp(18px,4.5%,40px) clamp(18px,6%,46px);
+ background:radial-gradient(120% 100% at 0% 50%,rgba(120,80,20,.28),rgba(0,0,0,0) 22%),var(--paper),linear-gradient(180deg,#f7ecd2,#ead8b0);background-size:100% 100%,240px 240px,100% 100%;
+ color:#2a1d0c;font-family:"Literata",Georgia,serif;font-size:clamp(14px,1.9vh,17px);line-height:1.6;box-shadow:inset 6px 0 14px rgba(80,50,10,.35),0 20px 50px #000c;display:flex;flex-direction:column;gap:10px}
+.pg.cover{padding:0;background:#000}.pg.cover img{width:100%;height:100%;object-fit:cover}
+.pg h4{font:800 clamp(20px,3vh,28px) var(--display);color:#6a3e0c;text-align:center;line-height:1.2}
+.pg h4 span{font-size:.8em;color:#2a1d0c}
+.pg .orn{color:#a8711c;text-align:center;letter-spacing:.3em;text-indent:0}
+.pg p{margin:0;text-indent:1.2em}.pg p.first{text-indent:0}.pg p.first::first-letter{font:800 3.1em/0.8 var(--display);float:left;padding:4px 6px 0 0;color:#6a3e0c}
+.pg .sig{text-align:right;font-style:italic;text-indent:0}
+.pg .mid{margin:auto;display:grid;gap:14px;justify-items:center;text-align:center}
+.pg .ded{font-style:italic;font-size:1.3em;text-indent:0}
+.pg img.pic{width:100%;max-height:52%;object-fit:cover;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+.pg.turned{transform:rotateY(-178deg);pointer-events:none}
+@media (prefers-reduced-motion:no-preference){.pg{transition:transform .9s cubic-bezier(.4,.1,.25,1)}}
+.fctl{display:flex;gap:14px;align-items:center}
+.fnum{white-space:nowrap;font:800 13px var(--display);letter-spacing:.12em;color:#d9b46a}
+.fclose{position:absolute;z-index:2;top:max(12px,env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;font:800 26px/1 var(--body);color:#f6d27a;background:#1a1204;border:1px solid #b9862c;cursor:pointer}
+
+
+/* ===== mockup 12: speech panel ===== */
+.top{grid-area:top}.screens{grid-area:main}.dock{grid-area:dock}
+.speech{grid-area:speech;align-self:stretch;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:14px;min-height:0;
+ border:20px solid transparent;border-image:var(--frame) 40 / 20px stretch;background:var(--paper),linear-gradient(180deg,#1c1306,#0b0702);background-clip:padding-box;box-shadow:0 14px 40px #000b}
+.speech[hidden]{display:grid!important}
+.sp-head{display:flex;align-items:center;gap:10px}
+.sp-head img{width:46px;height:56px;object-fit:cover;border-radius:50%;border:2px solid #d9a441;box-shadow:0 0 12px #d9a44166}
+.speech .who{font:900 20px var(--deco)}
+.speech .txt{color:#ffeec4;font-size:19px;line-height:1.55;font-weight:700;overflow:auto;scrollbar-width:none;margin:0}
+.speech .txt::-webkit-scrollbar{display:none}
+.speech .txt.idle{color:#a99f86;font-weight:600;font-style:italic}
+.speech .vbtn{justify-self:start}
+body.rvopen .speech{visibility:hidden}
+@media (max-width:1060px){
+ .speech:has(.txt.idle){display:none!important}
+ .app{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;grid-template-areas:"top" "main" "speech" "dock"}
+ .speech{grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto;align-items:center;padding:6px 10px;border-width:12px;border-image-width:12px;max-height:110px}
+ .speech .vbtn{display:none}.speech .who{display:none}.sp-head img{width:38px;height:46px}
+ .speech .txt{font-size:16px;max-height:80px}
+}
+
+.rules{display:grid;gap:8px}
+.rule{display:flex;align-items:center;gap:10px;font-size:16px;color:var(--ink)}
+.rule b{color:var(--gold-hi)}
+.quill{width:26px;text-align:center;font-size:22px;color:#f6d27a}
+.bookbtn{position:relative;border:0;padding:0;background:none;cursor:pointer;height:100%;max-height:100%;display:grid;place-items:center;perspective:1200px}
+.bookbtn img{max-height:100%;max-width:100%;border-radius:4px 10px 10px 4px;box-shadow:-10px 0 0 -4px #3a2306,0 20px 50px #000c,0 0 40px #d9a44144;transform:rotateY(-14deg);transition:transform .5s}
+.bookbtn:hover img,.bookbtn:focus-visible img{transform:rotateY(-4deg) scale(1.02)}
+.readch{justify-self:start}
+
+.typeit{display:flex;gap:8px;max-width:36em}
+.typeit input{flex:1;min-width:0;font:700 16px var(--body);color:#fff3d6;background:#0a0e2a;border:1.5px solid #9a6a1c;border-radius:12px;padding:10px 14px;box-shadow:inset 0 2px 6px #000a}
+.typeit input:focus{outline:2px solid #2fe39a;outline-offset:2px}
+.typeit .btn{padding:10px 16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.vswitch{background:radial-gradient(120% 140% at 30% 0%,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 38%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='60'%3E%3Cfilter id='v'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .09' numOctaves='3' seed='5'/%3E%3CfeColorMatrix values='0 0 0 0 .55  0 0 0 0 .55  0 0 0 0 .6  0 0 0 .5 -.18'/%3E%3C/filter%3E%3Crect width='200' height='60' filter='url(%23v)'/%3E%3C/svg%3E"),linear-gradient(180deg,#2a2a30 0%,#0b0b0e 45%,#000 100%);
+ background-size:100% 100%,200px 60px,100% 100%;border:2px solid #c99234;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -3px 8px #000,0 0 0 1px #3a2306,0 4px 14px #000c}
+.lamp{background:radial-gradient(circle at 35% 30%,#fff3c4,#d9a441 35%,#6a4210 80%);box-shadow:0 0 0 1px #2a1802,0 1px 3px #000}
+.vlbl b{color:#c9b98a}.vlbl em{color:#f6d27a}
+
+.gem3d{width:34px;height:34px;display:block;filter:drop-shadow(0 0 6px #2fe39a)}
+.gem3d.big{width:clamp(170px,22vw,280px);height:clamp(150px,19vw,240px);filter:drop-shadow(0 0 26px #2fe39a) drop-shadow(0 12px 24px #000)}
+.biggem .gem3d{animation:none!important}
+
+/* ===== book pages: filled, justified, with a footer ===== */
+.pg{padding:6.5% 8% 11% 9%!important;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.pg p{text-wrap:pretty}
+.pg .foot{position:absolute;left:9%;right:8%;bottom:3.6%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;font:600 1.7cqh var(--display);letter-spacing:.14em;color:#8a5a14;text-transform:uppercase;text-align:center}
+.pg .foot::before,.pg .foot::after{content:"";height:1px;background:linear-gradient(90deg,transparent,#b9862c,transparent)}
+.pg .foot span{white-space:nowrap}
+.pg.cover .foot{display:none}
+.pg .endorn{margin:auto 0 0;text-align:center;color:#a8711c;font-size:2.6cqh;letter-spacing:.5em;text-indent:0}
+.pg img.pic{height:44%;max-height:none!important;flex:none;object-fit:cover}
+.pg.measure{padding-bottom:15%!important}
+.sp-head{flex-direction:column;align-items:center;gap:10px;text-align:center}
+.sp-head img{object-fit:cover;width:170px!important;height:195px!important;transition:transform .35s;border-width:3px!important;box-shadow:0 0 0 2px #2a1802,0 0 34px #d9a441aa!important}
+@media (prefers-reduced-motion:no-preference){.sp-head img{animation:gogoglow 3s ease-in-out infinite}@keyframes gogoglow{50%{box-shadow:0 0 0 2px #2a1802,0 0 54px #f6d27acc}}}
+@media (max-width:1060px){.sp-head{flex-direction:row}.sp-head img{width:50px!important;height:62px!important}}
+@media (prefers-reduced-motion:no-preference){.sp-head img.pop{animation:posepop .5s cubic-bezier(.2,1.5,.4,1)}@keyframes posepop{0%{transform:scale(.8) rotate(-6deg)}100%{transform:none}}}
+
+/* ===== mockup 15: soft unframed pictures ===== */
+.floatpic img{border-radius:0!important;box-shadow:none!important;-webkit-mask-image:radial-gradient(ellipse 72% 70% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 72% 70% at 50% 50%,#000 55%,transparent 100%);filter:drop-shadow(0 0 40px rgba(217,164,65,.25))}
+.imgbox{box-shadow:none!important;border-radius:0!important;-webkit-mask-image:radial-gradient(ellipse 75% 73% at 50% 50%,#000 60%,transparent 100%);mask-image:radial-gradient(ellipse 75% 73% at 50% 50%,#000 60%,transparent 100%)}
+.sp-head img{border:0!important;box-shadow:none!important;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 62%,transparent 100%)}
+@media (prefers-reduced-motion:no-preference){.sp-head img{animation:none!important}}
+/* flying cover */
+.flyer{animation:none}
+@media (prefers-reduced-motion:no-preference){.imgbox.fly>img{animation:fly 6s ease-in-out infinite;transform-origin:50% 60%}@keyframes fly{0%,100%{transform:translateY(0) rotate(-.6deg) scale(1.04)}50%{transform:translateY(-2.2%) rotate(.6deg) scale(1.05)}}
+ .bookbtn img{animation:fly2 6s ease-in-out infinite}@keyframes fly2{0%,100%{transform:rotateY(-14deg) translateY(0)}50%{transform:rotateY(-12deg) translateY(-10px)}}}
+/* clear exit from the book */
+.fclose{width:auto!important;height:auto!important;border-radius:999px!important;padding:10px 18px!important;font:800 16px var(--body)!important;display:inline-flex;gap:8px;align-items:center}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+ <linearGradient id="emg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8ffe0"/><stop offset=".3" stop-color="#2fe39a"/><stop offset=".6" stop-color="#11a866"/><stop offset="1" stop-color="#067a46"/></linearGradient>
+ <symbol id="gem" viewBox="0 0 40 40"><polygon points="12,2 28,2 38,12 38,28 28,38 12,38 2,28 2,12" fill="url(#emg)" stroke="#04452a" stroke-width="1"/>
+  <polygon points="12,2 28,2 24,9 16,9" fill="#e6fff4" opacity=".9"/><polygon points="28,2 38,12 31,16 24,9" fill="#7ff5c4"/><polygon points="38,12 38,28 31,24 31,16" fill="#1fc583"/><polygon points="38,28 28,38 24,31 31,24" fill="#0b8a52"/>
+  <polygon points="28,38 12,38 16,31 24,31" fill="#07703f"/><polygon points="12,38 2,28 9,24 16,31" fill="#0e9a5c"/><polygon points="2,28 2,12 9,16 9,24" fill="#3ee8a6"/><polygon points="2,12 12,2 16,9 9,16" fill="#a8ffd9"/>
+  <polygon points="16,9 24,9 31,16 31,24 24,31 16,31 9,24 9,16" fill="#22d18a"/><polygon points="16,9 24,9 27,14 13,14" fill="#c9ffe8" opacity=".75"/><polygon points="13,26 27,26 24,31 16,31" fill="#0a7a46" opacity=".6"/>
+  <path d="M11 6 L15 5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></symbol>
+</defs></svg>
+
+
+<div class="app">
+  <header class="top">
+    <div class="row"><span class="brand agedgold shine">Gogo Guardians</span><a class="mock" href="/" style="text-decoration:none">&larr; Home</a><a class="mock" href="https://form.jotform.com/263087088389069" target="_blank" rel="noopener" style="text-decoration:none">&#9998; Leave a note</a></div>
+    <div class="right">
+      <button class="vswitch on" id="vswitch" type="button" aria-pressed="true" aria-label="Gogo's voice"><span class="lamp"><i></i></span><span class="vlbl"><b>GOGO'S VOICE</b><em id="vstate">ON</em></span></button>
+      <span class="goal" id="goal"><span class="gtxt" id="gtxt">Collect 25 to unlock the Elderstone card</span><span class="gbar"><i id="gfill"></i></span></span><span class="gems" aria-live="polite"><svg class="gemi"><use href="#gem"/></svg><span id="gemCount">0</span></span>
+    </div>
+  </header>
+
+  <main class="screens" id="screens">
+
+    <section class="screen frame" data-name="home" data-title="Welcome">
+      <div class="panel home">
+        <div class="pic"><img src="img/cover5.jpg" alt="The book cover: Oliver and Alibaba on the flying carpet"></div>
+        <div class="copy">
+          <button class="peek" type="button" id="peekBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5zm-1 10.6C9 16 6.8 15.7 5 15.8V7c2.2-.1 4.3.3 6 1.3zm8-1.3c-1.8-.1-4 .2-6 1.3V8.3c1.7-1 3.8-1.4 6-1.3z"/></svg><span>Peek inside the book</span></button>
+          <div class="logo agedgold shine">GOGO<br>GUARDIANS</div>
+          <span class="orn">~ &#9670; ~</span>
+          <p class="lead">Your phone just woke up. Travel with Oliver, Alibaba and the Forty Thieves, solve Gogo's riddles, collect emeralds, and help decide what happens in Book 2.</p>
+          <div class="row"><button class="btn" type="button" data-go="trail">Play now</button><button class="btn ghost" type="button" data-go="read">Read the story first</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen frame" data-name="read" data-title="Read First">
+      <div class="panel split">
+        <div class="pic"><button class="bookbtn" type="button" id="openBook" aria-label="Open the book"><img src="img/cover5.jpg" alt="Gogo the Magic Phone"><span class="glint"></span></button></div>
+        <div style="display:grid;gap:12px;align-content:center;min-width:0">
+          <span class="eyebrow">Step 1 &middot; read, then play</span>
+          <h2 class="agedgold shine">Read the story first</h2>
+          <p class="lead">Every riddle comes from the book. Read the chapter first and you’ll know the answers.</p>
+          <div class="rules">
+            <div class="rule"><svg class="gemi"><use href="#gem"/></svg><span><b>Right on the first try:</b> full emeralds</span></div>
+            <div class="rule"><svg class="gemi" style="opacity:.55"><use href="#gem"/></svg><span><b>After a mistake:</b> half the emeralds, and the trail takes longer</span></div>
+            <div class="rule"><span class="quill">&#9998;</span><span><b>Type your answer:</b> +2 bonus emeralds for writing it yourself</span></div>
+          </div>
+          <div class="row"><button class="btn" type="button" id="readCh1">Open the book: Chapter 1</button><button class="btn ghost" type="button" data-go="trail">I’ll figure it out on my own</button></div>
+          <p class="note">Built to practice reading comprehension, vocabulary, careful thinking, and spelling and writing when kids type their answers.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen frame" data-name="talk" data-title="Talk to Gogo">
+      <div class="panel split">
+        <div class="pic"><img src="img/p012.jpg" alt="Gogo glowing in Oliver's hands"></div>
+        <div style="display:grid;gap:12px;grid-template-rows:auto minmax(0,1fr) auto auto;min-height:0">
+          <h2 class="agedgold">Gogo talks back</h2>
+          <div class="chat" id="chat" aria-live="polite"><div class="msg g">Hello, Guardian. I have heard you talking about me. Would you like a taste of the other worlds?</div></div>
+          <div class="row" id="quick">
+            <button class="pill" type="button" data-q="Who are you, really?">Who are you, really?</button>
+            <button class="pill" type="button" data-q="Can you teleport me?">Can you teleport me?</button>
+            <button class="pill" type="button" data-q="Who is Alibaba?">Who is Alibaba?</button>
+          </div>
+          <div class="row" id="talkVoice"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen frame" data-name="guards" data-title="The Two Guards">
+      <div class="panel split">
+        <div class="pic"><div class="scene" id="scene"><img src="img/guards.jpg" alt="Two hooded guards at a fork in a desert road"><svg class="ov" id="ov" viewBox="0 0 768 768" aria-hidden="true"></svg></div></div>
+        <div class="stage" id="stage" style="display:grid;gap:12px;align-content:start;min-width:0"></div>
+      </div>
+    </section>
+
+    <section class="screen frame" data-name="trail" data-title="Riddle Trail">
+      <div class="panel split">
+        <div class="pic"><img id="trailPic" data-sky src="img/p001.jpg" alt=""></div>
+        <div style="display:grid;gap:12px;align-content:start;min-width:0">
+          <div class="row" id="rtabs" role="tablist"></div>
+          <div id="rcard" style="display:grid;gap:12px"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen frame" data-name="bats" data-title="Dracula's Bats">
+      <div class="panel split">
+        <div class="pic"><img src="img/p019.jpg" alt="Dracula and his bats in a golden forest"></div>
+        <div id="bstage" style="display:grid;gap:12px;align-content:start;min-width:0"></div>
+      </div>
+    </section>
+
+    <section class="screen frame" data-name="council" data-title="Guardian Council">
+      <div class="panel" style="grid-template-rows:auto auto minmax(0,1fr) auto">
+        <h2 class="agedgold">The story listens to its Guardians</h2>
+        <p class="lead">Every Guardian's answers to Gogo shape what happens next.</p>
+        <div class="cgrid">
+          <div class="cbox"><h3 class="step">How did the riddles feel?</h3><div id="c-feel"></div></div>
+          <div class="cbox"><h3 class="step">Where should we go next?</h3><div id="c-next"></div></div>
+          <div class="cbox log"><h3 class="step">What changed because of you</h3>
+            <p><b>Week 2.</b> The two guards got an easy level for younger Guardians.</p>
+            <p><b>Week 3.</b> Dracula's Forest opened first because most Guardians voted for it.</p>
+            <p><b>Week 4.</b> Gogo now gives a hint after one wrong try.</p></div>
+        </div>
+        <p class="note">Example numbers for the mockup. In the real game, answers are anonymous.</p>
+      </div>
+    </section>
+
+    <section class="screen frame" data-name="worlds" data-title="Six Worlds">
+      <div class="panel" style="grid-template-rows:auto minmax(0,1fr)">
+        <h2 class="agedgold">Six worlds, three open now</h2>
+        <div class="worlds">
+          <div class="world"><img src="img/p003.jpg" alt=""><div class="cap"><h3>Sumner County</h3><span class="tag open">Open &middot; the midnight glow</span></div></div>
+          <div class="world"><img src="img/p026.jpg" alt=""><div class="cap"><h3>Ancient Persia</h3><span class="tag open">Open &middot; the two guards</span></div></div>
+          <div class="world"><img src="img/p019.jpg" alt=""><div class="cap"><h3>Dracula's Forest</h3><span class="tag open">Open &middot; escape the bats</span></div></div>
+          <div class="world lock"><img src="img/p037.jpg" alt=""><div class="cap"><h3>Zolara</h3><span class="tag locked">Locked &middot; the living library</span></div></div>
+          <div class="world lock"><img src="img/p071.jpg" alt=""><div class="cap"><h3>Raptor</h3><span class="tag locked">Locked &middot; the emerald heist</span></div></div>
+          <div class="world lock"><img src="img/p080.jpg" alt=""><div class="cap"><h3>The Emerald Moon</h3><span class="tag locked">Locked &middot; the final reward</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen frame" data-name="join" data-title="Join the Journey">
+      <div class="panel" style="grid-template-rows:auto auto auto">
+        <h2 class="agedgold">Become part of the story</h2>
+        <div class="offers">
+          <div class="offer"><h3>Guardian</h3><div class="price">$4.99 <small>/ month</small></div><ul><li>All six worlds and every riddle</li><li>Talk to Gogo any time</li><li>Earn emeralds, unlock the book's pictures</li></ul><button class="btn ghost buy" type="button">Start as a Guardian</button></div>
+          <div class="offer best"><h3>Founding Guardian</h3><div class="price">$49 <small>once</small></div><ul class="keep"><li>Everything, for life</li><li>Your Guardian name printed in Book 2</li><li>Vote on what happens next</li><li>The illustrated ebook included</li></ul><button class="btn buy" type="button">Become a Founding Guardian</button></div>
+          <div class="offer"><h3>Classroom</h3><div class="price">$299 <small>/ school year</small></div><ul><li>Up to 35 students</li><li>Ebook plus all challenges</li><li>Lesson ideas on fairness, greed and teamwork</li></ul><button class="btn ghost buy" type="button">Get it for my class</button></div>
+        </div>
+        <p class="note">For parents: a parent creates the account and pays. Kids play with a Guardian name only, no email and no photos. Gogo only talks about the story. Cancel any time.</p>
+      </div>
+    </section>
+  </main>
+
+  <aside class="speech" id="caption" aria-live="polite">
+    <div class="sp-head"><img id="gogoPose" src="img/pose_happy.jpg" alt=""><span class="who agedgold">Gogo says</span></div>
+    <p class="txt" id="captxt">Hello, Guardian. When I speak, my words appear here so you can read along.</p>
+    <button class="vbtn" type="button" id="sayAgain"></button>
+  </aside>
+  <nav class="dock" aria-label="Screens">
+    <button class="navb" id="prev" type="button">&lsaquo; Back</button>
+    <div class="pages"><div class="pname" id="pname"></div><div id="pdots" style="display:flex;gap:8px"></div></div>
+    <button class="navb next" id="next" type="button">Next &rsaquo;</button>
+  </nav>
+</div>
+
+<div class="reveal" id="reveal" hidden role="dialog" aria-modal="true" aria-labelledby="rvt">
+  <div class="rv2">
+    <div style="display:grid;gap:6px;justify-items:center"><h3 class="agedgold" id="rvt">Well done, Guardian!</h3><p class="cap2" id="rvc"></p></div>
+    <div class="floatpic idle" id="fp"><img id="rvimg" src="img/p003.jpg" alt=""></div>
+    <div class="rvbar"><p class="tally" id="tally">Drag the picture into the thieves’ treasure</p><button class="btn" id="rvgo" type="button">Put it in the treasure</button></div>
+    <button class="treasure" id="treasure" type="button" aria-label="The thieves' treasure"><span class="tbox"><img src="img/m_chest.jpg" alt=""></span><span>The thieves’ treasure</span></button>
+  </div>
+</div>
+<div class="flip" id="flip" hidden role="dialog" aria-modal="true" aria-label="The book">
+  <div class="fbook" id="fbook"><div class="pg cover"><img src="img/cover5.jpg" alt="Book cover: Gogo the Magic Phone"></div>
+<div class="pg"><div class="mid"><p class="ded">For Sariah, Yusuf and Sabrina,<br>my first audience.</p></div></div>
+<div class="pg"><h4>Preface</h4><p class="orn">~ &#9670; ~</p><p>I grew up hearing stories about Alibaba and the Forty Thieves. I didn&#x27;t fully understand them, but there was always humor and enchantment in them. They felt magical.</p><p>Years later, I started telling bedtime stories to my own three children, Sariah, Yusuf and Sabrina, and Alibaba and the Forty Thieves became their favorite. I made up my own version as I went along. Even I didn&#x27;t know how each story would end, but it always sorted itself out, usually right about the time they got sleepy.</p></div>
+<div class="pg"><p>They were my first audience and my biggest supporters. They laughed so loud that telling the story was easy. Honestly, I loved those nights as much as they did.</p><p>Seeing their reaction, I thought, why not write a book? So I did, and I&#x27;m really glad I have.</p><p class="sig">Zafar Amin</p></div>
+<!--CHAPTERS-->
+<div class="pg"><div class="mid"><h4>Now you’re ready!</h4><p class="orn">~ &#9670; ~</p><p style="text-indent:0;text-align:center">You’ve read the first three chapters. Take on Gogo’s riddles and win every emerald on the first try.</p><button class="btn" type="button" data-flipgo="trail">Go to the Riddle Trail</button></div></div></div>
+  <div class="fctl"><button class="navb" id="fprev" type="button">&lsaquo; Back</button><span class="fnum" id="fnum"></span><button class="navb next" id="fnext" type="button">Turn the page &rsaquo;</button><button class="navb" type="button" onclick="document.getElementById('fclose').click()">Close</button></div>
+  <button class="fclose" id="fclose" type="button" aria-label="Close the book">&times; Close the book</button>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+// ===== basics =====
+function el(h){const d=document.createElement('div');d.innerHTML=h.trim();return d.firstElementChild}
+let gems=0;const gc=document.getElementById('gemCount');
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2800)}
+let AC=null;function chime(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime;[784,988,1319,1568].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(0.0001,t+i*.08);g.gain.exponentialRampToValueAtTime(0.16,t+i*.08+.02);g.gain.exponentialRampToValueAtTime(0.0001,t+i*.08+.4);o.connect(g).connect(AC.destination);o.start(t+i*.08);o.stop(t+i*.08+.45)})}catch(e){}}
+function addGems(n){gems+=n;gc.textContent=gems;chime();burst();goal()}
+function goal(){const P=[[25,'the Elderstone card'],[50,'Dracula\u2019s Forest trophy'],[100,'the gates of Zolara'],[200,'the Emerald Moon']];const nx=P.find(p=>p[0]>gems);const prev=[...P].reverse().find(p=>p[0]<=gems);const lo=prev?prev[0]:0;if(!nx){document.getElementById('gtxt').textContent='Every treasure unlocked!';document.getElementById('gfill').style.width='100%';return}document.getElementById('gtxt').textContent=(nx[0]-gems)+' more to unlock '+nx[1];document.getElementById('gfill').style.width=Math.round((gems-lo)*100/(nx[0]-lo))+'%'}
+function burst(){if(matchMedia('(prefers-reduced-motion: reduce)').matches||document.body.classList.contains('rvopen'))return;const r=gc.getBoundingClientRect();for(let i=0;i<9;i++){const s=el('<svg class="burst"><use href="#gem"/></svg>');s.style.left=(r.left-6)+'px';s.style.top=(r.top-4)+'px';const a=Math.random()*Math.PI*2,d=60+Math.random()*90;s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',(Math.sin(a)*d+60)+'px');document.body.append(s);setTimeout(()=>s.remove(),1200)}}
+const GEM='<svg class="gemi" style="width:20px;height:20px"><use href="#gem"/></svg>';
+
+// ===== voice: Gogo speaks with typed captions; kids can talk =====
+let VOICE=true,GESTURE=false;
+addEventListener('pointerdown',()=>{GESTURE=true},{capture:true});addEventListener('keydown',()=>{GESTURE=true},{capture:true});
+const vs=document.getElementById('vswitch');vs.onclick=()=>{VOICE=!VOICE;vs.classList.toggle('on',VOICE);vs.setAttribute('aria-pressed',VOICE);document.getElementById('vstate').textContent=VOICE?'ON':'OFF';if(!VOICE){try{speechSynthesis.cancel()}catch(e){}capHide(0)}};
+let VV=null;function pickVoice(){try{const en=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));VV=en.find(v=>/natural|neural|enhanced|premium/i.test(v.name))||en.find(v=>/Aria|Jenny|Guy|Samantha|Ava|Evan|Google UK English Male|Google US English|Daniel|Serena/i.test(v.name))||en[0]||null}catch(e){}}
+if(window.speechSynthesis){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+const cap=document.getElementById('caption'),capt=document.getElementById('captxt');let capTimer=null,capHideT=null;
+let lastSaid='';function capHide(ms){clearTimeout(capHideT);capHideT=setTimeout(()=>{capt.classList.add('idle');if(!lastSaid)capt.textContent='Gogo is listening...'},ms)}
+function capType(text,u){lastSaid=text;capt.classList.remove('idle');if(document.body.classList.contains('rvopen')||!document.getElementById('flip').hidden){capt.textContent=text;return}clearInterval(capTimer);clearTimeout(capHideT);const words=text.split(' ');let shown=0;capt.textContent='';
+ const show=n=>{if(n>shown){shown=Math.min(n,words.length);capt.textContent=words.slice(0,shown).join(' ')}};
+ capTimer=setInterval(()=>{show(shown+1);if(shown>=words.length){clearInterval(capTimer);if(!u)capHide(2600)}},340);
+ if(u){u.onboundary=e=>{if(e.name&&e.name!=='word')return;show(text.slice(0,e.charIndex+1).split(' ').length)};u.onend=()=>{clearInterval(capTimer);show(words.length);capHide(2600)}}}
+function say(t){if(!VOICE||!GESTURE||!t)return;const text=String(t).replace(/[“”"]/g,'').replace(/·/g,',').replace(/\s+/g,' ').trim();
+ if(!window.speechSynthesis){capType(text,null);return}
+ try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(VV)u.voice=VV;u.rate=.92;u.pitch=1.05;capType(text,u);speechSynthesis.speak(u)}catch(e){}}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+setTimeout(()=>{const sa=document.getElementById('sayAgain');sa.innerHTML=SPK+'<span>Say it again</span>';sa.onclick=()=>{GESTURE=true;if(lastSaid)say(lastSaid)}},0);
+const MIC='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12z"/></svg>';
+const SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10v4h4l5 4V6L7 10H3zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+function listen(btn,heard,onAlts){
+ if(!SR){toast('Talking works in Chrome, Edge and Safari. For now, tap your answer.');return}
+ let r;try{r=new SR()}catch(e){toast('Talking is not available here. Tap your answer.');return}
+ r.lang='en-US';r.interimResults=false;r.maxAlternatives=3;btn.classList.add('listen');if(heard)heard.textContent='Gogo is listening...';
+ r.onresult=e=>{const alts=[...e.results[0]].map(a=>a.transcript.toLowerCase().trim());if(heard)heard.textContent='Gogo heard: “'+alts[0]+'”';onAlts(alts)};
+ r.onerror=e=>{if(heard)heard.textContent='';toast(/not-allowed|service-not-allowed|audio-capture/.test(e.error)?'The microphone is blocked on this preview page. In the real game, kids just talk. For now, tap your answer.':'Gogo didn’t catch that. Try again, or tap your answer.')};
+ r.onend=()=>btn.classList.remove('listen');try{r.start()}catch(e){btn.classList.remove('listen')}}
+const NUMW={zero:'0',one:'1',two:'2',three:'3',four:'4',five:'5',six:'6',seven:'7',eight:'8',nine:'9',ten:'10',eleven:'11',twelve:'12',thirteen:'13',fourteen:'14',fifteen:'15'};
+function norm(t){return t.toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean).map(w=>NUMW[w]||w)}
+function bestMatch(alts,opts){let best=-1,bs=0;alts.forEach(a=>{const aw=norm(a);opts.forEach((o,k)=>{const ow=norm(o).filter(w=>w.length>2||/^\d+$/.test(w));const sc=ow.filter(w=>aw.includes(w)).length;if(sc>bs){bs=sc;best=k}})});return best}
+function vbtn(label,icon,cls){const b=el('<button class="vbtn '+(cls||'')+'" type="button"></button>');b.innerHTML=icon+'<span></span>';b.querySelector('span').textContent=label;return b}
+function micRow(label,onAlts){const row=el('<div class="row"></div>');const b=vbtn(label,MIC,'mic');const h=el('<span class="heard"></span>');b.onclick=()=>listen(b,h,onAlts);row.append(b,h);return row}
+
+// ===== reward: floating picture you drag into the thieves' treasure =====
+const RV=document.getElementById('reveal'),FP=document.getElementById('fp'),TR=document.getElementById('treasure');let rvNext=null,rvPts=0,rvDone=false;
+const PRIZES=[[25,'the Elderstone card'],[50,'Dracula’s Forest trophy'],[100,'the gates of Zolara'],[200,'the Emerald Moon']];
+function clink(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime;[2093,2637,3136,2349].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,t+i*.06);g.gain.exponentialRampToValueAtTime(0.12,t+i*.06+.005);g.gain.exponentialRampToValueAtTime(0.0001,t+i*.06+.25);o.connect(g).connect(AC.destination);o.start(t+i*.06);o.stop(t+i*.06+.3)})}catch(e){}}
+function reveal(img,title,caption,pts,next){const im=document.getElementById('rvimg');im.src=img;im.onload=()=>FP.style.setProperty('--ar',im.naturalWidth/im.naturalHeight);
+ document.getElementById('rvt').textContent=title;document.getElementById('rvc').textContent=caption;rvNext=next||null;rvPts=pts;rvDone=false;
+ FP.getAnimations().forEach(a=>a.cancel());FP.style.transform='';FP.style.opacity='';FP.className='floatpic idle';document.querySelectorAll('.biggem').forEach(x=>x.remove());TR.hidden=!pts;
+ document.getElementById('tally').textContent=pts?'Drag the picture into the thieves’ treasure':'';document.getElementById('rvgo').textContent=pts?'Put it in the treasure':'Continue';
+ RV.hidden=false;document.body.classList.add('rvopen');document.getElementById('rvgo').focus();say(title+'. '+caption)}
+let DRAG={x:0,y:0,k:1};
+function stash(){if(rvDone)return;rvDone=true;const fr=FP.getBoundingClientRect(),tb=TR.querySelector('.tbox'),tr=tb.getBoundingClientRect();
+ FP.classList.remove('idle','drag');FP.style.transition='none';const D=DRAG;DRAG={x:0,y:0,k:1};
+ const cx=fr.left+fr.width/2-D.x,cy=fr.top+fr.height/2-D.y;
+ const dx=(tr.left+tr.width/2)-cx,dy=(tr.top+tr.height*.45)-cy;
+ const swirl=[{transform:'translate('+D.x+'px,'+D.y+'px) rotate(0) scale('+D.k+','+D.k+')',filter:'blur(0)',opacity:1,offset:0},
+  {transform:'translate('+(D.x+(dx-D.x)*.15)+'px,'+(D.y+(dy-D.y)*.05-30)+'px) rotate(-14deg) scale('+(.82*D.k)+','+(.9*D.k)+') skewX(-8deg)',filter:'blur(0)',opacity:1,offset:.2},
+  {transform:'translate('+(D.x+(dx-D.x)*.45)+'px,'+(D.y+(dy-D.y)*.25-40)+'px) rotate(-120deg) scale(.42,.62) skewX(-24deg)',filter:'blur(1px)',opacity:1,offset:.5},
+  {transform:'translate('+(D.x+(dx-D.x)*.78)+'px,'+(D.y+(dy-D.y)*.65)+'px) rotate(-260deg) scale(.16,.42) skewX(-38deg)',filter:'blur(2px)',opacity:.9,offset:.78},
+  {transform:'translate('+dx+'px,'+dy+'px) rotate(-420deg) scale(.02,.06) skewX(-45deg)',filter:'blur(3px)',opacity:0,offset:1}];
+ const anim=FP.animate(swirl,{duration:1100,easing:'cubic-bezier(.55,0,.7,1)',fill:'forwards'});
+ // sparkle trail
+ const trail=setInterval(()=>{const r=FP.getBoundingClientRect();if(!r.width)return;for(let i=0;i<3;i++){const sp=el('<span class="spark"></span>');sp.style.left=(r.left+r.width/2+(Math.random()-.5)*r.width*.6)+'px';sp.style.top=(r.top+r.height/2+(Math.random()-.5)*r.height*.6)+'px';document.body.append(sp);setTimeout(()=>sp.remove(),900)}},45);
+ swoosh();
+ anim.onfinish=()=>{clearInterval(trail);clink();TR.classList.add('gulp');setTimeout(()=>TR.classList.remove('gulp'),520);
+  addGems(rvPts);const nx=PRIZES.find(p=>p[0]>gems);
+  const big=el('<div class="biggem">'+(window.THREE?'<canvas class="gem3d big"></canvas>':'<svg viewBox="0 0 40 40"><use href="#gem"/></svg>')+'<div class="bg-num">+'+rvPts+'</div></div>');document.querySelector('.rv2').append(big);const bc=big.querySelector('canvas');if(bc)requestAnimationFrame(()=>gem3d(bc,true));
+  document.getElementById('tally').textContent='You have '+gems+' emeralds!'+(nx?' Collect '+(nx[0]-gems)+' more to unlock '+nx[1]+'.':'');
+  say('You have '+gems+' emeralds.'+(nx?' Collect '+(nx[0]-gems)+' more to unlock '+nx[1]+'.':''));document.getElementById('rvgo').textContent='Continue'}}
+function swoosh(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime,len=1.0,buf=AC.createBuffer(1,AC.sampleRate*len,AC.sampleRate),d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);
+ const src=AC.createBufferSource();src.buffer=buf;const f=AC.createBiquadFilter();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(400,t);f.frequency.exponentialRampToValueAtTime(3200,t+.9);const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.35,t+.25);g.gain.exponentialRampToValueAtTime(.0001,t+1);src.connect(f).connect(g).connect(AC.destination);src.start(t)}catch(e){}}
+function closeRv(){RV.hidden=true;document.body.classList.remove('rvopen');capHide(0);try{speechSynthesis.cancel()}catch(e){}if(rvNext)rvNext()}
+document.getElementById('rvgo').onclick=()=>{if(rvPts&&!rvDone)stash();else closeRv()};
+TR.onclick=()=>stash();
+(function(){let sx,sy,on=false;FP.addEventListener('pointerdown',e=>{if(rvDone)return;on=true;sx=e.clientX;sy=e.clientY;FP.classList.remove('idle');FP.classList.add('drag');FP.style.transition='none';FP.setPointerCapture(e.pointerId)});
+ FP.addEventListener('pointermove',e=>{if(!on)return;const dx=e.clientX-sx,dy=e.clientY-sy;const k=Math.max(.35,1-Math.hypot(dx,dy)/900);FP.style.transform='translate('+dx+'px,'+dy+'px) scale('+k+')';DRAG={x:dx,y:dy,k:k};const t=TR.getBoundingClientRect();TR.classList.toggle('hot',e.clientX>t.left-40&&e.clientX<t.right+40&&e.clientY>t.top-40&&e.clientY<t.bottom+40)});
+ FP.addEventListener('pointerup',e=>{if(!on)return;on=false;FP.classList.remove('drag');const t=TR.getBoundingClientRect();const hit=e.clientX>t.left-40&&e.clientX<t.right+40&&e.clientY>t.top-40&&e.clientY<t.bottom+40;TR.classList.remove('hot');
+  if(hit&&rvPts)stash();else{FP.style.transition='transform .4s';FP.style.transform='';setTimeout(()=>FP.classList.add('idle'),400)}})})();
+
+// ===== pictures: frame boxes, drifting clouds and a bird =====
+function wrapPics(){document.querySelectorAll('.pic>img').forEach(img=>{const box=el('<div class="imgbox'+(img.src.includes('cover5')?' fly':'')+'"></div>');img.replaceWith(box);box.append(img);
+ const set=()=>{if(img.naturalWidth)box.style.setProperty('--ar',img.naturalWidth/img.naturalHeight)};img.addEventListener('load',set);set();
+ if(img.dataset.sky!==undefined){const sky=el('<div class="sky"></div>');[[8,26,9,'38s','-4s'],[18,34,7,'52s','-20s'],[4,22,6,'45s','-33s']].forEach(([top,w,h,d,dl])=>{const c=el('<span class="cloud"></span>');c.style.cssText='top:'+top+'%;width:'+w+'%;height:'+h+'%;animation-duration:'+d+';animation-delay:'+dl;sky.append(c)});
+  const bird=el('<svg class="bird" viewBox="0 0 34 14"><path d="M1 7 Q9 0 17 7 Q25 0 33 7" fill="none" stroke="#1a1a2a" stroke-width="2.2" stroke-linecap="round"/></svg>');bird.style.top='14%';sky.append(bird);box.append(sky)}})}
+// ===== Dracula's bats fly out of the screen =====
+const BAT='<svg viewBox="0 0 70 36"><g fill="none" stroke="#f6d27a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path class="w" d="M35 18 C30 8 20 4 6 8 C12 12 12 16 9 20 C16 18 22 20 26 24 C28 20 31 19 35 18 Z M35 18 C40 8 50 4 64 8 C58 12 58 16 61 20 C54 18 48 20 44 24 C42 20 39 19 35 18 Z" fill="#0b0716"/><path d="M32 14 L33 10 L35 13 L37 10 L38 14" fill="#0b0716"/><circle cx="33.5" cy="16" r=".8" fill="#ff6b6b" stroke="none"/><circle cx="36.5" cy="16" r=".8" fill="#ff6b6b" stroke="none"/></g></svg>';
+function flyBats(n){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const scr=screens.find(x=>x.dataset.name==='bats');const pic=scr.querySelector('.imgbox')||scr.querySelector('.pic');const r=pic.getBoundingClientRect();
+ const layer=document.querySelector('.batlayer')||document.body.appendChild(el('<div class="batlayer"></div>'));
+ for(let i=0;i<(n||9);i++){const b=el('<div class="bat">'+BAT+'</div>');const ox=r.left+r.width*(.35+Math.random()*.3),oy=r.top+r.height*(.3+Math.random()*.3);b.style.left=ox+'px';b.style.top=oy+'px';
+  const a=Math.random()*Math.PI*2,d=Math.max(innerWidth,innerHeight)*(.7+Math.random()*.4);b.style.setProperty('--bx',Math.cos(a)*d+'px');b.style.setProperty('--by',(Math.sin(a)*d-80)+'px');b.style.setProperty('--bs',(1.2+Math.random()*1.4).toFixed(2));b.style.setProperty('--d',(2+Math.random()*1.6).toFixed(2)+'s');b.style.animationDelay=(i*.14)+'s';layer.append(b);setTimeout(()=>b.remove(),4600+i*140)}}
+// ===== screens: one at a time =====
+const screens=[...document.querySelectorAll('.screen')];let cur=0;
+const pd=document.getElementById('pdots');screens.forEach((s,i)=>{const b=el('<button class="pdot" type="button"></button>');b.setAttribute('aria-label',s.dataset.title);b.onclick=()=>go(i);pd.append(b)});
+function go(i,silent){i=Math.max(0,Math.min(screens.length-1,i));screens[cur].classList.remove('on');cur=i;screens[cur].classList.add('on');
+ [...pd.children].forEach((b,k)=>b.classList.toggle('on',k===cur));document.getElementById('pname').textContent=screens[cur].dataset.title;
+ document.getElementById('prev').disabled=cur===0;document.getElementById('next').disabled=cur===screens.length-1;
+ try{history.replaceState(null,'','#'+screens[cur].dataset.name)}catch(e){}
+ capHide(0);try{speechSynthesis.cancel()}catch(e){}
+ if(!silent)onEnter(screens[cur].dataset.name)}
+document.getElementById('prev').onclick=()=>go(cur-1);document.getElementById('next').onclick=()=>go(cur+1);
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(screens.findIndex(s=>s.dataset.name===b.dataset.go)));
+addEventListener('keydown',e=>{if(!RV.hidden)return;if(e.target.closest('input,textarea'))return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+function onEnter(n){if(n==='guards'){const ip=document.querySelector('#stage .intro');say(ip?ip.textContent:'')}if(n==='trail')sayRiddle();if(n==='bats'){const p=document.querySelector('#bstage .bq');say(p?p.textContent:'');setTimeout(()=>flyBats(10),350)}if(n==='talk')say('Hello, Guardian. Ask me anything. Tap a question, or say it out loud.')}
+document.querySelectorAll('.buy').forEach(b=>b.onclick=()=>toast('Mockup: checkout will open here'));
+
+// ===== talk to Gogo =====
+const replies={"Who are you, really?":"I carry the spirit of Elderstone. I have guarded Oliver's family for generations, taking different forms. This time I chose to be a phone.","Can you teleport me?":"Teleportation is within my range of abilities. But first, prove you can think like a Guardian. Try the riddle of the two guards.","Who is Alibaba?":"A guardian from a bygone era. Wise, brave, and very good at handling forty bumbling thieves."};
+const chat=document.getElementById('chat');
+function ask2gogo(q,shown){chat.append(el('<div class="msg u"></div>'));chat.lastChild.textContent=shown||q;setTimeout(()=>{const a=replies[q]||'That is a good question, Guardian. In the full game I can answer anything about our story. Try asking who I really am.';const g=el('<div class="msg g"></div>');g.textContent=a;chat.append(g);chat.scrollTop=chat.scrollHeight;say(a)},450)}
+document.querySelectorAll('#quick .pill').forEach(b=>b.onclick=()=>ask2gogo(b.dataset.q));
+document.getElementById('talkVoice').append(micRow('Ask Gogo out loud',alts=>{const t=alts.join(' ');const q=/teleport|portal|take me/.test(t)?'Can you teleport me?':/alibaba|ali baba/.test(t)?'Who is Alibaba?':/who are you|what are you|really|gogo/.test(t)?'Who are you, really?':null;ask2gogo(q||'?',alts[0])}));
+
+// ===== the two guards =====
+const stage=document.getElementById('stage');let st,level=1;
+const other=p=>p==='desert'?'palm':'desert';
+function newRound(){st={safe:Math.random()<.5?'desert':'palm',liar:Math.random()<.5?'Tariq':'Sami',asked:null,q:null,pointed:null,done:null};if(level===1){st.asked='Sami';st.liar='Sami'}draw()}
+function scene(){
+ const ov=document.getElementById('ov');const pt=st.pointed,done=st.done,asked=st.asked;
+ const chip={desert:[290,396],palm:[478,398]},hand={Tariq:[128,300],Sami:[600,312]},gbox={Tariq:[20,150,290,400],Sami:[440,150,310,400]};
+ let o='';
+ ['Tariq','Sami'].forEach(n=>{const [x,y,w,h]=gbox[n];o+='<g class="tapg" data-g="'+n+'"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="transparent"/>'+(asked===n?'<ellipse cx="'+(x+w/2)+'" cy="'+(y+h-8)+'" rx="'+(w*.42)+'" ry="18" fill="none" stroke="#f6d27a" stroke-width="4" class="pulse"/>':'')+
+  '<g transform="translate('+(x+w/2)+' '+(y+h+40)+')"><rect x="-58" y="-22" width="116" height="36" rx="18" fill="#140d02" fill-opacity=".85" stroke="#d9a441" stroke-width="2"/><text y="4" text-anchor="middle" font-family="Cinzel,serif" font-weight="800" font-size="20" fill="#f6d27a">'+n+'</text></g>'+
+  (n==='Tariq'&&level===1?'<text class="zz" x="'+(x+150)+'" y="'+(y+20)+'" font-family="Cinzel,serif" font-size="30" font-weight="800" fill="#cfe6ff">z Z z</text>':'')+'</g>'});
+ ['desert','palm'].forEach(p=>{const [cx,cy]=chip[p],lit=(pt===p&&!done),fin=done===p,win=fin&&done===st.safe;
+  o+='<g class="tapp" data-p="'+p+'">'+(lit||fin?'<rect x="'+(cx-70)+'" y="'+(cy-26)+'" width="140" height="52" rx="26" fill="'+(fin?(win?'#1fa36a':'#ff6b7a'):'#f6d27a')+'" opacity=".35" class="pulse"/>':'')+
+  '<rect x="'+(cx-62)+'" y="'+(cy-20)+'" width="124" height="40" rx="20" fill="'+(fin?(win?'#063b26':'#3a0f18'):lit?'#3a2604':'#140d02')+'" fill-opacity=".92" stroke="#d9a441" stroke-width="2"/><text x="'+cx+'" y="'+(cy+7)+'" text-anchor="middle" font-family="Cinzel,serif" font-weight="800" font-size="18" fill="#f6d27a">'+(p==='desert'?'Desert path':'Palm path')+'</text></g>'});
+ if(pt&&!done){const [hx,hy]=hand[asked],[tx,ty]=chip[pt],ex=tx,ey=ty-30,cx=(hx+ex)/2,cy=Math.min(hy,ey)-120,d='M'+hx+' '+hy+' Q'+cx+' '+cy+' '+ex+' '+ey;
+  o+='<path d="'+d+'" fill="none" stroke="#1a0f02" stroke-width="12" stroke-linecap="round" opacity=".55"/><path class="flow" d="'+d+'" fill="none" stroke="#f6d27a" stroke-width="7" stroke-linecap="round" stroke-dasharray="18 16" marker-end="url(#ah)"/><g class="bob"><polygon points="'+(tx-16)+','+(ty-92)+' '+(tx+16)+','+(ty-92)+' '+tx+','+(ty-66)+'" fill="#f6d27a" stroke="#1a0f02" stroke-width="2"/></g>'}
+ if(st.q==='liar'&&!done){const [hx,hy]=hand[asked],bx=Math.min(Math.max(hx,170),598);o+='<g><rect x="'+(bx-150)+'" y="'+(hy-150)+'" width="300" height="56" rx="16" fill="#140d02" fill-opacity=".92" stroke="#d9a441" stroke-width="2"/><text x="'+bx+'" y="'+(hy-114)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="24" fill="#ffe7a8">“I’m not the liar!”</text></g>'}
+ ov.innerHTML='<defs><marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f6d27a" stroke="#1a0f02" stroke-width="1"/></marker></defs>'+o;
+ ov.querySelectorAll('.tapg').forEach(g=>g.onclick=()=>{if(level===2&&!st.asked){st.asked=g.dataset.g;draw();say('You walk up to '+st.asked+'. Choose your one question carefully.')}});
+ ov.querySelectorAll('.tapp').forEach(g=>g.onclick=()=>{if(st.q!==null&&!st.done)finish(g.dataset.p)})}
+function draw(){scene();stage.innerHTML='';
+ const lv=el('<div class="row"></div>');[[1,'Level 1 · easy'],[2,'Level 2 · the real riddle']].forEach(([n,t])=>{const b=el('<button class="lvl" type="button"></button>');b.textContent=t;if(n===level)b.classList.add('on');b.onclick=()=>{level=n;newRound();const ip=stage.querySelector('.intro');say(ip?ip.textContent:'')};lv.append(b)});stage.append(lv);
+ stage.append(el('<h2 class="agedgold">The Riddle of the Two Guards</h2>'));
+ const intro=level===1?'Two hooded guards block the road to Alibaba. One path leads to him. The other leads to the spirits of Isfahan, and nobody comes back from there. Gogo glows and whispers: <b>Sami always lies.</b> Tariq always tells the truth, but Tariq is fast asleep. You will have to ask Sami.'
+  :'The guards are wide awake now. One of them always tells the truth. One of them always lies. <b>You don’t know which is which.</b> You get one question, for one guard. Think hard, Guardian. Get it wrong, and the spirits of Isfahan will be waiting.';
+ stage.append(el('<p class="intro">'+intro+'</p>'));
+ const gs=level===1?[['Tariq','Fast asleep'],['Sami','Always lies']]:[['Tariq','Truth or lie?'],['Sami','Truth or lie?']];
+ const gw=el('<div class="guards"></div>');gs.forEach(([n,d])=>{const b=el('<button class="guard" type="button"><span class="face"></span><span><span class="nm"></span><small></small></span></button>');b.querySelector('.face').textContent=n[0];b.querySelector('.nm').textContent=n;b.querySelector('small').textContent=d;
+  if(st.asked===n)b.classList.add('sel');if(level===1&&n==='Tariq'){b.disabled=true;b.style.opacity=.5}else if(st.asked)b.disabled=true;else b.onclick=()=>{st.asked=n;draw();say('You walk up to '+n+'. Choose your one question carefully.')};gw.append(b)});stage.append(gw);
+ if(!st.asked){stage.append(el('<p class="step">Step 1 · Tap a guard in the picture, or say his name</p>'));stage.append(micRow('Say a guard’s name',alts=>{const t=alts.join(' ');const g=/tariq|tall|tar/.test(t)?'Tariq':/sami|short|sam/.test(t)?'Sami':null;if(g){st.asked=g;draw();say('You walk up to '+g+'. Choose your one question carefully.')}else toast('Say Tariq or Sami.')}));return}
+ if(st.q===null){stage.append(el('<p class="step">Choose your one question for '+st.asked+'</p>'));
+  const qs=level===1?[['direct','“Which path leads to Alibaba?”']]:[['direct','“Which path leads to Alibaba?”'],['other','“Which path would the OTHER guard say leads to Alibaba?”'],['liar','“Are you the liar?”']];
+  const c=el('<div class="choices"></div>');qs.forEach(([k,t])=>{const b=el('<button class="choice" type="button"></button>');b.textContent=t;b.onclick=()=>ask(k);c.append(b)});stage.append(c);
+  stage.append(micRow('Say your question',alts=>{const t=alts.join(' ');const k=/other/.test(t)?'other':/liar|lie/.test(t)?'liar':/which|path|alibaba|way/.test(t)?'direct':null;if(k&&qs.some(q=>q[0]===k))ask(k);else toast('Gogo didn’t catch that. Try again, or tap your question.')}));
+  if(level===2){const h=el('<button class="btn ghost" type="button" style="justify-self:start">Ask Gogo for a hint</button>');h.onclick=()=>{const t='Gogo whispers: if you ask what the OTHER guard would say, both guards point the same way.';toast(t);say(t)};stage.append(h)}return}
+ const a=el('<div class="gogo"></div>');a.textContent=st.q==='liar'?st.asked+' says: “No, I am not the liar.” (Both guards would say that!)':st.asked+' points to the '+(st.pointed==='desert'?'Desert path.':'Palm path.');stage.append(a);
+ stage.append(el('<p class="step">Last step · Tap a path in the picture, or say it</p>'));
+ const pr=el('<div class="row"></div>');['desert','palm'].forEach(p=>{const b=el('<button class="choice" type="button" style="flex:1"></button>');b.textContent=p==='desert'?'Desert path':'Palm path';b.onclick=()=>finish(p);pr.append(b)});stage.append(pr);
+ stage.append(micRow('Say which path',alts=>{const t=alts.join(' ');const p=/desert|left|sand/.test(t)?'desert':/palm|right|tree/.test(t)?'palm':null;if(p)finish(p);else toast('Say desert path or palm path.')}))}
+function ask(k){st.q=k;const liarAsked=st.asked===st.liar;if(k==='direct')st.pointed=liarAsked?other(st.safe):st.safe;else if(k==='other')st.pointed=other(st.safe);else st.pointed=null;draw();const ga=stage.querySelector('.gogo');say(ga?ga.textContent:'')}
+function finish(p){st.done=p;scene();const win=p===st.safe,sure=level===1||st.q==='other',pts=level===1?10:(sure?25:10);
+ let why;if(level===1)why='Sami always lies, so wherever he points is the wrong way. Take the other path, every time.';
+ else if(st.q==='other')why='The honest guard tells you the liar’s wrong answer, and the liar lies about the honest guard’s right answer. Either way they point to the wrong path, so you take the other one. That is how Leah solved it in the book.';
+ else if(st.q==='direct')why=(win?'You got lucky! ':'')+'You didn’t know if '+st.asked+' was the liar, so his answer could be right or wrong. One question works every single time.';
+ else why=(win?'You got lucky! ':'')+'Both guards say “I’m not the liar,” so that question tells you nothing.';
+ const after=()=>{stage.innerHTML='';stage.append(el('<h2 class="agedgold">'+(win?'You found Alibaba!':'Back to the fork')+'</h2>'));const w=el('<p class="gogo"></p>');w.textContent=why;stage.append(w);
+  if(win&&level===1){const n=el('<button class="btn" type="button" style="justify-self:start">Try Level 2: the real riddle</button>');n.onclick=()=>{level=2;newRound();const ip=stage.querySelector('.intro');say(ip?ip.textContent:'')};stage.append(n)}
+  if(win&&level===2&&sure)stage.append(askCard());
+  const b=el('<button class="btn ghost" type="button" style="justify-self:start">Play again</button>');b.onclick=()=>{newRound();const ip=stage.querySelector('.intro');say(ip?ip.textContent:'')};stage.append(b);say(why)};
+ setTimeout(()=>{if(win){reveal('img/p030.jpg','You found Alibaba!','The path opens, and there he is: Alibaba, smiling like he knew you would make it.',pts,after)}else reveal('img/p026.jpg','The spirits of Isfahan!','The wrong path. Gogo pulls you back just in time. Think again, Guardian.',0,after)},900)}
+
+// ===== Gogo asks how it felt =====
+const council={feel:{'Too easy':118,'Just right':402,'Too hard':96},next:{'Dracula\'s Forest':341,'The Forty Thieves\' camp':228,'Zolara':147}};
+function askCard(){const c=el('<div class="gogo" style="display:grid;gap:8px"><p><b>Gogo leans in:</b> “How did that feel, Guardian?”</p><div class="row" data-k="feel"></div><p>“And where should we go next?”</p><div class="row" data-k="next"></div><p class="result-good" hidden>“Thank you. I will remember that.”</p></div>');
+ const add=(row,opts,k)=>opts.forEach(o=>{const b=el('<button class="pill" type="button"></button>');b.textContent=o;b.onclick=()=>{row.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));b.classList.add('on');council[k][o]++;drawCouncil();if(c.querySelectorAll('.pill.on').length===2){c.querySelector('.result-good').hidden=false;addGems(5);say('Thank you. I will remember that.')}};row.append(b)});
+ add(c.querySelector('[data-k=feel]'),['Too easy','Just right','Too hard'],'feel');add(c.querySelector('[data-k=next]'),['Dracula\'s Forest','The Forty Thieves\' camp','Zolara'],'next');return c}
+function drawCouncil(){['feel','next'].forEach(k=>{const box=document.getElementById('c-'+k);box.innerHTML='';const t=Object.values(council[k]).reduce((a,b)=>a+b,0);Object.entries(council[k]).forEach(([o,n])=>{const pc=Math.round(n*100/t);const r=el('<div class="cbar"><span class="cl"></span><span class="ct"><span class="cf"></span></span><span class="cn"></span></div>');r.querySelector('.cl').textContent=o;r.querySelector('.cf').style.width=pc+'%';r.querySelector('.cn').textContent=pc+'%';box.append(r)})})}
+
+// ===== riddle trail =====
+const RIDDLES={
+ 1:{title:'Chapter 1 · The Midnight Glow',pic:'img/p001.jpg',items:[
+  {d:'easy',q:'Tick, tock, all night long. I have a face and two hands, but no arms and no legs. What am I?',o:['The hallway clock','Grandpa Henry','The phone'],a:0,h:'Listen to the sound at the start of the riddle.',x:'The old hallway clock ticks all night in Grandma’s quiet house.',img:'img/q1-1.jpg',t:'The old hallway clock',c:'Everyone in Sumner County is asleep. Only the hallway clock is awake... for now.'},
+  {d:'easy',q:'Grandma switches off the lamp and I fill the whole room. The more of me there is, the less you can see. What am I?',o:['Moonlight','Darkness','A blanket'],a:1,h:'What fills a bedroom when the lamp goes off?',x:'Darkness! Until Gogo’s golden glow pushes it away.',img:'img/q1-2.jpg',t:'The midnight glow',c:'Grandma and Grandpa Henry wake up to a golden light pouring out of the gift box.'},
+  {d:'medium',q:'I am older than Grandma’s grandma. I have hidden in many forms, and tonight I glow right through a closed box. Grandma whispers my name. What is it?',o:['Gladys','Cleo','Elderstone'],a:2,h:'Grandma says my name to Grandpa in the dark.',x:'Elderstone is the guardian spirit inside Gogo. Gladys is the neighbor, and Cleo is her lost cat.',img:'img/q1-3.jpg',t:'Elderstone',c:'The guardian spirit that has protected Oliver’s family for generations.'},
+  {d:'hard',q:'The hallway clock chimes once every hour, on the hour. The glow starts at midnight, and Grandpa falls back asleep right after the 3 o’clock chime. How many chimes does he hear after midnight?',o:['2','3','4'],a:1,h:'Count them: 1 o’clock, 2 o’clock...',x:'One at 1, one at 2, one at 3. That makes 3 chimes.',img:'img/q1-4.jpg',t:'Where it all began',c:'Grandma picked the perfect gift. She had no idea what was sleeping inside it.'}]},
+ 2:{title:'Chapter 2 · Birthday Buzz',pic:'img/p004.jpg',items:[
+  {d:'easy',q:'Lily’s wild guess for the big gift: I walk, I talk, I help with chores, but I am made of metal, not bones. What am I?',o:['A ticket to space','A robot','A puppy'],a:1,h:'Oliver says they aren’t good enough yet. Jack says “coming soon.”',x:'A robot! Lily also guessed a ticket to space.',img:'img/q2-1.jpg',t:'Breakfast at the Wilderidges’',c:'Never a quiet moment. Lily has a new wild guess every minute.'},
+  {d:'easy',q:'Oliver’s mom has three children. The oldest is Jack. The youngest is Lily. What is the middle child’s name?',o:['Ethan','Henry','Oliver'],a:2,h:'Read the first sentence again. Whose mom is she?',x:'Oliver! The answer was hiding in the question.',img:'img/q2-2.jpg',t:'Oliver and Jack',c:'Brothers, best friends, and soon... Guardians.'},
+  {d:'medium',q:'At breakfast, Dad asks: what has to be broken before you can use it?',o:['An egg','A phone','A promise'],a:0,h:'Dad might crack one into the pan.',x:'An egg. Please don’t break your phone or your promises!',img:'img/q2-3.jpg',t:'Dad’s riddle',c:'Dad always has a riddle ready, right between the eggs and the coffee.'},
+  {d:'hard',q:'Mom says, “My little baby is growing up.” What goes up every single year but never comes down?',o:['A balloon','Your age','The sun'],a:1,h:'Oliver is about to turn 13.',x:'Your age only goes up. Happy birthday, Oliver!',img:'img/q2-4.jpg',t:'Oliver turns 13!',c:'The party is starting, and Grandma’s mysterious gift is waiting.'}]},
+ 3:{title:'Chapter 3 · The Mysterious Gift',pic:'img/p007.jpg',items:[
+  {d:'easy',q:'Chris’s gift: I have a king and a queen, knights that jump and castles that slide, but nobody lives inside me. What am I?',o:['A deck of cards','A castle','Chess'],a:2,h:'Chris says he is really good at me.',x:'Chess! A deck of cards has kings and queens too, but no jumping knights.',img:'img/q3-1.jpg',t:'Presents, presents',c:'Every gift is great. But one small box feels... different.'},
+  {d:'medium',q:'Water-gun battle! I get wetter and wetter the more I dry. What am I?',o:['A towel','A sponge','A water gun'],a:0,h:'You will want me after Ethan soaks you.',x:'A towel gets wetter the more it dries you.',img:'img/q3-2.jpg',t:'The party is on!',c:'Water guns, laughter, and cake. The best birthday ever... so far.'},
+  {d:'medium',q:'Lily puts out party hats. 12 friends come, plus Oliver, Jack and Lily. Everyone gets one hat. How many hats does she need?',o:['12','14','15'],a:2,h:'Don’t forget Lily herself.',x:'12 friends plus 3 Wilderidge kids makes 15 hats.',img:'img/q3-3.jpg',t:'Fifteen hats!',c:'Lily never forgets a single guest. Not even herself.'},
+  {d:'hard',q:'Grandma’s gift cost a lot, but Oliver knows this is what really made it special. The more you share me, the bigger I grow. What am I?',o:['Cake','A secret','Love'],a:2,h:'It’s the reason Oliver ran over and hugged Grandma.',x:'Love. Cake gets smaller when you share it, and a secret stops being a secret!',img:'img/q3-4.jpg',t:'Gogo wakes up',c:'A golden app appears all by itself. The adventure is about to begin.'}]}
+};
+const MIRROR={'The hallway clock':'img/m_clock.jpg','Grandpa Henry':'img/m_grandpa.jpg','The phone':'img/m_phone.jpg','Elderstone':'img/m_elder.jpg','Oliver':'img/m_oliver.jpg','Henry':'img/m_grandpa.jpg','Cake':'img/m_cake.jpg','A phone':'img/m_phone.jpg','Love':'img/m_grandma.jpg'};
+function medal(t){const b=el('<button class="med" type="button"><span class="mirror"><span class="glass"></span></span><span class="lbl"></span></button>');b.querySelector('.lbl').textContent=t;const g=b.querySelector('.glass');
+ if(MIRROR[t]){const i=el('<img alt="">');i.src=MIRROR[t];g.append(i);g.append(el('<span class="mist"></span>'))}
+ else{g.append(el('<span class="mist"></span>'));const w=el('<span class="word"></span>');if(/^\d+$/.test(t))w.classList.add('num');w.textContent=t;g.append(w)}
+ return b}
+let TYPED=false;const PTS={easy:5,medium:10,hard:15};let rch=1,ri=0,tries=0;const solved={};
+const rtabs=document.getElementById('rtabs'),rcard=document.getElementById('rcard'),tpic=document.getElementById('trailPic');
+function tabs(){rtabs.innerHTML='';[1,2,3].forEach(n=>{const b=el('<button class="tab" type="button" role="tab"></button>');b.textContent='Chapter '+n;if(n===rch){b.classList.add('on');b.setAttribute('aria-selected','true')}b.onclick=()=>{rch=n;ri=0;tries=0;tabs();riddle();sayRiddle()};rtabs.append(b)})}
+function sayRiddle(){const ch=RIDDLES[rch],r=ch.items[ri];if(r)say(r.q+' Is it: '+r.o.join(', or ')+'?')}
+function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';tpic.src=ch.pic;tpic.alt=ch.title;
+ if(ri>=ch.items.length){rcard.append(el('<h2 class="agedgold">'+ch.title.split(' · ')[0]+' complete!</h2>'));rcard.append(el('<p>'+(rch<3?'Chapter '+(rch+1)+' is now unlocked.':'That’s the end of the trail for now. Chapter 4 opens in the full game.')+'</p>'));rcard.append(askCard());
+  if(rch<3){const n=el('<button class="btn" type="button" style="justify-self:start">Go to Chapter '+(rch+1)+'</button>');n.onclick=()=>{rch++;ri=0;tries=0;tabs();riddle();sayRiddle()};rcard.append(n)}return}
+ const r=ch.items[ri];
+ const meta=el('<div class="rmeta"></div>');meta.append(el('<span></span>'));meta.lastChild.textContent=ch.title;meta.append(el('<span class="diff '+r.d+'">'+r.d.toUpperCase()+'</span>'));const dots=el('<span class="dots"></span>');ch.items.forEach((_,k)=>{const d=el('<span class="dot"></span>');if(solved[rch+'-'+k])d.classList.add('done');else if(k===ri)d.classList.add('cur');dots.append(d)});meta.append(dots);rcard.append(meta);
+ const q=el('<p class="rq"></p>');q.textContent=r.q;rcard.append(q);
+ const hint=el('<p class="gogo" hidden></p>');hint.textContent='Gogo’s hint: '+r.h;
+ const c=el('<div class="opts"></div>');
+ r.o.forEach((t,k)=>{const b=medal(t);b.onclick=()=>{b.classList.add('clear');
+  if(k===r.a){solved[rch+'-'+ri]=1;const pts=(tries===0?PTS[r.d]:Math.ceil(PTS[r.d]/2))+(TYPED?2:0);TYPED=false;b.classList.add('right');c.querySelectorAll('button').forEach(x=>x.disabled=true);
+   setTimeout(()=>reveal(r.img,r.t,r.x+' '+r.c,pts,()=>{ri++;tries=0;riddle();sayRiddle()}),900)}
+  else{tries++;b.classList.add('wrong');b.disabled=true;hint.hidden=false;pose('surprised',2500);say('Not quite. Here is a hint. '+r.h)}};c.append(b)});
+ rcard.append(c);rcard.append(hint);
+ const tw=el('<form class="typeit" autocomplete="off"><label class="sr" for="typeAns">Type your answer</label><input id="typeAns" type="text" placeholder="Type your answer (+2 bonus)" maxlength="40"><button class="btn" type="submit">Check</button></form>');
+ tw.onsubmit=e=>{e.preventDefault();const v=tw.querySelector('input').value.trim();if(!v)return;const k=bestMatch([v],r.o);const bs=c.querySelectorAll('button');if(k===r.a){TYPED=true;bs[k].click()}else if(k>=0&&!bs[k].disabled){bs[k].click()}else{toast('Not quite. Check your spelling, or try again.');say('Not quite. Try again.')}};rcard.append(tw);
+ const vb=el('<div class="row"></div>');const rbk=vbtn('Read Chapter '+rch+' first','<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5z"/></svg>');rbk.onclick=()=>BOOK.open(rch);vb.append(rbk);const rd=vbtn('Read it to me',SPK);rd.onclick=()=>{GESTURE=true;sayRiddle()};const mb=vbtn('Say your answer',MIC,'mic');const hh=el('<span class="heard"></span>');mb.onclick=()=>listen(mb,hh,alts=>{const k=bestMatch(alts,r.o);const bs=c.querySelectorAll('button');if(k>=0&&!bs[k].disabled)bs[k].click();else toast('Gogo didn’t catch that. Try again, or tap your answer.')});vb.append(rd,mb,hh);rcard.append(vb);
+ const rv=el('<button class="review" type="button">Leave a note about this riddle</button>');rv.onclick=()=>reviewNote(rcard);rcard.append(rv)}
+let CMT=null;if(window.claude&&claude.use){claude.use('comments').then(c=>{CMT=c})}
+function reviewNote(node){window.open('https://form.jotform.com/263087088389069','_blank','noopener');return;CMT.openComposer({element:node}).catch(()=>toast('Review notes are off in this view.'))}
+
+// ===== Dracula's bats =====
+const bats=[{t:'Millions of bats pour out of the sky. Eva shouts that Dracula is behind this. What do you do?',o:[['Run toward the lake',1],['Climb the tallest tree',0],['Stand still and hide your face',0]]},
+ {t:'You reach the lake. The bats are still coming. Gogo starts to glow. What now?',o:[['Hold Gogo up high',1],['Jump in the water',0],['Throw a stick at the bats',0]]},
+ {t:'A blinding light appears. A being made of pure light rises above the trees. Who is it?',o:[['Lumina',1],['Elderstone',0],['The Zolaran librarian',0]]}];
+let bi=0,bsc=0;const bstage=document.getElementById('bstage');
+function batStep(){bstage.innerHTML='';bstage.append(el('<h2 class="agedgold">Escape Dracula’s Bats</h2>'));
+ if(bi>=bats.length){const ok=bsc===3;const fin=()=>{bstage.innerHTML='';bstage.append(el('<h2 class="agedgold">'+(ok?'Dracula is driven back!':'Dracula escapes this time')+'</h2>'));bstage.append(el('<p>'+(ok?'Lumina’s light sends Dracula and his bats back into the dark.':'You got '+bsc+' of 3. Try again, Guardian.')+'</p>'));bstage.append(askCard());const b=el('<button class="btn ghost" type="button" style="justify-self:start">Play again</button>');b.onclick=()=>{bi=0;bsc=0;batStep();const p=bstage.querySelector('.bq');say(p?p.textContent:'')};bstage.append(b)};
+  if(ok){reveal('img/p020.jpg','Lumina!','A being made of pure light rises above the trees, and Dracula’s bats scatter.',20,fin)}else fin();return}
+ const s=bats[bi];bstage.append(el('<p class="step">Moment '+(bi+1)+' of 3</p>'));const p=el('<p class="bq rq"></p>');p.textContent=s.t;bstage.append(p);
+ const c=el('<div class="choices"></div>');s.o.forEach(([t,v])=>{const b=el('<button class="choice" type="button"></button>');b.textContent=t;b.onclick=()=>{bsc+=v;bi++;flyBats(v?6:12);batStep();const q=bstage.querySelector('.bq');say(q?q.textContent:'')};c.append(b)});bstage.append(c);
+ bstage.append(micRow('Say your choice',alts=>{const k=bestMatch(alts,s.o.map(x=>x[0]));if(k>=0)c.querySelectorAll('button')[k].click();else toast('Gogo didn’t catch that. Tap your choice.')}))}
+
+
+// ===== peek inside the book: a flip book =====
+const BOOK={};const CHAPTERS=[{"n": 1, "title": "The Midnight Glow", "b": [{"t": "p", "x": "In the bustling electronics store in Sumner County, Kansas, Grandma wandered through the aisles with a mission in her heart. She was on the hunt for the perfect birthday present for Oliver Wilderidge, her grandson, a gift that would truly stand out and make a lasting impact. As she navigated past rows of gadgets, each more sophisticated than the last, her eyes danced over the latest technologies. Then, they settled on a sleek, new iPhone. Imagining the delight in Oliver's eyes as he discovered its myriad features, she felt a surge of excitement. This was no ordinary present; it was something special, something he would remember for years to come."}, {"t": "img", "src": "img/p002.jpg"}, {"t": "p", "x": "Grandma had reached a point in her life where her own needs were simple, and she found greater joy in giving to others, especially her grandchildren. There was something deeply fulfilling about selecting the perfect gift, one that would not only bring joy but also open new opportunities. As she held the iPhone in her hands, she thought about the virtually infinite possibilities it held – a gateway to knowledge, connection, and exploration. This was the gift she was looking for, a tool that could expand Oliver’s world in so many ways. With a surge of excitement, she envisioned Oliver unlocking endless mysteries and forging connections beyond the small town's borders."}, {"t": "p", "x": "Today was not a day for thriftiness. She knew that an extraordinary gift like this didn’t come every day, and she wanted this birthday to be a memorable milestone for Oliver. The thought of his excitement and the endless potential of the gift filled her with profound happiness. Grandma's heart swelled with anticipation. With a contented smile, Grandma made her way to the checkout, the iPhone securely in her grasp, already imagining Oliver's joy as he unwrapped his special present."}, {"t": "p", "x": "That evening, after a busy day out, Grandma returned to her cozy, welcoming home. She placed the iPhone, carefully wrapped in its box, on her dresser in the bedroom. The house was mostly silent, with just the steady ticking of the old hallway clock."}, {"t": "p", "x": "In their bedroom, Grandma and Grandpa Henry got ready for bed, changing into their pajamas in the familiar, comfortable routine of so many years together. Grandpa Henry, taking off his glasses, looked at the iPhone on the dresser. \"Oliver's going to be over the moon with that,\" he said with a soft chuckle. \"I can't wait to see how he reacts.\""}, {"t": "p", "x": "Grandma, adjusting her pillow, smiled back. \"I hope so. It's an incredible present for a 13-year-old, isn't it? When we were kids, this would have seemed like science fiction!\""}, {"t": "p", "x": "\"Yes, I know,\" replied Grandpa Henry. \"The world has changed so much so quickly,\" he said, reminiscing about the good old days. \"How such a small thing can open up whole new worlds for him,\" she responded. \"Virtually everything is accessible through this little device!\""}, {"t": "p", "x": "They finished getting ready for bed and switched off the bedside lamp. The room settled into darkness, and they snuggled into bed, exchanging a gentle goodnight kiss."}, {"t": "p", "x": "Hours later, in the middle of the night, something strange began to unfold. The iPhone started glowing softly, emitting a golden light through the box it was wrapped in that slowly filled the room. Grandma woke up to this strange light and nudged Grandpa Henry awake. \"Henry, look at that,\" she whispered. \"Something strange is happening; there’s a light that is coming from the phone.\""}, {"t": "p", "x": "Grandpa Henry, rubbing his sleepy eyes, sat up and stared at the glowing phone. \"Could it be it just powered itself on?\" he wondered aloud. “But that still doesn't explain how the light is coming through the box and filling the room; this is definitely not the usual occurrence.\""}, {"t": "img", "src": "img/p003.jpg"}, {"t": "p", "x": "They watched, puzzled and intrigued, as the room glowed warmly from the light of the phone through the box. The night, once quiet and dark, was now alive with this mysterious, golden light. Both Grandpa Henry and Grandma felt a sense of peace come over them. They felt safer and could not understand why, but then Grandma had an epiphany."}, {"t": "p", "x": "She said, \"I know what’s happening, Grandpa Henry. I know.\""}, {"t": "p", "x": "\"What is it, Grandma? And how do you know what it is?\""}, {"t": "p", "x": "\"I’ve known this day would come for some time, and now it's here.\""}, {"t": "p", "x": "\"So what is it, Grandma? Are you going to leave me hanging, not knowing?\""}, {"t": "p", "x": "\"It’s Elderstone,\" Grandma said."}, {"t": "p", "x": "\"Elderstone?\" Grandpa said."}, {"t": "p", "x": "There was a loud, urgent knock on their door downstairs, and they both froze. Grandpa Henry's heart raced as he descended the stairs, his mind filled with worry and a sense of impending danger. He reached the door and cautiously opened it, only to find their neighbor, Gladys, standing there in tears."}, {"t": "p", "x": "\"Have you seen Cleo?\" she sobbed, her voice trembling. \"I’ve been looking for him all night.\""}, {"t": "p", "x": "A wave of relief washed over Grandpa Henry as he realized it was just Gladys in distress, and not some unforeseen threat. He placed a comforting hand on her shoulder and said, \"Don't worry, Gladys. We'll help you find Cleo. He's probably just hiding somewhere nearby.'\""}]}, {"n": 2, "title": "Birthday Buzz", "b": [{"t": "p", "x": "As Oliver’s 13th birthday drew near, the household buzzed with excitement. Each day brought Oliver closer to becoming a teenager, a milestone he was eagerly anticipating. His untamed chestnut hair and bright green eyes were full of life, always seeking the next adventure."}, {"t": "p", "x": "Jack, his 15-year-old brother, often watched Oliver's energetic antics with a calm, amused smile. \"Try to slow down a bit, space ranger,\" he teased as Oliver darted around the house. Jack’s more reserved nature contrasted with Oliver’s exuberance, but he loved his younger brother's lively spirit."}, {"t": "p", "x": "Lily, their 11-year-old sister, shared in Oliver’s excitement. Her curly blonde hair bounced as she moved. \"Let him be, Jack. It’s nice to see him so happy,\" she said, grinning at Oliver’s enthusiasm. \"And it's soon going to be his birthday, so we can start celebrating it now!\""}, {"t": "p", "x": "Their parents observed their children's interactions with a sense of joy. Their father, a robust mechanic with a deep love for his work, ruffled Oliver's hair, saying, \"You’re just like I was at your age, always ready for a new adventure.\""}, {"t": "p", "x": "Their mother, adeptly juggling her responsibilities as a teacher and a mom, added, \"It’s great to see your curiosity, Oliver, but remember to be aware of what’s around you.\" Her reminders were always filled with affection and wisdom. \"Don't get carried away with your enthusiasm. There is an old saying, 'always look before you jump.'\" Oliver looked at his mom, wondering why she did not trust his judgment. \"I do, Mom, I always check before I jump!\""}, {"t": "p", "x": "Breakfast time at the Wilderidge home was always lively, with discussions about the day's plans, shared jokes, and occasional light-hearted debates. Oliver was an early riser, usually meeting his Dad in the kitchen while he was on his way out to the backyard. \"So, Oliver, what do you have planned for your big day?\" His Dad asked, leaning back in his chair and sipping his coffee."}, {"t": "img", "src": "img/p004.jpg"}, {"t": "p", "x": "Oliver, barely able to keep still with excitement, shared his plans for his birthday, which included games, his favorite foods, his best friends, the gifts, but especially the one Grandma had promised. She said it was a “big one.” \"I bet Grandma has something really cool for me this year. I can't wait to find out what it is,\" he said, his eyes shining with anticipation."}, {"t": "p", "x": "Lily chimed in with her own wild guesses. \"Maybe it's a ticket to space! Or a robot!\" Her suggestions always brought laughter to the breakfast table. \"They don't have good enough robots yet, Lily,\" Oliver replied. \"If they did, yeah, that would be nice.\" \"Coming soon,\" Jack interjected."}, {"t": "p", "x": "Their father joined in the fun. \"With Grandma, you never know. She’s full of surprises,\" he said with a knowing smile. \"Her family has always been her focus, and special days like this are a chance for her to make a big deal out of it, which she loves to do.\""}, {"t": "p", "x": "Watching the family banter, their mother smiled warmly, occasionally adding her thoughts to the conversation. \"Well, Oliver, you are going to be 13, and that is quite an achievement. My little baby is growing up,\" she said. Her presence brought a sense of harmony to the family dynamic, blending intellect and warmth. \"Hey, I thought I was the baby of the family,\" Lily chimed in. \"Well, yes, of course you are, but all my kids are my babies including Oliver,\" she said."}, {"t": "p", "x": "In these moments, the family’s bond was clear and strong. Oliver, with his boundless energy and dreams; Jack, the thoughtful observer; Lily, the imaginative dreamer and teaser; their father, the wise mentor; and their mother, the heart of the family. Together, they looked forward to celebrating Oliver’s special day."}]}, {"n": 3, "title": "The Mysterious Gift Unveiled", "b": [{"t": "p", "x": "As the guests began arriving for Oliver's birthday party, the house filled with the sounds of greetings and laughter. Oliver, beaming with excitement, welcomed each friend and family member at the door. \"Happy Birthday, Oliver!\" exclaimed Ethan, one of his close friends, as he walked in. He handed Oliver a neatly wrapped gift. \"Can't wait for the games to start!\""}, {"t": "p", "x": "\"Thanks, Ethan! We’ve got some cool stuff planned. Come this way; let me get you a water gun. We have some work to do in the backyard,\" Oliver replied with a grin."}, {"t": "img", "src": "img/p005.jpg"}, {"t": "p", "x": "Hannah, another of Oliver's close friends, known for her artistic talents, arrived with a handmade card. \"I made this for you, Oliver. Hope you like it!\" she said, handing him the card decorated with colorful drawings."}, {"t": "p", "x": "Oliver's eyes lit up with genuine excitement. \"Wow, Hannah, this is awesome! Thank you so much!\" He truly appreciated the effort Hannah had put into making such a beautiful card for him. It meant a lot."}, {"t": "p", "x": "Hannah replied with a warm smile, \"Sorry I couldn't get you anything better.\" Oliver countered, \"This is better than any present. I love it.\""}, {"t": "p", "x": "Grace, always one for surprises, entered with a small, mysterious-looking box. \"Happy Birthday, Oliver. I bet you'll never guess what this is,\" she said playfully. Oliver chuckled. \"I love surprises! Thanks, Grace! And you're right; I'm not too good at guessing.\""}, {"t": "img", "src": "img/p006.jpg"}, {"t": "p", "x": "As more guests arrived, the house buzzed with the energy of kids chatting, laughing, and playing with water guns outside, sharing stories and having a great time. Oliver's parents gracefully moved through the crowd, ensuring everyone felt at home, offering snacks and drinks. Their hands were full, but they managed it all seamlessly, making the guests feel like part of the Wilderidge family."}, {"t": "p", "x": "Jack and Lily mingled among the guests, helping out as needed. Jack remarked to Lily as they set up the game area, \"Looks like Oliver's going to have a blast today.\" He added with a grin, \"Everyone he invited actually showed up; he was worried for nothing!\""}, {"t": "p", "x": "Lily, carefully arranging party hats on a table, nodded in agreement. \"He really deserves this special day. He's been so excited about it.\" She added with a grin, \"And I love birthdays, especially because we get to eat cake later!\""}, {"t": "p", "x": "Their parents, observing the scene with contented smiles, exchanged a glance filled with satisfaction. \"It's wonderful to see him so happy,\" their mother remarked to their father. \"All the preparations have been truly worth it. Childhood is a precious time, and I'm glad we can let them enjoy it.\""}, {"t": "p", "x": "\"Absolutely,\" he concurred, his gaze fixed on Oliver as he laughed and shared jokes with his friends. \"These are the moments he'll cherish, just as I cherish mine from when I was his age.\""}, {"t": "p", "x": "As more guests arrived, filling the backyard with laughter and animated conversations, the moment finally came for Oliver to open his gifts. \"Everyone, I'm going to open the presents!\" Oliver exclaimed. \"Come on in.\""}, {"t": "p", "x": "Surrounded by his enthusiastic friends and family, he eagerly began to unwrap each gift, expressing genuine delight and gratitude for each one. This created a warm and festive atmosphere in the backyard."}, {"t": "p", "x": "\"Thanks, Chris, this is awesome! I love board games. Maybe we can play one later?\" Oliver suggested."}, {"t": "p", "x": "\"Sure, I hope you're good at Chess because I am,\" Chris replied."}, {"t": "p", "x": "\"Well, I can play, but I'm not sure if I can win,\" Oliver admitted."}, {"t": "p", "x": "Amidst all the wonderful presents, Oliver couldn't help but ponder what might be inside the elegantly wrapped package from his grandmother. It was as if the gift was calling out to him, a mystery waiting to be unveiled. Finally, after what felt like an eternity, the moment arrived to unveil the contents of Grandma's mysterious gift. Oliver was filled with both excitement and a hint of wonder as he carefully removed the shimmering wrapping paper. His friends stood nearby, all eager to discover the secret hidden within this small box."}, {"t": "img", "src": "img/p007.jpg"}, {"t": "p", "x": "As the wrapping paper fell away, it revealed a sleek and modern iPhone, its polished surface catching the sunlight beautifully. \"An iPhone!\" the crowd of friends exclaimed."}, {"t": "p", "x": "\"Yes,\" Oliver confirmed, \"it's an iPhone!\" However, as he held it in his hands, he sensed something unusual about it. It wasn't just the device's appearance that captured his attention; there was a peculiar and almost strange energy emanating from it. The iPhone felt like more than just a piece of technology; it seemed to buzz with a life of its own, hinting at hidden depths and unexplored possibilities."}, {"t": "p", "x": "\"Turn it on, Oliver,\" Jack suggested. \"Let's make sure it works!\""}, {"t": "p", "x": "With great excitement, Oliver powered on the iPhone. The screen instantly burst to life, displaying vibrant, swirling colors that held everyone's attention. His friends leaned in closer, their eyes wide with fascination as they gazed at the mesmerizing display."}, {"t": "p", "x": "\"Wow, that's the latest model, isn't it? Must be expensive. Never seen one with these colors. You're so lucky, Oliver!\" Ethan remarked."}, {"t": "p", "x": "Feeling a wave of gratitude and happiness, Oliver nodded. \"Yeah, it's the newest one. I can't believe Grandma got this for me.\" His smile was a mixture of joy and surprise. He looked over to where his grandmother stood, watching the scene with a gentle smile."}, {"t": "p", "x": "Excusing himself from the group, Oliver walked over to Grandma and wrapped his arms around her in a heartfelt hug. \"Thank you so much, Grandma,\" he said. \"This is incredible. I really appreciate it.\""}, {"t": "p", "x": "Grandma returned the hug warmly, her eyes twinkling with delight. \"Anything for you, my dear. Happy Birthday, Oliver. I'm glad you like it, I knew you would,\" she responded."}, {"t": "p", "x": "As Oliver returned to his friends, still holding the phone, he felt an overwhelming sense of joy and appreciation. Oliver's friends continued to marvel at the phone, but for Oliver, the true value of the gift lay in the love behind it, making this birthday truly unforgettable. He could barely contain his excitement; he felt different holding the phone, knowing it was his."}, {"t": "p", "x": "As Oliver explored the phone, he noticed a golden app appeared on its own, a peculiar app labeled \"Gogo.\" Intrigued, he tapped the icon, and the screen displayed an interactive map, unlike any map app they were familiar with. The locations and landmarks were unfamiliar, almost otherworldly looking. The phone also quietly vibrated in a steady but quite unusual way."}, {"t": "p", "x": "\"This is no ordinary map,\" Grace observed, her eyes scanning the mysterious locations on the screen. \"I’ve seen a lot of maps but none quite like this one.\""}, {"t": "p", "x": "\"Maybe it's a clue to some sort of adventure,\" Hannah suggested, her eyes sparkling with the excitement of her artistic imagination coming to life."}, {"t": "p", "x": "Oliver looked at the phone, then at his friends. \"An adventure? That would be awesome!\" he exclaimed. \"I’m ready.\""}, {"t": "p", "x": "The mysterious nature of the gift only added to the excitement of the party. The children took to the lawn for spirited water gun battles, chasing each other and laughing. \"You can't catch me!\" yelled Ethan, darting around with his water gun, splashing water everywhere."}, {"t": "p", "x": "Grace, joining in the fun, called out, \"Oh, we'll see about that!\" as she playfully aimed her water gun at him."}, {"t": "p", "x": "Their laughter and playful screams filled the air, creating a lively backdrop to the day's festivities."}, {"t": "p", "x": "As the party began to wind down and guests started to depart, Oliver's parents helped him gather his gifts. \"You've got quite the treasure trove here, birthday boy,\" his father said, smiling as he helped organize the presents."}, {"t": "p", "x": "\"Yeah, but I can't stop thinking about Gogo,\" Oliver replied, holding the iPhone. \"It feels like it's not just a phone. Like it's meant for something more.\""}, {"t": "p", "x": "His mother, overhearing the conversation, added, \"Well, whatever it is, take good care of it, Oliver. That is one expensive present for a 13-year-old! Consider yourself very lucky.\""}, {"t": "p", "x": "As the last of the guests said their goodbyes, Oliver stood at the door, Gogo in his hand. The device, now affectionately named and filled with mystery, seemed to call out for an adventure. Oliver knew this birthday was just the beginning of something extraordinary, a journey into the unknown that was waiting to unfold. He was really happy to have Gogo."}, {"t": "p", "x": "That night, as Oliver lay in bed, the events of the day replaying in his mind, he felt a sense of adventure stirring within him. Gogo, glowing softly on his nightstand, seemed to be a gateway to a world of mysteries and wonders yet to be discovered. Oliver drifted into dreams that seemed to take him to a new place, his thoughts consumed with Gogo. The journey ahead promised to be unlike anything Oliver had ever experienced, and he drifted off to sleep with a heart full of anticipation and dreams of the adventures that awaited."}]}];
+(function layoutBook(){const fb=document.getElementById('fbook');const mark=[...fb.childNodes].find(n=>n.nodeType===8&&n.data==='CHAPTERS');
+ const meas=document.createElement('div');meas.className='fbook';meas.style.cssText='position:fixed;left:-9999px;top:0;width:500px;height:700px;aspect-ratio:auto;visibility:hidden';document.body.append(meas);
+ const newPg=()=>{const p=document.createElement('div');p.className='pg measure';p.style.position='absolute';meas.innerHTML='';meas.append(p);return p};
+ const fits=p=>p.scrollHeight<=p.clientHeight+1;const made=[];window.__STARTS={};
+ const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+ CHAPTERS.forEach(ch=>{window.__STARTS[ch.n]=4+made.length;let p=newPg();p.innerHTML='<h4>Chapter '+ch.n+'<br><span>'+esc(ch.title)+'</span></h4><p class="orn">~ &#9670; ~</p>';let first=true;
+  const push=()=>{made.push(p.outerHTML);p=newPg()};
+  ch.b.forEach(bl=>{if(bl.t==='img'){const im=document.createElement('img');im.className='pic';im.src=bl.src;im.alt='';p.append(im);if(!fits(p)){im.remove();push();p.append(im)}return}
+   let words=bl.x.split(' ');let cont=false;while(words.length){const el_=document.createElement('p');if(first)el_.className='first';else if(cont)el_.style.textIndent='0';p.append(el_);
+    let lo=0,hi=words.length;el_.textContent=words.join(' ');if(fits(p)){words=[];first=false;break}
+    while(lo<hi){const mid=Math.ceil((lo+hi)/2);el_.textContent=words.slice(0,mid).join(' ');if(fits(p))lo=mid;else hi=mid-1}
+    if(lo===0){el_.remove();push();continue}
+    el_.textContent=words.slice(0,lo).join(' ');words=words.slice(lo);first=false;cont=true;push()}});
+  const end=document.createElement('p');end.className='endorn';end.innerHTML='~ &#9670; ~';p.append(end);if(!fits(p)){end.remove()}made.push(p.outerHTML)});
+ meas.remove();mark.replaceWith(...made.map(h=>{const d=document.createElement('div');d.innerHTML=h;const pgel=d.firstChild;pgel.style.position='';pgel.classList.remove('measure');return pgel}));
+ [...fb.querySelectorAll('.pg')].forEach((p,i)=>{if(i>0){const f=document.createElement('div');f.className='foot';f.innerHTML='<span>Gogo the Magic Phone &middot; '+(i+1)+'</span>';p.append(f)}})})();
+(function(){const STARTS=window.__STARTS||{"1": 4, "2": 15, "3": 23};const F=document.getElementById('flip'),pg=[...document.querySelectorAll('#fbook .pg')];let at=0;
+ BOOK.open=(ch)=>{at=ch?STARTS[ch]:0;show();F.hidden=false;document.getElementById('fnext').focus();say(ch?'Chapter '+ch+'. Turn the pages and read along.':'Here is the book. Turn the page.')};
+ document.querySelectorAll('[data-flipgo]').forEach(b=>b.onclick=()=>{document.getElementById('fclose').click();BOOK.goScreen&&BOOK.goScreen(b.dataset.flipgo)});
+ pg.forEach((p,i)=>p.style.zIndex=pg.length-i);
+ function show(){pg.forEach((p,i)=>{p.classList.toggle('turned',i<at);p.style.visibility=(i<at-1||i>at+1)?'hidden':''});document.getElementById('fnum').textContent='Page '+(at+1)+' of '+pg.length;
+  document.getElementById('fprev').disabled=at===0;document.getElementById('fnext').disabled=at===pg.length-1;
+  const t=pg[at].innerText.replace(/\s+/g,' ').trim();if(at>0&&t)say(t.slice(0,600))}
+ function flipSound(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime,len=.35,b=AC.createBuffer(1,AC.sampleRate*len,AC.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.sin(Math.PI*i/d.length)*.6;const s=AC.createBufferSource();s.buffer=b;const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=1800;const g=AC.createGain();g.gain.value=.25;s.connect(f).connect(g).connect(AC.destination);s.start(t)}catch(e){}}
+ function go(n){n=Math.max(0,Math.min(pg.length-1,n));if(n===at)return;at=n;flipSound();show()}
+ document.getElementById('peekBtn').onclick=()=>BOOK.open(0);document.getElementById('openBook').onclick=()=>BOOK.open(1);document.getElementById('readCh1').onclick=()=>BOOK.open(1);
+ document.getElementById('fnext').onclick=()=>go(at+1);document.getElementById('fprev').onclick=()=>go(at-1);
+ document.getElementById('fclose').onclick=()=>{F.hidden=true;capHide(0);try{speechSynthesis.cancel()}catch(e){}};
+ let swiped=false;document.getElementById('fbook').addEventListener('click',e=>{if(swiped){swiped=false;return}const r=e.currentTarget.getBoundingClientRect();if(e.target.closest('button'))return;go(e.clientX>r.left+r.width/2?at+1:at-1)});
+ let sx=null;document.getElementById('fbook').addEventListener('pointerdown',e=>{sx=e.clientX});document.getElementById('fbook').addEventListener('pointerup',e=>{if(sx!==null&&Math.abs(e.clientX-sx)>40){swiped=true;go(e.clientX<sx?at+1:at-1)}sx=null});
+ addEventListener('keydown',e=>{if(F.hidden)return;if(e.key==='ArrowRight'){e.stopImmediatePropagation();go(at+1)}if(e.key==='ArrowLeft'){e.stopImmediatePropagation();go(at-1)}if(e.key==='Escape')document.getElementById('fclose').click()},true);
+ const gb=document.getElementById('getbook');if(gb)gb.onclick=()=>location.href='/read/';})();
+document.querySelectorAll('.buy').forEach(b=>b.onclick=()=>{location.href='/#book'});
+BOOK.goScreen=n=>go(screens.findIndex(x=>x.dataset.name===n));
+
+// ===== 3D cut emerald =====
+const GEMS=[];
+function gem3d(canvas,big){if(!window.THREE)return null;try{
+ const r=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});r.setPixelRatio(Math.min(2,devicePixelRatio||1));
+ const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(32,1,.1,50);cam.position.set(0,1.2,5.2);cam.lookAt(0,0,0);
+ // oval brilliant profile (Koh-i-Noor style), faceted
+ const prof=[[0.001,-1.05],[0.35,-0.75],[0.72,-0.32],[1.0,0],[1.0,0.07],[0.86,0.22],[0.62,0.42],[0.001,0.42]].map(p=>new THREE.Vector2(p[0],p[1]));
+ const geo=new THREE.LatheGeometry(prof,big?12:10);geo.scale(1.28,1,0.95);
+ const outer=new THREE.MeshPhongMaterial({color:0x0fb866,emissive:0x022a17,specular:0xffffff,shininess:180,flatShading:true,transparent:true,opacity:.86,side:THREE.FrontSide});
+ const inner=new THREE.MeshPhongMaterial({color:0x3fe39a,emissive:0x07502f,specular:0xffffff,shininess:90,flatShading:true,transparent:true,opacity:.55,side:THREE.BackSide});
+ const g=new THREE.Group();g.add(new THREE.Mesh(geo,inner));const o=new THREE.Mesh(geo,outer);g.add(o);
+ const edges=new THREE.LineSegments(new THREE.EdgesGeometry(geo,1),new THREE.LineBasicMaterial({color:0xc9ffe6,transparent:true,opacity:.28}));g.add(edges);
+ g.rotation.x=0.35;sc.add(g);
+ sc.add(new THREE.AmbientLight(0x2a5a44,.9));
+ const l1=new THREE.DirectionalLight(0xffffff,1.15);l1.position.set(3,4,5);sc.add(l1);
+ const l2=new THREE.DirectionalLight(0xb8ffe0,.8);l2.position.set(-4,2,2);sc.add(l2);
+ const l3=new THREE.PointLight(0xfff3c4,1.4,20);l3.position.set(0,-3,3);sc.add(l3);
+ const st={r,sc,cam,g,canvas,speed:big?0.012:0.02,on:true};
+ const size=()=>{const w=canvas.clientWidth||40,h=canvas.clientHeight||40;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()};size();st.size=size;
+ GEMS.push(st);return st}catch(e){return null}}
+(function loop(){GEMS.forEach(s=>{if(!s.on||!s.canvas.isConnected||!s.canvas.offsetParent)return;s.g.rotation.y+=s.speed;s.r.render(s.sc,s.cam)});requestAnimationFrame(loop)})();
+addEventListener('resize',()=>GEMS.forEach(s=>s.size()));
+(function(){const host=document.querySelector('.gems svg.gemi');if(!host||!window.THREE)return;const c=document.createElement('canvas');c.className='gem3d';host.replaceWith(c);gem3d(c,false)})();
+function pose(p,ms){const g=document.getElementById('gogoPose');if(!g)return;g.src='img/pose_'+p+'.jpg';g.classList.remove('pop');void g.offsetWidth;g.classList.add('pop');clearTimeout(pose.t);if(ms)pose.t=setTimeout(()=>pose('happy'),ms)}
+(function(){const _add=addGems;addGems=function(n){_add(n);pose('cheer',3500)};const _say=say;say=function(t){_say(t);if(t&&/\?\s*$/.test(String(t).trim()))pose('think');};
+ document.addEventListener('click',e=>{if(e.target.closest('.med.wrong,.choice.wrong'))pose('surprised',2500)},true);
+ let idle;const wake=()=>{clearTimeout(idle);idle=setTimeout(()=>pose('sleepy'),45000)};['pointerdown','keydown'].forEach(ev=>addEventListener(ev,()=>{if(document.getElementById('gogoPose').src.includes('sleepy'))pose('happy');wake()}));wake();})();
+// ===== start =====
+goal();wrapPics();newRound();tabs();riddle();batStep();drawCouncil();
+const start=screens.findIndex(s=>'#'+s.dataset.name===location.hash);go(start>=0?start:0,true);
+</script>
+
+</body>
+</html>
