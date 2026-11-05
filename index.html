@@ -71,6 +71,14 @@ footer{border-top:1px solid #3a2a0c;padding-block:28px;color:var(--muted);font-s
 footer .wrap{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
 .note{position:fixed;left:max(12px,env(safe-area-inset-left,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:20;font:800 14px var(--body);color:#1e1202;background:linear-gradient(#f3cf78,#a86e1e);padding:9px 14px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px #000a}
 @media (max-width:820px){.hero,.book{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.skills{grid-template-columns:1fr 1fr}.hero .cover img.gogo{right:-10px;width:96px}nav a.l{display:none}section{padding-block:52px}.candle{grid-template-columns:1fr}}
+
+/* parents and teachers: a calm, serious panel */
+#parents .panel{background:#f5efe3;color:#1f2433;border:0;border-radius:6px;box-shadow:0 20px 50px #000a}
+#parents .eyebrow{color:#5b6475}
+#parents h2{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#1f2433;filter:none;font-family:Georgia,"Times New Roman",serif;font-weight:700}
+#parents p,#parents .skill span{color:#3d4456!important}
+#parents .skill b{color:#1f2433;font-family:Georgia,serif}
+#parents .skill{border-top:2px solid #1f2433;padding-top:10px}
 </style>
 </head>
 <body>
@@ -117,14 +125,14 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
 </div></section>
 
 <section id="book"><div class="wrap book">
-  <div class="lock"><img src="/img/p071.jpg" alt="Flying carpets carrying a giant emerald"><div class="door"><div><b class="gold">Chapter 4 is waiting</b><p style="margin-top:8px">The first three chapters are free. The rest of the adventure is behind this door.</p></div></div></div>
+  <div class="lock"><img src="/img/p071.jpg" alt="Flying carpets carrying a giant emerald"><div class="door"><div><b class="gold">The whole adventure</b><p style="margin-top:8px">Family preview: all 21 chapters are open for you to read.</p></div></div></div>
   <div>
     <span class="eyebrow">The book</span>
     <h2 class="gold">Gogo and the Forty Thieves</h2>
     <p style="color:var(--muted)">21 chapters, 90 illustrations. Sumner County, ancient Persia, a planet of bird scholars, a jungle world of lizard people, and an emerald big enough to change everything.</p>
     <p class="quote">It started as bedtime stories, made up on the spot for my own three children. They laughed so loud that telling the story was easy.</p>
     <div class="price">$12.99 <small>full book + every world in the game</small><span class="soon">Coming soon</span></div>
-    <div class="row"><a class="btn ghost" href="/read/">Read Chapters 1 to 3 free</a></div>
+    <div class="row"><a class="btn ghost" href="/read/">Read the whole book</a></div>
   </div>
 </div></section>
 
