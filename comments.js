@@ -8,7 +8,7 @@
   try { var t = localStorage.getItem('gg_endpoint'); if (t) ENDPOINT = t; } catch (e) {}
 
   var path = location.pathname;
-  var PAGE = /^\/read/.test(path) ? 'read' : /^\/play/.test(path) ? 'play' : 'home';
+  var PAGE = /^\/(read|book)/.test(path) ? 'read' : /^\/play/.test(path) ? 'play' : 'home';
   var ALL = {};            // spot -> [comments]
   var loaded = false, listeners = [];
 
