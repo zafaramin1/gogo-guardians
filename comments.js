@@ -309,7 +309,7 @@
   function start() {
     if (!ENDPOINT) return;               // not switched on yet: keep the old note links
     if (PAGE === 'read') setupRead();
-    else if (PAGE === 'play') setupFab('game', 'the game');
+    else if (PAGE === 'play') { if (!document.querySelector('a[href*="jotform"]')) setupFab('game', 'the game'); }
     else setupFab('home', 'the home page');
     if (PAGE === 'read') { document.querySelectorAll('a[href*="jotform"]').forEach(function (a) { a.remove(); }); var h = document.getElementById('howto'); if (h) h.innerHTML = '<b>Family preview.</b> Tap <b>\uD83D\uDCAC Comment</b> under the cover, any picture or the end of any chapter. You can also select any words and tap <b>Comment</b>. Your note shows right there, and everyone in the family can see it.'; }
     else document.querySelectorAll('a[href*="jotform"]').forEach(function (a) {

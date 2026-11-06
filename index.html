@@ -79,6 +79,30 @@ footer .wrap{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
 #parents p,#parents .skill span{color:#b4b9c7!important}
 #parents .skill b{color:#e6e8ee;font-family:Georgia,serif}
 #parents .skill{border-top:1px solid #3a4262;padding-top:10px}
+
+/* ===== home v2: carpet borders, smooth gold headings, stylized dividers ===== */
+:root{--carpet:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54'%3E%3Crect width='54' height='54' fill='%235a0f1a'/%3E%3Crect x='1' y='1' width='52' height='52' fill='none' stroke='%23e9c26a' stroke-width='2'/%3E%3Crect x='4' y='4' width='46' height='46' fill='none' stroke='%238a5a14' stroke-width='.8'/%3E%3Crect x='16' y='16' width='22' height='22' fill='none' stroke='%23e9c26a' stroke-width='2'/%3E%3Cpath d='M18 5.1L21.4 8.5L18 11.9L14.6 8.5Z' fill='%23f0c96a'/%3E%3Cpath d='M18 42.1L21.4 45.5L18 48.9L14.6 45.5Z' fill='%23f0c96a'/%3E%3Cpath d='M8.5 14.6L11.9 18L8.5 21.4L5.1 18Z' fill='%23f0c96a'/%3E%3Cpath d='M45.5 14.6L48.9 18L45.5 21.4L42.1 18Z' fill='%23f0c96a'/%3E%3Cpath d='M27 5.1L30.4 8.5L27 11.9L23.6 8.5Z' fill='%23f0c96a'/%3E%3Cpath d='M27 42.1L30.4 45.5L27 48.9L23.6 45.5Z' fill='%23f0c96a'/%3E%3Cpath d='M8.5 23.6L11.9 27L8.5 30.4L5.1 27Z' fill='%23f0c96a'/%3E%3Cpath d='M45.5 23.6L48.9 27L45.5 30.4L42.1 27Z' fill='%23f0c96a'/%3E%3Cpath d='M36 5.1L39.4 8.5L36 11.9L32.6 8.5Z' fill='%23f0c96a'/%3E%3Cpath d='M36 42.1L39.4 45.5L36 48.9L32.6 45.5Z' fill='%23f0c96a'/%3E%3Cpath d='M8.5 32.6L11.9 36L8.5 39.4L5.1 36Z' fill='%23f0c96a'/%3E%3Cpath d='M45.5 32.6L48.9 36L45.5 39.4L42.1 36Z' fill='%23f0c96a'/%3E%3Ccircle cx='13.5' cy='8.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='13.5' cy='45.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='8.5' cy='13.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='45.5' cy='13.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='22.5' cy='8.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='22.5' cy='45.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='8.5' cy='22.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='45.5' cy='22.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='31.5' cy='8.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='31.5' cy='45.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='8.5' cy='31.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='45.5' cy='31.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='40.5' cy='8.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='40.5' cy='45.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='8.5' cy='40.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='45.5' cy='40.5' r='1.3' fill='%232fbf7a'/%3E%3Ccircle cx='8.5' cy='8.5' r='5' fill='%23f0c96a'/%3E%3Ccircle cx='8.5' cy='8.5' r='2.2' fill='%235a0f1a'/%3E%3Ccircle cx='45.5' cy='8.5' r='5' fill='%23f0c96a'/%3E%3Ccircle cx='45.5' cy='8.5' r='2.2' fill='%235a0f1a'/%3E%3Ccircle cx='8.5' cy='45.5' r='5' fill='%23f0c96a'/%3E%3Ccircle cx='8.5' cy='45.5' r='2.2' fill='%235a0f1a'/%3E%3Ccircle cx='45.5' cy='45.5' r='5' fill='%23f0c96a'/%3E%3Ccircle cx='45.5' cy='45.5' r='2.2' fill='%235a0f1a'/%3E%3C/svg%3E")}
+h2.gold{display:block;width:fit-content;background:linear-gradient(180deg,#fff3c4 0%,#f6d27a 38%,#d9a441 70%,#b07a22 100%);-webkit-background-clip:text;background-clip:text}
+nav{border-bottom:0!important}
+nav::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:6px;background:var(--carpet);background-size:auto 6px;opacity:.9}
+.divider{display:block;width:min(560px,80%);height:34px;margin:0 auto;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 34'%3E%3Cg fill='none' stroke='%23d9a441' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M10 17 H200 M360 17 H550'/%3E%3Cpath d='M200 17 C220 3 240 3 252 17 C240 31 220 31 200 17Z M360 17 C340 3 320 3 308 17 C320 31 340 31 360 17Z'/%3E%3Cpath d='M120 17 c8-8 16-8 22 0 M418 17 c8 8 16 8 22 0' /%3E%3C/g%3E%3Cpath d='M280 4 L293 17 L280 30 L267 17Z' fill='%2319c27a' stroke='%23f6d27a' stroke-width='1.6'/%3E%3Ccircle cx='258' cy='17' r='3' fill='%23f6d27a'/%3E%3Ccircle cx='302' cy='17' r='3' fill='%23f6d27a'/%3E%3Ccircle cx='10' cy='17' r='2.5' fill='%23d9a441'/%3E%3Ccircle cx='550' cy='17' r='2.5' fill='%23d9a441'/%3E%3C/svg%3E")}
+.quote{border-left:0!important;padding:14px 18px!important;border:8px solid transparent!important;border-image:var(--carpet) 18 round!important;background:#0b0820 padding-box}
+footer{border-top:0!important;position:relative}
+footer::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--carpet);background-size:auto 6px;opacity:.9}
+/* parents and teachers: inside a carpet border, rich matte gold */
+#parents .panel{border:22px solid transparent!important;border-image:var(--carpet) 18 round!important;border-radius:0!important;background:radial-gradient(120% 100% at 50% 0%,#1a1438 0%,#0b0a1e 60%,#06050f 100%) padding-box!important;padding:34px 36px!important;box-shadow:0 20px 60px #000c!important}
+#parents h2{font-family:var(--display)!important;color:#e2b25a!important;text-shadow:0 2px 0 #2a1802,0 0 18px rgba(217,164,65,.25)}
+#parents .eyebrow{color:#c9a35a!important}
+#parents .skill{border-top:0!important;padding-top:0!important;border-left:2px solid #8a5a14;padding-left:12px!important}
+#parents .skill b{color:#e2b25a!important;font-family:var(--display)!important}
+/* game cards jump straight into the game */
+a.card{text-decoration:none;color:inherit;transition:transform .2s}
+a.card:hover,a.card:focus-visible{transform:translateY(-4px)}
+a.card h3::after{content:" \203a"}
+/* take it with you: a real candle instead of a ball */
+.candleart{width:110px;height:auto;display:block}
+@media (prefers-reduced-motion:no-preference){.candleart .fl{transform-origin:55px 62px;animation:flick 1.4s ease-in-out infinite alternate}@keyframes flick{to{transform:scale(1.06,1.12) rotate(2deg);opacity:.9}}}
+@media (max-width:820px){#parents .panel{border-width:14px!important;padding:22px 18px!important}}
 </style>
 </head>
 <body>
@@ -108,22 +132,24 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
     <h1 class="gold">Gogo Guardians</h1>
     <div class="orn">~ &#9670; ~</div>
     <p class="lead">Oliver's grandma gives him a phone for his 13th birthday. That night it starts to glow. Inside lives Gogo, an ancient guardian spirit, and soon Oliver is flying with Alibaba and the Forty Thieves across worlds no one on Earth has seen.</p>
-    <div class="row"><a class="btn" href="/play/">Play free</a><a class="btn ghost" href="/read/">Read the story</a></div>
+    <div class="row"><a class="btn" href="/play/">Play free</a><a class="btn ghost" href="/read/">Read the story</a><a class="btn ghost" href="#play">See the riddles</a></div>
   </div>
 </div>
 
+<span class="divider" aria-hidden="true"></span>
 <section id="play"><div class="wrap">
   <span class="eyebrow">The game</span>
   <h2 class="gold">Solve Gogo's riddles</h2>
   <p style="max-width:40em;color:var(--muted)">Every riddle comes from the book. Read a chapter, then prove you're a Guardian. Win emeralds, collect magic pictures, and talk out loud with Gogo.</p>
   <div class="cards">
-    <div class="card"><img src="/img/q1-3.jpg" alt="Grandma and Grandpa see the gift glow"><h3>The Riddle Trail</h3><p>Four riddles for every chapter, from easy to hard. Get it right the first time for full emeralds.</p></div>
-    <div class="card"><img src="/img/guards.jpg" alt="Two hooded guards at a fork in the desert road"><h3>The Two Guards</h3><p>One always lies. One always tells the truth. You get one question. Choose wisely.</p></div>
-    <div class="card"><img src="/img/p019.jpg" alt="Dracula and his bats in a golden forest"><h3>Dracula's Bats</h3><p>Millions of bats, one glowing phone, and a split second to decide.</p></div>
+    <a class="card" href="/play/#pick"><img src="/img/q1-3.jpg" alt="Grandma and Grandpa see the gift glow"><h3>The Riddle Trail</h3><p>Four riddles for every chapter, from easy to hard. Get it right the first time for full emeralds.</p></a>
+    <a class="card" href="/play/#guards"><img src="/img/guards.jpg" alt="Two hooded guards at a fork in the desert road"><h3>The Two Guards</h3><p>One always lies. One always tells the truth. You get one question. Choose wisely.</p></a>
+    <a class="card" href="/play/#bats"><img src="/img/p019.jpg" alt="Dracula and his bats in a golden forest"><h3>Dracula's Bats</h3><p>Millions of bats, one glowing phone, and a split second to decide.</p></a>
   </div>
   <div class="row"><a class="btn" href="/play/">Start playing</a></div>
 </div></section>
 
+<span class="divider" aria-hidden="true"></span>
 <section id="book"><div class="wrap book">
   <div class="lock"><img src="/img/p071.jpg" alt="Flying carpets carrying a giant emerald"><div class="door"><div><b class="gold">The whole adventure</b><p style="margin-top:8px">Family preview: all 21 chapters are open for you to read.</p></div></div></div>
   <div>
@@ -136,6 +162,7 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
   </div>
 </div></section>
 
+<span class="divider" aria-hidden="true"></span>
 <section id="parents"><div class="wrap"><div class="panel">
   <span class="eyebrow">For parents and teachers</span>
   <h2 class="gold">A story that makes them read</h2>
@@ -149,11 +176,13 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
   <p style="color:var(--muted);margin-top:20px">Kids play with a Guardian name only. No chat with strangers. Classroom licenses are coming.</p>
 </div></div></section>
 
+<span class="divider" aria-hidden="true"></span>
 <section><div class="wrap candle">
-  <div class="flame" aria-hidden="true"></div>
+  <svg class="candleart" viewBox="0 0 110 170" aria-hidden="true"><defs><radialGradient id="cg" cx=".5" cy=".7" r=".6"><stop offset="0" stop-color="#fffbe0"/><stop offset=".35" stop-color="#ffd36b"/><stop offset=".7" stop-color="#e8862a"/><stop offset="1" stop-color="#e8862a" stop-opacity="0"/></radialGradient><radialGradient id="halo"><stop offset="0" stop-color="#ffd36b" stop-opacity=".45"/><stop offset="1" stop-color="#ffd36b" stop-opacity="0"/></radialGradient><linearGradient id="wax" x1="0" x2="1"><stop offset="0" stop-color="#e9dcc0"/><stop offset=".5" stop-color="#fff8e6"/><stop offset="1" stop-color="#cdbb94"/></linearGradient><linearGradient id="brass" x1="0" x2="1"><stop offset="0" stop-color="#7a4a10"/><stop offset=".45" stop-color="#f3cf78"/><stop offset="1" stop-color="#8a5a14"/></linearGradient></defs><circle cx="55" cy="50" r="48" fill="url(#halo)"/><path class="fl" d="M55 18 C64 34 68 44 62 56 C59 62 51 62 48 56 C42 44 46 34 55 18Z" fill="url(#cg)"/><line x1="55" y1="58" x2="55" y2="66" stroke="#3a2a14" stroke-width="2"/><rect x="38" y="64" width="34" height="74" rx="4" fill="url(#wax)"/><path d="M38 70 q6 6 4 16 M66 66 q4 8 2 14" stroke="#fff" stroke-width="3" fill="none" opacity=".7"/><path d="M22 138 H88 L82 150 H28Z" fill="url(#brass)" stroke="#5a3a0c"/><ellipse cx="55" cy="154" rx="40" ry="8" fill="url(#brass)" stroke="#5a3a0c"/><path d="M84 142 q18 -2 14 12 q-3 8 -12 2" fill="none" stroke="url(#brass)" stroke-width="5"/><polygon points="55,124 60,129 55,134 50,129" fill="#19c27a" stroke="#04452a"/></svg>
   <div><span class="eyebrow">Coming soon</span><h2 class="gold" style="margin-bottom:8px">Take it with you</h2><p style="color:var(--muted)">Scan or tap to carry your Gogo Guardians candle in your phone's wallet, and pass it to a friend so you both earn bonus emeralds.</p></div>
 </div></section>
 
+<span class="divider" aria-hidden="true"></span>
 <section id="author"><div class="wrap author">
   <span class="eyebrow">The author</span>
   <h2 class="gold">Zafar Amin</h2>
