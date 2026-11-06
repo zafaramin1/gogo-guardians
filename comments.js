@@ -29,6 +29,9 @@
   '.ggc-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}' +
   '.ggc-post{font:800 15px system-ui,sans-serif;color:#1e1202;background:linear-gradient(#f3cf78,#a86e1e);border:0;border-radius:999px;padding:9px 20px;cursor:pointer}' +
   '.ggc-post:disabled{opacity:.6;cursor:wait}' +
+  '.ggc-mic{font:800 15px system-ui,sans-serif;color:#f6d27a;background:#1a2152;border:1.5px solid #b9862c;border-radius:999px;padding:8px 16px;cursor:pointer}' +
+  '.ggc-mic.on{color:#fff;background:#a3232f;border-color:#ff8a94;animation:ggcpulse 1.2s ease-in-out infinite}' +
+  '@keyframes ggcpulse{50%{box-shadow:0 0 0 6px rgba(255,90,100,.25)}}' +
   '.ggc-x{font:600 14px system-ui,sans-serif;color:#d9cfae;background:none;border:1px solid #4a5290;border-radius:999px;padding:8px 14px;cursor:pointer}' +
   '.ggc-msg{font-size:13px;color:#ffb3bd}.ggc-msg.ok{color:#9be0b0}' +
   '.ggc-btn{font:700 13px system-ui,sans-serif;color:#7a5214;background:#fff8e8;border:1px solid #d9b97a;border-radius:999px;padding:6px 13px;margin-top:8px;cursor:pointer;text-indent:0}' +
@@ -79,6 +82,40 @@
     }).then(function (r) { return r.json(); }).then(function (j) { if (!j || !j.ok) throw new Error('not saved'); return j; });
   }
 
+  /* ---------- speak instead of type ---------- */
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var activeRec = null;
+  function micButton(tx, msg) {
+    if (!SR) return null;                       // browser can't do it: the keyboard's own mic still works
+    var b = el('button', 'ggc-mic', '\uD83C\uDFA4 Speak'); b.type = 'button';
+    b.setAttribute('aria-label', 'Speak your note instead of typing');
+    var rec = null, base = '';
+    function stop() { if (rec) { try { rec.stop(); } catch (e) {} } }
+    function done() { rec = null; activeRec = null; b.classList.remove('on'); b.textContent = '\uD83C\uDFA4 Speak'; if (/^Listening/.test(msg.textContent)) { msg.textContent = tx.value.trim() ? 'Got it. Check the words, then tap Post note.' : ''; } }
+    b.onclick = function () {
+      if (rec) { stop(); return; }
+      if (activeRec) { try { activeRec.stop(); } catch (e) {} }
+      rec = new SR(); activeRec = rec;
+      rec.lang = navigator.language || 'en-US'; rec.interimResults = true; rec.continuous = true;
+      base = tx.value.trim(); if (base) base += ' ';
+      rec.onresult = function (ev) {
+        var fin = '', mid = '';
+        for (var i = 0; i < ev.results.length; i++) { var r = ev.results[i]; if (r.isFinal) fin += r[0].transcript; else mid += r[0].transcript; }
+        tx.value = (base + fin + mid).replace(/\s+/g, ' ').replace(/^\s/, '');
+      };
+      rec.onerror = function (ev) {
+        msg.className = 'ggc-msg';
+        msg.textContent = ev.error === 'not-allowed' || ev.error === 'service-not-allowed'
+          ? 'Allow the microphone to speak your note, or tap the mic on your keyboard.'
+          : (ev.error === 'no-speech' ? 'Didn\u2019t hear anything. Tap Speak and try again.' : 'Speaking didn\u2019t work here. Tap the mic on your keyboard instead.');
+      };
+      rec.onend = done;
+      try { rec.start(); b.classList.add('on'); b.textContent = '\u25A0 Stop'; msg.className = 'ggc-msg ok'; msg.textContent = 'Listening... tap Stop when done.'; }
+      catch (e) { done(); }
+    };
+    return b;
+  }
+
   /* ---------- the comment box ---------- */
   var openBox = null;
   function renderList(list, spot) {
@@ -107,11 +144,13 @@
     var post = el('button', 'ggc-post', 'Post note'); post.type = 'submit';
     var x = el('button', 'ggc-x', 'Close'); x.type = 'button';
     var msg = el('span', 'ggc-msg'); msg.setAttribute('aria-live', 'polite');
-    row.appendChild(post); row.appendChild(x); row.appendChild(msg);
+    var mic = micButton(tx, msg);
+    row.appendChild(post); if (mic) row.appendChild(mic); row.appendChild(x); row.appendChild(msg);
     f.appendChild(nm); f.appendChild(tx); f.appendChild(row); box.appendChild(f);
-    x.onclick = function () { onClose(); };
+    x.onclick = function () { if (activeRec) { try { activeRec.stop(); } catch (e) {} } onClose(); };
     f.onsubmit = function (e) {
       e.preventDefault();
+      if (activeRec) { try { activeRec.stop(); } catch (er) {} }
       var name = nm.value.trim(), text = tx.value.trim();
       if (!name) { msg.className = 'ggc-msg'; msg.textContent = 'Please add your name.'; nm.focus(); return; }
       if (!text) { msg.className = 'ggc-msg'; msg.textContent = 'Write a note first.'; tx.focus(); return; }
