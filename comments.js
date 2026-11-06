@@ -39,6 +39,7 @@
   '.ggc-pen{position:absolute;left:-36px;top:2px;width:28px;height:28px;padding:0;border-radius:50%;border:1px solid #d9b97a;background:#fff8e8;color:#7a5214;font:700 14px system-ui,sans-serif;cursor:pointer;opacity:0;transition:opacity .15s;text-indent:0}' +
   '.chap p:hover>.ggc-pen,.ggc-pen:focus-visible{opacity:1}' +
   '@media (max-width:820px){.ggc-pen{display:none}}' +
+  '#ggc-sel.touch{position:fixed;left:50%!important;top:auto!important;bottom:max(18px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);white-space:nowrap;padding:13px 22px;font-size:16px;box-shadow:0 8px 26px #000a;border:1.5px solid #f0c96a}' +
   '#ggc-sel{position:absolute;z-index:70;background:#7a5214;color:#fff8e6;border:0;border-radius:999px;padding:9px 15px;font:700 14px system-ui,sans-serif;box-shadow:0 6px 18px #0006;cursor:pointer}' +
   '.ggc-fab{position:fixed;left:max(12px,env(safe-area-inset-left,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:60;font:800 14px system-ui,sans-serif;color:#1e1202;background:linear-gradient(#f3cf78,#a86e1e);padding:10px 15px;border-radius:999px;border:0;cursor:pointer;box-shadow:0 4px 14px #000a}' +
   '.ggc-drawer{position:fixed;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:61;max-width:440px;max-height:min(78vh,620px);overflow:auto}' +
@@ -230,6 +231,7 @@
       counted.push({ btn: cb, spot: sid });
     });
     // select words -> Comment
+    var TOUCH = window.matchMedia && matchMedia('(pointer: coarse)').matches;
     var sb = el('button', '', '💬 Comment'); sb.id = 'ggc-sel'; sb.type = 'button'; sb.hidden = true;
     document.body.appendChild(sb);
     var selO = null;
@@ -243,8 +245,12 @@
       var ps = [].slice.call(sec.querySelectorAll(':scope > p:not(.orn)')); var i = ps.indexOf(p);
       selO = { p: p, spot: (sec.id || 'dedication') + '/p' + (i + 1), where: chapName(sec) + ', paragraph ' + (i + 1), quote: s.toString().trim() };
       var rc = r.getBoundingClientRect();
-      sb.style.top = (rc.bottom + scrollY + 8) + 'px';
-      sb.style.left = Math.max(8, Math.min(document.documentElement.clientWidth - 130, rc.left + scrollX + rc.width / 2 - 55)) + 'px';
+      // phones and tablets: a fixed button at the bottom of the screen, clear of Apple's Copy / Look Up menu
+      if (TOUCH) { sb.className = 'touch'; sb.textContent = '\uD83D\uDCAC Comment on these words'; }
+      else {
+        sb.style.top = (rc.bottom + scrollY + 8) + 'px';
+        sb.style.left = Math.max(8, Math.min(document.documentElement.clientWidth - 130, rc.left + scrollX + rc.width / 2 - 55)) + 'px';
+      }
       sb.hidden = false;
     }
     document.addEventListener('selectionchange', function () { clearTimeout(place.t); place.t = setTimeout(place, 250); });
