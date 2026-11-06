@@ -778,7 +778,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
 .solvedrack{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px;justify-items:center;padding:12px 8px;border-radius:18px;background:linear-gradient(180deg,#2a1d06,#120c02);box-shadow:0 0 0 2px #b9862c;min-width:76px}
 .solvedrack .srl{font:800 11px var(--body);letter-spacing:.14em;text-transform:uppercase;color:#9ee6c3}
 .solvedrack .srow{display:flex;flex-direction:column;flex-wrap:wrap;gap:6px;align-content:center;max-height:100%}
-.solvedrack.empty .srow::after{content:"Sink a ball to start";font:700 10px var(--body);color:#a99f86;writing-mode:vertical-rl}
+.solvedrack.empty .srow::after{content:"Solved riddles land here";font:700 10px var(--body);color:#a99f86;writing-mode:vertical-rl}
 .emball{position:relative;width:38px;height:34px;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 0 6px #2fe39a)}
 .emball svg{width:100%;height:100%}
 .emball b{position:absolute;inset:0;display:grid;place-items:center;padding-bottom:6px;font:900 12px var(--body);color:#03241a}
@@ -826,6 +826,18 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
 #stage .centerrow{align-self:start}
 #stage .centerrow .gbtn,#stage .brrow .gbtn{height:auto!important;align-self:start}
 .gname{opacity:1!important;font-size:30px!important;filter:drop-shadow(0 1px 2px rgba(0,0,0,.7)) drop-shadow(0 0 8px rgba(0,0,0,.35))!important}
+
+/* ===== Version 21: answers always have pictures; a calmer pool table ===== */
+.glass img.icon{object-fit:contain!important;padding:14%;box-sizing:border-box;filter:drop-shadow(0 6px 8px rgba(0,0,0,.55))!important}
+.mirror{position:relative}
+.numbadge{position:absolute;right:-8px;bottom:-6px;min-width:38px;height:38px;padding:0 6px;border-radius:19px;display:grid;place-items:center;box-sizing:border-box;
+ background:linear-gradient(180deg,#141018,#050407) padding-box,linear-gradient(180deg,#fff0b8,#d9a441 35%,#7a4a10) border-box;border:2px solid transparent;font:800 20px var(--display);color:#ffe9a8;box-shadow:0 4px 10px #000a}
+.ball.picked .sph{box-shadow:0 0 0 3px #fff4c8,0 0 24px 8px rgba(246,210,122,.85),inset -6px -10px 18px rgba(0,0,0,.45)!important}
+#tablehint{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;min-height:44px}
+#tablehint .pk{font:italic 700 clamp(17px,1.6vw,21px) var(--calli);color:#ffe9b8}
+#tablehint .pk b{font-style:normal;color:#f6d27a}
+.letsgo{order:-1}
+.med:has(.numbadge) .lbl{display:none!important}
 </style>
 <div class="app">
   <header class="top">
@@ -1062,7 +1074,8 @@ function drawPick(){const p=document.getElementById('pickPanel');p.innerHTML='';
  p.append(el('<h2 class="agedgold">Choose a riddle</h2>'));
  p.append(el('<p class="rules1" id="tablehint"><span><b>Tap the rack to break!</b> Then flick a ball into a pocket to play its riddle, or just tap a ball.</span></p>'));
  const wrap=el('<div class="tablewrap"><div class="ptable"><div class="felt"><div class="ballarea"></div></div></div><div class="solvedrack"><span class="srl">Solved</span><div class="srow"></div></div></div>');p.append(wrap);
- const more=el('<div class="row"><button class="gbtn" type="button">The Two Guards</button><button class="gbtn" type="button">Dracula’s Bats</button></div>');more.children[0].onclick=()=>go('guards');more.children[1].onclick=()=>go('bats');p.append(more);
+ const more=el('<div class="row"><button class="gbtn" type="button">The Two Guards</button><button class="gbtn" type="button">Dracula’s Bats</button></div>');more.children[0].onclick=()=>go('guards');more.children[1].onclick=()=>go('bats');
+ const lg=gbtn('Enough billiards, let’s go! ›',()=>{const o=PICKED||BALLS.find(x=>!x.sunk);if(o)playBall(o)},'arch');lg.classList.add('letsgo');more.prepend(lg);p.append(more);
  requestAnimationFrame(()=>requestAnimationFrame(()=>layBalls(wrap.querySelector('.ballarea'))))}
 function ballNo(ch,k){return (ch-1)*4+k+1}
 function setHint(t){const h=document.getElementById('tablehint');if(h)h.innerHTML=t}
@@ -1082,7 +1095,7 @@ function layBalls(area){cancelAnimationFrame(BALL_RAF);area.innerHTML='';BALLS=[
  const rows=[];let left=open.slice();for(let n=1;left.length;n++){rows.push(left.splice(0,n))}
  const dx=D*.88,ax=Math.max(D,W-(rows.length-1)*dx-D*.8-PR),ay=H/2;
  rows.forEach((row,ri_)=>row.forEach(([ch,k,r],j)=>{const x=ax+ri_*dx,y=ay+(j-(row.length-1)/2)*D*1.02;addBall(area,ch,k,r,D,x,y)}));
- RACKED=true;setHint('<span><b>Tap the rack to break!</b> Then flick a ball into a pocket to play its riddle, or just tap a ball.</span>');
+ RACKED=true;PICKED=null;setHint('<span><b>Tap the rack to break!</b> Then play with the balls as long as you like. When you are ready, tap one to choose it.</span>');
  placeBalls();ballLoop();requestAnimationFrame(()=>{if((Math.abs(area.clientHeight-H)>2||Math.abs(area.clientWidth-W)>2)&&!area.__re){area.__re=1;layBalls(area);area.__re=0}})}
 function addBall(area,ch,k,r,D,x,y){const n=ballNo(ch,k);const b=el('<button class="ball" type="button"><span class="sph"><span class="dot"><i></i><em></em></span></span><span class="bl"></span></button>');
  b.querySelector('i').textContent=n;b.querySelector('em').textContent='Ch '+ch;b.querySelector('.bl').textContent=CHSHORT[ch]||'';b.style.setProperty('--c',BALLC[ch][k%4]);b.style.width=D+'px';
@@ -1091,20 +1104,25 @@ function addBall(area,ch,k,r,D,x,y){const n=ballNo(ch,k);const b=el('<button cla
 function placeBalls(){for(const o of BALLS)if(!o.sunk)o.b.style.transform='translate('+(o.x-o.D/2)+'px,'+(o.y-o.D/2)+'px)'}
 function breakRack(){if(!RACKED)return;RACKED=false;const cx=BALLS.reduce((a,o)=>a+o.x,0)/BALLS.length,cy=BALLS.reduce((a,o)=>a+o.y,0)/BALLS.length;
  BALLS.forEach(o=>{const a=Math.atan2(o.y-cy,o.x-cx)+(Math.random()-.5)*.8,s=500+Math.random()*700;o.vx=Math.cos(a)*s-260;o.vy=Math.sin(a)*s});clack(1);setTimeout(()=>clack(.7),60);setTimeout(()=>clack(.5),130);
- setHint('<span>Flick a ball into a pocket to play its riddle, or just tap a ball.</span>')}
+ setHint('<span>Flick them, bounce them, sink them. When you are ready, tap a ball to choose its riddle.</span>')}
 function playBall(o){rch=o.ch;ri=o.k;tries=0;riddle();go('trail')}
-function sink(o,q){if(o.sunk)return;o.sunk=true;o.vx=o.vy=0;thunk();o.b.style.transition='transform .35s ease-in,opacity .35s';o.b.style.transform='translate('+(q.x-o.D/2)+'px,'+(q.y-o.D/2)+'px) scale(.2)';o.b.style.opacity='0';setTimeout(()=>playBall(o),450)}
+function sink(o,q){if(o.sunk)return;o.sunk=true;o.vx=o.vy=0;thunk();o.b.style.transition='transform .35s ease-in,opacity .35s';o.b.style.transform='translate('+(q.x-o.D/2)+'px,'+(q.y-o.D/2)+'px) scale(.2)';o.b.style.opacity='0';
+ setTimeout(()=>{const area=o.b.parentNode;if(!area)return;const W=area.clientWidth,H=area.clientHeight;o.x=q.x+(W/2-q.x)*.25;o.y=q.y+(H/2-q.y)*.35;o.b.style.transition='opacity .3s';o.b.style.opacity='1';o.sunk=false;placeBalls();setTimeout(()=>{o.b.style.transition=''},320);pickBall(o,true)},520)}
+let PICKED=null;
+function pickBall(o,pocketed){PICKED=o;BALLS.forEach(x=>x.b.classList.toggle('picked',x===o));const n=ballNo(o.ch,o.k),r=RIDDLES[o.ch].items[o.k];
+ const h=document.getElementById('tablehint');if(!h)return;h.innerHTML='';const t=el('<span class="pk"></span>');t.innerHTML=(pocketed?'<b>In the pocket!</b> ':'')+'Riddle <b>'+n+'</b> · Chapter '+o.ch+' · '+(CHSHORT[o.ch]||'')+' · '+r.d;h.append(t);
+ const go_=gbtn('Play riddle '+n+' ›',()=>playBall(o),'arch small');h.append(go_)}
 function ballInput(o,area){let sx,sy,lx,ly,lt,moved=false;
  o.b.addEventListener('pointerdown',e=>{if(RACKED){breakRack();e.preventDefault();return}o.drag=true;moved=false;sx=lx=e.clientX;sy=ly=e.clientY;lt=performance.now();o.vx=o.vy=0;o.b.setPointerCapture(e.pointerId);o.b.classList.add('grab')});
  o.b.addEventListener('pointermove',e=>{if(!o.drag)return;const dx=e.clientX-lx,dy=e.clientY-ly,t=performance.now(),dt=Math.max(8,t-lt)/1000;if(Math.hypot(e.clientX-sx,e.clientY-sy)>6)moved=true;
   o.x+=dx;o.y+=dy;o.vx=dx/dt;o.vy=dy/dt;lx=e.clientX;ly=e.clientY;lt=t;clampBall(o,area)});
- o.b.addEventListener('pointerup',()=>{if(!o.drag)return;o.drag=false;o.b.classList.remove('grab');const sp=Math.hypot(o.vx,o.vy);if(sp>2000){o.vx*=2000/sp;o.vy*=2000/sp}if(!moved){o.vx=o.vy=0;playBall(o)}});
+ o.b.addEventListener('pointerup',()=>{if(!o.drag)return;o.drag=false;o.b.classList.remove('grab');const sp=Math.hypot(o.vx,o.vy);if(sp>2000){o.vx*=2000/sp;o.vy*=2000/sp}if(!moved){o.vx=o.vy=0;if(PICKED===o)playBall(o);else pickBall(o)}});
  o.b.addEventListener('click',e=>e.preventDefault())}
 function clampBall(o,area){const W=area.clientWidth,H=area.clientHeight,R=o.D/2;for(const q of POCKETS){if(Math.hypot(o.x-q.x,o.y-q.y)<q.r*1.05&&!o.drag){sink(o,q);return}}
  if(o.x<R){o.x=R;o.vx=Math.abs(o.vx)*.8}if(o.x>W-R){o.x=W-R;o.vx=-Math.abs(o.vx)*.8}if(o.y<R){o.y=R;o.vy=Math.abs(o.vy)*.8}if(o.y>H-R){o.y=H-R;o.vy=-Math.abs(o.vy)*.8}}
 function ballLoop(){let last=performance.now();const area=document.querySelector('.ballarea');
  (function step(t){const dt=Math.min(.033,(t-last)/1000);last=t;if(!area||!area.isConnected||!document.querySelector('.screen.on[data-name="pick"]'))return;
-  for(const o of BALLS){if(o.drag||o.sunk)continue;const sp=Math.hypot(o.vx,o.vy);if(sp<4){o.vx=o.vy=0;continue}o.x+=o.vx*dt;o.y+=o.vy*dt;const f=Math.pow(.3,dt);o.vx*=f;o.vy*=f;
+  for(const o of BALLS){if(o.drag||o.sunk)continue;const sp=Math.hypot(o.vx,o.vy);if(sp<4){o.vx=o.vy=0;continue}o.x+=o.vx*dt;o.y+=o.vy*dt;const f=Math.pow(.55,dt);o.vx*=f;o.vy*=f;
    // pockets pull a ball in when it rolls close
    for(const q of POCKETS){const d=Math.hypot(o.x-q.x,o.y-q.y);if(d<q.r+o.D*.2){sink(o,q);break}}if(!o.sunk)clampBall(o,area)}
   for(let i=0;i<BALLS.length;i++)for(let j=i+1;j<BALLS.length;j++){const a=BALLS[i],b=BALLS[j];if(a.sunk||b.sunk)continue;const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),m=(a.D+b.D)/2;
@@ -1220,9 +1238,10 @@ const RIDDLES={
   {d:'medium',q:'Lily puts out party hats. 12 friends come, plus Oliver, Jack and Lily. Everyone gets one hat. How many hats does she need?',o:['12','14','15'],a:2,h:'Don’t forget Lily herself.',x:'12 friends plus 3 Wilderidge kids makes 15 hats.',img:'img/q3-3.jpg',t:'Fifteen hats!',c:'Lily never forgets a single guest. Not even herself.'},
   {d:'hard',q:'Grandma’s gift cost a lot, but Oliver knows this is what really made it special. The more you share me, the bigger I grow. What am I?',o:['Cake','A secret','Love'],a:2,h:'It’s the reason Oliver ran over and hugged Grandma.',x:'Love. Cake gets smaller when you share it, and a secret stops being a secret!',img:'img/q3-4.jpg',t:'Gogo wakes up',c:'A golden app appears all by itself. The adventure is about to begin.'}]}
 };
-const MIRROR={'The hallway clock':'img/m_clock.jpg','Grandpa Henry':'img/m_grandpa.jpg','The phone':'img/m_phone.jpg','Elderstone':'img/m_elder.jpg','Oliver':'img/m_oliver.jpg','Henry':'img/m_grandpa.jpg','Cake':'img/m_cake.jpg','A phone':'img/m_phone.jpg','Love':'img/m_grandma.jpg'};
+const MIRROR={'The hallway clock':'img/m_clock.jpg','Grandpa Henry':'img/m_grandpa.jpg','The phone':'img/m_phone.jpg','Elderstone':'img/m_elder.jpg','Oliver':'img/m_oliver.jpg','Henry':'img/m_grandpa.jpg','Cake':'img/m_cake.jpg','A phone':'img/m_phone.jpg','Love':'img/m_grandma.jpg','Moonlight':'img/fx_crescent_moon.png','Darkness':'img/fx_night_with_stars.png','A blanket':'img/fx_bed.png','Gladys':'img/fx_old_woman.png','Cleo':'img/fx_cat.png','A ticket to space':'img/fx_ticket.png','A robot':'img/fx_robot.png','A puppy':'img/fx_dog_face.png','Ethan':'img/fx_boy.png','An egg':'img/fx_egg.png','A promise':'img/fx_handshake.png','A balloon':'img/fx_balloon.png','Your age':'img/fx_birthday_cake.png','The sun':'img/fx_sun.png','A deck of cards':'img/fx_joker.png','A castle':'img/fx_castle.png','Chess':'img/fx_chess_pawn.png','A towel':'img/fx_bathtub.png','A sponge':'img/fx_sponge.png','A water gun':'img/fx_water_pistol.png','A secret':'img/fx_shushing_face.png'};
 function medal(t){const b=el('<button class="med" type="button"><span class="mirror"><span class="glass"></span></span><span class="lbl"></span></button>');b.querySelector('.lbl').textContent=t;const g=b.querySelector('.glass');
- if(MIRROR[t]){const i=el('<img alt="">');i.src=MIRROR[t];g.append(i);g.append(el('<span class="mist"></span>'))}
+ const NUMPIC=/^\d+$/.test(t)?(rch===1?'img/fx_bell.png':'img/fx_partying_face.png'):null;const src=MIRROR[t]||NUMPIC;
+ if(src){const i=el('<img alt="">');i.src=src;if(/\.png$/.test(src))i.className='icon';g.append(i);g.append(el('<span class="mist"></span>'));if(NUMPIC){const n=el('<span class="numbadge"></span>');n.textContent=t;b.querySelector('.mirror').append(n)}}
  else{b.classList.add('wordonly');if(/^\d+$/.test(t))b.classList.add('numonly');const w=el('<span class="bigword"></span>');w.textContent=t;b.insertBefore(w,b.firstChild)}
  return b}
 let TYPED=false;const PTS={easy:5,medium:10,hard:15};let rch=1,ri=0,tries=0;let solved={};
