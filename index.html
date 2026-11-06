@@ -85,7 +85,7 @@ footer .wrap{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
 h2.gold{display:block;width:fit-content;background:linear-gradient(180deg,#fff3c4 0%,#f6d27a 38%,#d9a441 70%,#b07a22 100%);-webkit-background-clip:text;background-clip:text}
 nav{border-bottom:0!important}
 nav::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:6px;background:var(--carpet);background-size:auto 6px;opacity:.9}
-.divider{display:block;width:min(560px,80%);height:34px;margin:0 auto;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 34'%3E%3Cg fill='none' stroke='%23d9a441' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M10 17 H200 M360 17 H550'/%3E%3Cpath d='M200 17 C220 3 240 3 252 17 C240 31 220 31 200 17Z M360 17 C340 3 320 3 308 17 C320 31 340 31 360 17Z'/%3E%3Cpath d='M120 17 c8-8 16-8 22 0 M418 17 c8 8 16 8 22 0' /%3E%3C/g%3E%3Cpath d='M280 4 L293 17 L280 30 L267 17Z' fill='%2319c27a' stroke='%23f6d27a' stroke-width='1.6'/%3E%3Ccircle cx='258' cy='17' r='3' fill='%23f6d27a'/%3E%3Ccircle cx='302' cy='17' r='3' fill='%23f6d27a'/%3E%3Ccircle cx='10' cy='17' r='2.5' fill='%23d9a441'/%3E%3Ccircle cx='550' cy='17' r='2.5' fill='%23d9a441'/%3E%3C/svg%3E")}
+.divider{display:block;width:min(560px,80%);height:34px;margin:0 auto;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 34'%3E%3Cg fill='none' stroke='%23d9a441' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M10 17 H200 M360 17 H550'/%3E%3Cpath d='M200 17 C220 3 240 3 252 17 C240 31 220 31 200 17Z M360 17 C340 3 320 3 308 17 C320 31 340 31 360 17Z'/%3E%3Cpath d='M120 17 c8-8 16-8 22 0 M418 17 c8 8 16 8 22 0' /%3E%3C/g%3E%3Ccircle cx='258' cy='17' r='3' fill='%23f6d27a'/%3E%3Ccircle cx='302' cy='17' r='3' fill='%23f6d27a'/%3E%3Ccircle cx='10' cy='17' r='2.5' fill='%23d9a441'/%3E%3Ccircle cx='550' cy='17' r='2.5' fill='%23d9a441'/%3E%3C/svg%3E")}
 .quote{border-left:0!important;padding:14px 18px!important;border:8px solid transparent!important;border-image:var(--carpet) 18 round!important;background:#0b0820 padding-box}
 footer{border-top:0!important;position:relative}
 footer::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--carpet);background-size:auto 6px;opacity:.9}
@@ -103,6 +103,13 @@ a.card h3::after{content:" \203a"}
 .candleart{width:110px;height:auto;display:block}
 @media (prefers-reduced-motion:no-preference){.candleart .fl{transform-origin:55px 62px;animation:flick 1.4s ease-in-out infinite alternate}@keyframes flick{to{transform:scale(1.06,1.12) rotate(2deg);opacity:.9}}}
 @media (max-width:820px){#parents .panel{border-width:14px!important;padding:22px 18px!important}}
+
+.divider{position:relative}
+.dgem{position:absolute;left:50%;top:50%;width:76px;height:60px;transform:translate(-50%,-50%);filter:drop-shadow(0 0 12px rgba(47,227,154,.75)) drop-shadow(0 4px 8px #000)}
+.candlebox{position:relative;width:96px;padding-top:110px;cursor:pointer;touch-action:none}
+.candlebox .cbody{display:block;width:96px;height:auto}
+.candlebox .wick{position:absolute;width:63.1px;left:17.8px;top:83.2px}
+.candlebox .cflame{position:absolute;width:120px;height:130px;left:-10.5px;top:-25px;pointer-events:none}
 </style>
 </head>
 <body>
@@ -136,7 +143,7 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
   </div>
 </div>
 
-<span class="divider" aria-hidden="true"></span>
+<span class="divider" aria-hidden="true"><canvas class="dgem"></canvas></span>
 <section id="play"><div class="wrap">
   <span class="eyebrow">The game</span>
   <h2 class="gold">Solve Gogo's riddles</h2>
@@ -149,7 +156,7 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
   <div class="row"><a class="btn" href="/play/">Start playing</a></div>
 </div></section>
 
-<span class="divider" aria-hidden="true"></span>
+<span class="divider" aria-hidden="true"><canvas class="dgem"></canvas></span>
 <section id="book"><div class="wrap book">
   <div class="lock"><img src="/img/p071.jpg" alt="Flying carpets carrying a giant emerald"><div class="door"><div><b class="gold">The whole adventure</b><p style="margin-top:8px">Family preview: all 21 chapters are open for you to read.</p></div></div></div>
   <div>
@@ -162,7 +169,7 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
   </div>
 </div></section>
 
-<span class="divider" aria-hidden="true"></span>
+<span class="divider" aria-hidden="true"><canvas class="dgem"></canvas></span>
 <section id="parents"><div class="wrap"><div class="panel">
   <span class="eyebrow">For parents and teachers</span>
   <h2 class="gold">A story that makes them read</h2>
@@ -176,13 +183,13 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
   <p style="color:var(--muted);margin-top:20px">Kids play with a Guardian name only. No chat with strangers. Classroom licenses are coming.</p>
 </div></div></section>
 
-<span class="divider" aria-hidden="true"></span>
+<span class="divider" aria-hidden="true"><canvas class="dgem"></canvas></span>
 <section><div class="wrap candle">
-  <svg class="candleart" viewBox="0 0 110 170" aria-hidden="true"><defs><radialGradient id="cg" cx=".5" cy=".7" r=".6"><stop offset="0" stop-color="#fffbe0"/><stop offset=".35" stop-color="#ffd36b"/><stop offset=".7" stop-color="#e8862a"/><stop offset="1" stop-color="#e8862a" stop-opacity="0"/></radialGradient><radialGradient id="halo"><stop offset="0" stop-color="#ffd36b" stop-opacity=".45"/><stop offset="1" stop-color="#ffd36b" stop-opacity="0"/></radialGradient><linearGradient id="wax" x1="0" x2="1"><stop offset="0" stop-color="#e9dcc0"/><stop offset=".5" stop-color="#fff8e6"/><stop offset="1" stop-color="#cdbb94"/></linearGradient><linearGradient id="brass" x1="0" x2="1"><stop offset="0" stop-color="#7a4a10"/><stop offset=".45" stop-color="#f3cf78"/><stop offset="1" stop-color="#8a5a14"/></linearGradient></defs><circle cx="55" cy="50" r="48" fill="url(#halo)"/><path class="fl" d="M55 18 C64 34 68 44 62 56 C59 62 51 62 48 56 C42 44 46 34 55 18Z" fill="url(#cg)"/><line x1="55" y1="58" x2="55" y2="66" stroke="#3a2a14" stroke-width="2"/><rect x="38" y="64" width="34" height="74" rx="4" fill="url(#wax)"/><path d="M38 70 q6 6 4 16 M66 66 q4 8 2 14" stroke="#fff" stroke-width="3" fill="none" opacity=".7"/><path d="M22 138 H88 L82 150 H28Z" fill="url(#brass)" stroke="#5a3a0c"/><ellipse cx="55" cy="154" rx="40" ry="8" fill="url(#brass)" stroke="#5a3a0c"/><path d="M84 142 q18 -2 14 12 q-3 8 -12 2" fill="none" stroke="url(#brass)" stroke-width="5"/><polygon points="55,124 60,129 55,134 50,129" fill="#19c27a" stroke="#04452a"/></svg>
+  <div class="candlebox" title="Touch the flame"><canvas class="cflame"></canvas><img class="wick" src="https://candlemenow.com/wick.webp" alt=""><img class="cbody" src="https://candlemenow.com/candle-mob.webp" alt="A candle"></div>
   <div><span class="eyebrow">Coming soon</span><h2 class="gold" style="margin-bottom:8px">Take it with you</h2><p style="color:var(--muted)">Scan or tap to carry your Gogo Guardians candle in your phone's wallet, and pass it to a friend so you both earn bonus emeralds.</p></div>
 </div></section>
 
-<span class="divider" aria-hidden="true"></span>
+<span class="divider" aria-hidden="true"><canvas class="dgem"></canvas></span>
 <section id="author"><div class="wrap author">
   <span class="eyebrow">The author</span>
   <h2 class="gold">Zafar Amin</h2>
@@ -192,6 +199,41 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
 
 <footer><div class="wrap"><span>&copy; 2026 Zafar Amin. All rights reserved.</span><span>Gogo Guardians</span></div></footer>
 <a class="note" href="https://form.jotform.com/263087088389069" target="_blank" rel="noopener">&#9998; Leave a note</a>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// rotating emeralds in the dividers (the same cut as the game's emerald)
+(function(){if(!window.THREE)return;const G=[];
+ function gem(canvas){try{const r=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});r.setPixelRatio(Math.min(2,devicePixelRatio||1));
+  const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(30,1,.1,50);cam.position.set(0,0.55,6.2);cam.lookAt(0,0,0);
+  const prof=[[0.001,-1.05],[0.35,-0.75],[0.72,-0.32],[1.0,0],[1.0,0.07],[0.86,0.22],[0.62,0.42],[0.001,0.42]].map(p=>new THREE.Vector2(p[0],p[1]));
+  const geo=new THREE.LatheGeometry(prof,12);geo.scale(1.28,1,0.95);
+  const outer=new THREE.MeshPhongMaterial({color:0x0fb866,emissive:0x022a17,specular:0xffffff,shininess:180,flatShading:true,transparent:true,opacity:.86});
+  const inner=new THREE.MeshPhongMaterial({color:0x3fe39a,emissive:0x07502f,specular:0xffffff,shininess:90,flatShading:true,transparent:true,opacity:.55,side:THREE.BackSide});
+  const g=new THREE.Group();g.add(new THREE.Mesh(geo,inner));g.add(new THREE.Mesh(geo,outer));g.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo,1),new THREE.LineBasicMaterial({color:0xc9ffe6,transparent:true,opacity:.3})));
+  g.rotation.x=0.16;g.position.y=0.31;sc.add(g);sc.add(new THREE.AmbientLight(0x2a5a44,.9));
+  const l1=new THREE.DirectionalLight(0xffffff,1.15);l1.position.set(3,4,5);sc.add(l1);const l2=new THREE.DirectionalLight(0xb8ffe0,.8);l2.position.set(-4,2,2);sc.add(l2);const l3=new THREE.PointLight(0xfff3c4,1.4,20);l3.position.set(0,-3,3);sc.add(l3);
+  const w=canvas.clientWidth,h=canvas.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();
+  const st={r,sc,cam,g,canvas,vis:false};G.push(st);return st}catch(e){return null}}
+ const io=new IntersectionObserver(es=>es.forEach(e=>{const st=G.find(x=>x.canvas===e.target);if(st)st.vis=e.isIntersecting}));
+ document.querySelectorAll('.dgem').forEach((c,i)=>{const st=gem(c);if(st){st.g.rotation.y=i*.9;io.observe(c)}});
+ const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;G.forEach(s=>s.r.render(s.sc,s.cam));
+ (function loop(){if(!RM)G.forEach(s=>{if(!s.vis)return;s.g.rotation.y+=.012;s.r.render(s.sc,s.cam)});requestAnimationFrame(loop)})()})();
+// a living candle flame you can play with
+(function(){const c=document.querySelector('.cflame');if(!c)return;const box=c.closest('.candlebox');const x=c.getContext('2d');const D=Math.min(2,devicePixelRatio||1);c.width=120*D;c.height=130*D;x.scale(D,D);
+ let lean=0,tl=0,st=0,ts=0,flare=0;const sparks=[];
+ const aim=e=>{const r=c.getBoundingClientRect();const dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height*.75),d=Math.hypot(dx,dy);const near=d<200;tl=near?Math.max(-30,Math.min(30,-dx*.3)):0;ts=near?(1-d/200)*16:0};
+ addEventListener('pointermove',aim);box.addEventListener('pointerleave',()=>{tl=0;ts=0});
+ box.addEventListener('pointerdown',e=>{aim(e);flare=1;for(let i=0;i<14;i++)sparks.push({x:60+lean,y:80,vx:(Math.random()-.5)*2.4,vy:-1.5-Math.random()*2.5,l:1})});
+ function shape(bx,by,w,h,tx,ty,s){x.beginPath();x.moveTo(bx,by);x.bezierCurveTo(bx-w*s*1.4,by-h*.22,bx-w*s*.9+lean*.4,by-h*.7,tx,ty+h*(1-s)*.6);x.bezierCurveTo(bx+w*s*.9+lean*.4,by-h*.7,bx+w*s*1.4,by-h*.22,bx,by);x.closePath()}
+ (function draw(t){const k=t/1000;lean+=(tl-lean)*.08;st+=(ts-st)*.1;flare*=.94;x.clearRect(0,0,120,130);
+  const bx=60,by=121,f=Math.sin(k*9)*1.4+Math.sin(k*23)*.9+(Math.random()-.5)*1.1,h=58+st+flare*26+f*2,w=11.5+flare*4+Math.sin(k*7)*.7,tx=bx+lean+f*1.3,ty=by-h;
+  x.globalCompositeOperation='lighter';let g=x.createRadialGradient(bx+lean*.4,by-h*.45,2,bx+lean*.4,by-h*.45,64);g.addColorStop(0,'rgba(255,190,90,'+(.32+flare*.3)+')');g.addColorStop(1,'rgba(255,150,50,0)');x.fillStyle=g;x.fillRect(0,0,120,130);
+  g=x.createLinearGradient(bx,by,tx,ty);g.addColorStop(0,'rgba(255,120,30,0)');g.addColorStop(.14,'rgba(255,140,40,.92)');g.addColorStop(.6,'rgba(255,196,80,.85)');g.addColorStop(1,'rgba(255,110,30,0)');shape(bx,by,w,h,tx,ty,1);x.fillStyle=g;x.fill();
+  g=x.createLinearGradient(bx,by,tx,ty);g.addColorStop(0,'rgba(255,255,240,0)');g.addColorStop(.16,'rgba(255,252,228,1)');g.addColorStop(.55,'rgba(255,238,175,.9)');g.addColorStop(1,'rgba(255,220,140,0)');shape(bx,by,w,h*.82,bx+lean*.8+f,by-h*.82,.58);x.fillStyle=g;x.fill();
+  x.globalCompositeOperation='source-over';x.beginPath();x.ellipse(bx,by-5,3.6,6,0,0,7);x.fillStyle='rgba(70,110,255,.5)';x.fill();
+  for(let i=sparks.length-1;i>=0;i--){const p=sparks[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.03;p.l-=.02;if(p.l<=0){sparks.splice(i,1);continue}x.fillStyle='rgba(255,220,140,'+p.l.toFixed(2)+')';x.fillRect(p.x,p.y,2,2)}
+  requestAnimationFrame(draw)})(0)})();
+</script>
 <script src="/comments.js" defer></script>
 </body>
 </html>
