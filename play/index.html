@@ -921,14 +921,13 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
 .racktab.locked{opacity:.55}.racktab.locked b::before{content:"\1F512  "}
 .linkbtn.skip{margin-left:auto;color:#f6d27a;font:italic 700 15px var(--calli)}
 
-/* phones: the Continue button is always on screen */
+/* phones: the Continue button sits near the top, never under the browser's toolbar */
 @media (max-width:820px){
- .rv2{padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))!important}
- .rv2 .rvbar{position:fixed!important;left:0;right:0;bottom:0;z-index:60;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px))!important;
-  background:linear-gradient(180deg,rgba(2,3,10,0),rgba(2,3,10,.92) 30%)!important;display:flex!important;flex-direction:column;align-items:center;gap:8px!important}
+ .rv2>div:first-child{order:-2}
+ .rv2 .rvbar{order:-1;position:relative!important;z-index:80;display:flex!important;flex-direction:column;align-items:center;gap:6px!important;padding:0!important;background:none!important}
  .rv2 .tally{display:none!important}
  .rvgogo span{font-size:15px!important}
- #rvgo{padding:13px 32px!important;font-size:18px!important}
+ #rvgo{padding:12px 30px!important;font-size:18px!important}
  .treasure .tbox{width:min(46vw,190px)!important}
 }
 </style>
