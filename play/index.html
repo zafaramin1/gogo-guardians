@@ -1055,11 +1055,13 @@ function capType(text,u){lastSaid=text;capt.classList.remove('idle');if(CAPX){co
  const show=n=>{if(n>shown){shown=Math.min(n,words.length);capt.textContent=words.slice(0,shown).join(' ')}};
  capTimer=setInterval(()=>{show(shown+1);if(shown>=words.length){clearInterval(capTimer);if(!u)capHide(2600)}},340);
  if(u){u.onboundary=e=>{if(e.name&&e.name!=='word')return;show(text.slice(0,e.charIndex+1).split(' ').length)};u.onend=()=>{clearInterval(capTimer);show(words.length);capHide(2600)}}}
-let VAUD=null;function stopVoice(){try{if(VAUD){VAUD.pause();VAUD=null}}catch(e){}}
+const VEL=new Audio();VEL.preload='auto';let VAUD=null,VPRIMED=false;
+addEventListener('pointerdown',()=>{if(VPRIMED)return;VPRIMED=true;try{if(!VEL.src){VEL.muted=true;VEL.src='voice/v_gogo_yay3.mp3';VEL.play().then(()=>{VEL.pause();VEL.muted=false}).catch(()=>{VEL.muted=false})}}catch(e){}},{capture:true});
+function stopVoice(){try{VEL.pause()}catch(e){}VAUD=null}
 function say(t,file){if(!VOICE||!GESTURE||!t)return;const text=String(t).replace(/[“”"]/g,'').replace(/·/g,',').replace(/\s+/g,' ').trim();stopVoice();
- if(file){try{speechSynthesis.cancel()}catch(e){}const a=new Audio(file);VAUD=a;capType(text,null);a.onerror=()=>{if(VAUD===a){VAUD=null;sayTTS(text)}};a.play().catch(()=>{if(VAUD===a){VAUD=null;sayTTS(text)}});return}
+ if(file){try{speechSynthesis.cancel()}catch(e){}VAUD=VEL;VEL.onended=null;VEL.muted=false;VEL.src=file;capType(text,null);VEL.play().catch(()=>{});return}
  sayTTS(text)}
-function sayTTS(text){
+function sayTTS(text){try{speechSynthesis.cancel()}catch(e){}capType(text,null);return;
  if(!window.speechSynthesis){capType(text,null);return}
  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(VV)u.voice=VV;u.rate=.92;u.pitch=1.05;capType(text,u);speechSynthesis.speak(u)}catch(e){}}
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -1311,8 +1313,8 @@ function guardSay(g,text,then){const sc=document.getElementById('scene');sc.quer
  const b=el('<div class="gbubble plain '+g.toLowerCase()+'"><span></span></div>');sc.append(b);
  const sp=b.querySelector('span');let i=0;const tick=setInterval(()=>{sp.textContent=text.slice(0,++i);if(i>=text.length)clearInterval(tick)},45);
  let ended=false;const end=()=>{if(ended)return;ended=true;p.classList.add('fade');setTimeout(()=>p.remove(),600);if(then)then()};
- if(VOICE&&GESTURE&&/^(Yes|No)\.$/.test(text)){stopVoice();try{speechSynthesis.cancel()}catch(e){}const a=new Audio('voice/v_'+g.toLowerCase()+'_'+text.slice(0,-1).toLowerCase()+'.mp3');VAUD=a;a.onended=end;a.onerror=()=>setTimeout(end,900);a.play().catch(()=>setTimeout(end,900));setTimeout(end,5000)}
- else if(VOICE&&GESTURE&&window.speechSynthesis){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(VV)u.voice=VV;u.pitch=GH[g].pitch;u.rate=GH[g].rate;u.onend=end;u.onerror=end;speechSynthesis.speak(u);setTimeout(end,6000)}catch(e){setTimeout(end,1800)}}
+ if(VOICE&&GESTURE&&/^(Yes|No)\.$/.test(text)){stopVoice();try{speechSynthesis.cancel()}catch(e){}VEL.src='voice/v_'+g.toLowerCase()+'_'+text.slice(0,-1).toLowerCase()+'.mp3';VAUD=VEL;VEL.onended=end;VEL.play().catch(()=>setTimeout(end,900));setTimeout(end,5000)}
+ else if(false){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(VV)u.voice=VV;u.pitch=GH[g].pitch;u.rate=GH[g].rate;u.onend=end;u.onerror=end;speechSynthesis.speak(u);setTimeout(end,6000)}catch(e){setTimeout(end,1800)}}
  else setTimeout(end,1800)}
 function gbtn(t,fn,cls){const b=el('<button class="gbtn '+(cls||'')+'" type="button"></button>');b.innerHTML=t;b.onclick=fn;return b}
 function sayGuards(){const g=stage.querySelector('.gstory'),a=stage.querySelector('.ask');say((g?g.textContent+' ':'')+(a?a.textContent:''))}
@@ -1324,7 +1326,7 @@ function draw(){scene();stage.innerHTML='';document.querySelectorAll('#scene .gb
   r.append(h);stage.append(r)};
  if(!st.asked){
   stage.append(el('<p class="gstory">'+G_PREMISE+'</p>'));stage.append(el('<p class="grules">'+G_RULES+'</p>'));
-  if(!st.warned&&VOICE&&GESTURE){st.warned=1;stopVoice();const a=new Audio('voice/v_tariq_warning.mp3');VAUD=a;a.play().catch(()=>{})}
+  if(!st.warned&&VOICE&&GESTURE){st.warned=1;stopVoice();VEL.onended=null;VEL.src='voice/v_tariq_warning.mp3';VAUD=VEL;VEL.play().catch(()=>{})}
   const r=step(1,'Which guard will you ask?');['Tariq','Sami'].forEach(n=>r.append(gbtn(GN[n],()=>{st.asked=n;draw();say('You walk up to '+GN[n]+'. You have one question. Make it count.')},'gold')));
   extras(alts=>{const t=alts.join(' ');const g=new RegExp(GN.Tariq.toLowerCase()).test(t)?'Tariq':new RegExp(GN.Sami.toLowerCase()).test(t)?'Sami':null;if(g){st.asked=g;draw()}else toast('Say '+GN.Tariq+' or '+GN.Sami+'.')});return}
  if(!st.q){
