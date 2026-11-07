@@ -846,6 +846,52 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
 .racktab.on{border-color:#f6d27a;background:linear-gradient(180deg,#2a1d08,#120c04);box-shadow:0 0 14px rgba(246,210,122,.35)}.racktab.on b{color:#ffe9a8}
 #pickPanel{grid-template-rows:auto auto auto minmax(0,1fr) auto!important}
 @media (max-width:820px){.racktabs{gap:5px}.racktab{padding:5px 9px}.racktab b{font-size:13px}.racktab small{font-size:8px}}
+
+/* ===== Version 24 ===== */
+.fb{margin:0;min-height:1.4em;font:italic 700 clamp(18px,1.7vw,22px)/1.35 var(--calli)}
+.fb.good{color:#7dffc4;text-shadow:0 0 12px rgba(47,227,154,.5)}
+.fb.bad{color:#ffb38a}
+.med.wrong{opacity:1!important;border-color:#ff6a5a!important;box-shadow:0 0 0 2px #ff6a5a,0 0 18px rgba(255,90,70,.5)!important;position:relative}
+.med.wrong::after{content:"\2717";position:absolute;top:6px;right:8px;width:30px;height:30px;border-radius:50%;background:#7a1a12;color:#ffd6cc;font:900 18px/30px var(--body);text-align:center;box-shadow:0 0 0 2px #ffb38a}
+.med.wrong .glass img{filter:grayscale(.7) brightness(.6)!important}
+.med.right{box-shadow:0 0 0 3px #7dffc4,0 0 26px rgba(47,227,154,.7)!important}
+.hint{display:none!important}
+/* the big emerald button on the treasure screen */
+#rvgo{font:800 clamp(18px,1.8vw,24px) var(--body)!important;padding:16px 40px!important;border-radius:999px!important;color:#eafff4!important;border:2.5px solid #f6d27a!important;
+ background:radial-gradient(120% 120% at 50% 0%,#5dffb9 0%,#19c27a 35%,#0a6a42 75%,#04452a 100%)!important;box-shadow:0 0 0 3px #3a2306,0 0 28px rgba(47,227,154,.6),inset 0 2px 0 rgba(255,255,255,.4)!important;text-shadow:0 1px 2px #022}
+@media (prefers-reduced-motion:no-preference){#rvgo{animation:gpulse2 1.8s ease-in-out infinite}@keyframes gpulse2{50%{box-shadow:0 0 0 3px #3a2306,0 0 44px rgba(47,227,154,.9),inset 0 2px 0 rgba(255,255,255,.4)}}}
+/* Two Guards: clean words, no boxes, gold buttons, everything centered low in the frame */
+.gname{fill:#e9a35c!important;font:italic 700 24px var(--calli)!important;filter:drop-shadow(0 1px 2px rgba(0,0,0,.8))!important;opacity:1!important}
+.pathname{font:italic 700 15px var(--calli)!important;fill:#4a2608!important;stroke:none!important;opacity:.95!important;paint-order:normal!important}
+.gbubble.plain{background:none!important;box-shadow:none!important;padding:0!important;font:italic 800 clamp(30px,3.4vw,48px)/1 var(--calli)!important;color:#e9a35c!important;text-shadow:0 2px 6px rgba(0,0,0,.85),0 0 18px rgba(0,0,0,.5);top:30%!important}
+.gbubble.plain::after{display:none!important}
+#stage .now{display:grid;justify-items:center;text-align:center;gap:14px;margin-top:auto}
+#stage .now .stepn{font:800 clamp(15px,1.4vw,18px) var(--body)!important;letter-spacing:.14em;text-transform:uppercase;color:#f6d27a}
+#stage .now .ask{text-align:center}
+#stage .btnrow{justify-content:center!important}
+#stage .gstory,#stage .grules{margin:0 0 6px}
+#stage{display:flex!important;flex-direction:column;gap:18px!important;min-height:100%}
+#stage .tools{justify-content:center}
+.gbtn.gold{color:#2a1604!important;border:0!important;background:linear-gradient(180deg,#fff0b8,#f0c96a 35%,#c9902e 75%,#9a6418)!important;box-shadow:0 3px 0 #5a3404,0 8px 16px rgba(0,0,0,.5),inset 0 1px 0 #fff8!important;font-weight:800!important}
+.gbtn.gold:hover{filter:brightness(1.08)}
+.gbtn.gold:disabled{opacity:.5}
+/* Dracula's bats */
+.step.big{font-size:clamp(15px,1.4vw,18px)!important;color:#f6d27a}
+.marks i{font-style:normal;margin-left:6px;font-weight:900}.marks .ok{color:#7dffc4}.marks .no{color:#ffb38a}
+.choice.right{box-shadow:0 0 0 3px #7dffc4,0 0 20px rgba(47,227,154,.6)!important}
+.screen[data-name="bats"] .pic img{transition:opacity .35s}
+/* pool table: bigger table, cue stick, pocket tray */
+#pickPanel>h2{display:none}
+#pickPanel{gap:10px!important;grid-template-rows:auto auto minmax(0,1fr) auto!important}
+.cueball .sph{background:radial-gradient(circle at 34% 28%,#fff 0 10%,#f4f0e6 40%,#c8c2b4 100%)!important}
+.cueball .dot{display:none!important}
+.cuestick{position:absolute;left:0;top:0;height:9px;border-radius:5px;transform-origin:0 50%;pointer-events:none;z-index:4;
+ background:linear-gradient(90deg,#3a6ad8 0 2.5%,#f4f0e6 2.5% 5%,#f2d9a0 5% 55%,#8a4a14 55% 97%,#1a0c04 97%);box-shadow:0 4px 8px rgba(0,0,0,.6)}
+.aimline{position:absolute;left:0;top:0;height:0;border-top:2px dashed rgba(255,255,255,.55);transform-origin:0 50%;pointer-events:none;z-index:3}
+.ball.next .sph{box-shadow:0 0 0 3px #f6d27a,0 0 22px 6px rgba(246,210,122,.75),inset -6px -10px 18px rgba(0,0,0,.45)!important}
+.tray{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+.tray .tb{width:38px;height:38px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;font:900 14px var(--body);color:#111;
+ background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.9) 0 8%,rgba(255,255,255,0) 30%),radial-gradient(circle,#fff 0 30%,var(--c) 31%);box-shadow:0 3px 6px #000a}
 </style>
 <div class="app">
   <header class="top">
@@ -956,8 +1002,8 @@ const vs=document.getElementById('vswitch');vs.onclick=()=>{VOICE=!VOICE;vs.clas
 let VV=null;function pickVoice(){try{const en=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));VV=en.find(v=>/natural|neural|enhanced|premium/i.test(v.name))||en.find(v=>/Aria|Jenny|Guy|Samantha|Ava|Evan|Google UK English Male|Google US English|Daniel|Serena/i.test(v.name))||en[0]||null}catch(e){}}
 if(window.speechSynthesis){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
 const cap=document.getElementById('caption'),capt=document.getElementById('captxt');let capTimer=null,capHideT=null;
-let lastSaid='';let MOODP='happy';function capHide(ms){clearTimeout(capHideT);capHideT=setTimeout(()=>{capt.classList.add('idle');if(!lastSaid)capt.textContent='Gogo is listening...'},ms)}
-function capType(text,u){lastSaid=text;capt.classList.remove('idle');if(document.body.classList.contains('rvopen')||!document.getElementById('flip').hidden){capt.textContent=text;return}clearInterval(capTimer);clearTimeout(capHideT);const words=text.split(' ');let shown=0;capt.textContent='';
+let lastSaid='';let MOODP='happy';function capHide(ms){clearTimeout(capHideT);capHideT=setTimeout(()=>{capt.classList.add('idle');if(!lastSaid)capt.textContent=VOICE?'Ready when you are, Guardian.':'My voice is off. I am still here!'},ms)}
+function capType(text,u){lastSaid=text;capt.classList.remove('idle');if(CAPX){const cx=CAPX;CAPX=null;clearInterval(capTimer);clearTimeout(capHideT);capt.textContent=cx;if(u)u.onend=()=>capHide(2600);else capHide(4000);return}if(document.body.classList.contains('rvopen')||!document.getElementById('flip').hidden){capt.textContent=text;return}clearInterval(capTimer);clearTimeout(capHideT);const words=text.split(' ');let shown=0;capt.textContent='';
  const show=n=>{if(n>shown){shown=Math.min(n,words.length);capt.textContent=words.slice(0,shown).join(' ')}};
  capTimer=setInterval(()=>{show(shown+1);if(shown>=words.length){clearInterval(capTimer);if(!u)capHide(2600)}},340);
  if(u){u.onboundary=e=>{if(e.name&&e.name!=='word')return;show(text.slice(0,e.charIndex+1).split(' ').length)};u.onend=()=>{clearInterval(capTimer);show(words.length);capHide(2600)}}}
@@ -1009,7 +1055,11 @@ function stash(){if(rvDone)return;rvDone=true;const fr=FP.getBoundingClientRect(
   const big=el('<div class="biggem">'+(window.THREE?'<canvas class="gem3d big"></canvas>':'<svg viewBox="0 0 40 40"><use href="#gem"/></svg>')+'<div class="bg-num">+'+rvPts+'</div></div>');document.querySelector('.rv2').append(big);const bc=big.querySelector('canvas');if(bc)requestAnimationFrame(()=>gem3d(bc,true));
   document.getElementById('tally').textContent='You have '+gems+' emeralds!'+(nx?' Collect '+(nx[0]-gems)+' more to unlock '+nx[1]+'.':'');
   say('You have '+gems+' emeralds.'+(nx?' Collect '+(nx[0]-gems)+' more to unlock '+nx[1]+'.':''));document.getElementById('rvgo').textContent='Continue'}}
-function swoosh(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime,len=1.0,buf=AC.createBuffer(1,AC.sampleRate*len,AC.sampleRate),d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);
+function swoosh(){const r=Math.random();if(r<.25)return swooshCoins();if(r<.5)return swooshHarp();if(r<.75)return swooshDeep();return swooshWind()}
+function swooshCoins(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime;for(let i=0;i<14;i++){const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=2200+Math.random()*2600;const at=t+i*.045+Math.random()*.02;g.gain.setValueAtTime(.09,at);g.gain.exponentialRampToValueAtTime(.0001,at+.18);o.connect(g).connect(AC.destination);o.start(at);o.stop(at+.2)}setTimeout(chime,650)}catch(e){}}
+function swooshHarp(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime;[523,587,659,784,880,1047,1175,1319,1568,1760].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;const at=t+i*.055;g.gain.setValueAtTime(.12,at);g.gain.exponentialRampToValueAtTime(.0001,at+.9);o.connect(g).connect(AC.destination);o.start(at);o.stop(at+1)})}catch(e){}}
+function swooshDeep(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(420,t);o.frequency.exponentialRampToValueAtTime(60,t+.8);g.gain.setValueAtTime(.4,t);g.gain.exponentialRampToValueAtTime(.0001,t+.9);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+.95);setTimeout(chime,700)}catch(e){}}
+function swooshWind(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime,len=1.0,buf=AC.createBuffer(1,AC.sampleRate*len,AC.sampleRate),d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);
  const src=AC.createBufferSource();src.buffer=buf;const f=AC.createBiquadFilter();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(400,t);f.frequency.exponentialRampToValueAtTime(3200,t+.9);const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.7,t+.25);g.gain.exponentialRampToValueAtTime(.0001,t+1);src.connect(f).connect(g).connect(AC.destination);src.start(t);const o=AC.createOscillator(),og=AC.createGain();o.type='sine';o.frequency.setValueAtTime(220,t);o.frequency.exponentialRampToValueAtTime(880,t+.8);og.gain.setValueAtTime(.0001,t);og.gain.exponentialRampToValueAtTime(.18,t+.3);og.gain.exponentialRampToValueAtTime(.0001,t+.95);o.connect(og).connect(AC.destination);o.start(t);o.stop(t+1)}catch(e){}}
 function closeRv(){document.querySelectorAll('#fp .spirits').forEach(x=>x.remove());RV.hidden=true;document.body.classList.remove('rvopen');capHide(0);try{speechSynthesis.cancel()}catch(e){}if(rvNext)rvNext()}
 document.getElementById('rvgo').onclick=()=>{if(rvPts&&!rvDone)stash();else closeRv()};
@@ -1028,7 +1078,7 @@ function wrapPics(){document.querySelectorAll('.pic>img').forEach(img=>{const bo
 const BAT='<svg viewBox="0 0 70 36"><g fill="none" stroke="#f6d27a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path class="w" d="M35 18 C30 8 20 4 6 8 C12 12 12 16 9 20 C16 18 22 20 26 24 C28 20 31 19 35 18 Z M35 18 C40 8 50 4 64 8 C58 12 58 16 61 20 C54 18 48 20 44 24 C42 20 39 19 35 18 Z" fill="#0b0716"/><path d="M32 14 L33 10 L35 13 L37 10 L38 14" fill="#0b0716"/><circle cx="33.5" cy="16" r=".8" fill="#ff6b6b" stroke="none"/><circle cx="36.5" cy="16" r=".8" fill="#ff6b6b" stroke="none"/></g></svg>';
 function flyBats(n){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const scr=screens.find(x=>x.dataset.name==='bats');const pic=scr.querySelector('.imgbox')||scr.querySelector('.pic');const r=pic.getBoundingClientRect();
  const layer=document.querySelector('.batlayer')||document.body.appendChild(el('<div class="batlayer"></div>'));
- for(let i=0;i<(n||9);i++){const b=el('<div class="bat">'+BAT+'</div>');const BP=[[.14,.24],[.3,.11],[.44,.07],[.6,.05],[.77,.18],[.86,.34],[.24,.44],[.7,.44],[.52,.28],[.18,.62],[.9,.56],[.38,.3]];const q=BP[(i+Math.floor(Math.random()*BP.length))%BP.length];const ox=r.left+r.width*(q[0]+(Math.random()-.5)*.04),oy=r.top+r.height*(q[1]+(Math.random()-.5)*.04);b.style.left=ox+'px';b.style.top=oy+'px';
+ for(let i=0;i<(n||30);i++){const b=el('<div class="bat">'+BAT+'</div>');const BP=[[.14,.24],[.3,.11],[.44,.07],[.6,.05],[.77,.18],[.86,.34],[.24,.44],[.7,.44],[.52,.28],[.18,.62],[.9,.56],[.38,.3]];const q=BP[(i+Math.floor(Math.random()*BP.length))%BP.length];const ox=r.left+r.width*(q[0]+(Math.random()-.5)*.04),oy=r.top+r.height*(q[1]+(Math.random()-.5)*.04);b.style.left=ox+'px';b.style.top=oy+'px';
   const a=Math.atan2(oy-(r.top+r.height*.4),ox-(r.left+r.width/2))+(Math.random()-.5)*1.1,d=Math.max(innerWidth,innerHeight)*(.7+Math.random()*.4);b.style.setProperty('--bx',Math.cos(a)*d+'px');b.style.setProperty('--by',(Math.sin(a)*d-80)+'px');b.style.setProperty('--bs',(1.2+Math.random()*1.4).toFixed(2));b.style.setProperty('--d',(2+Math.random()*1.6).toFixed(2)+'s');const dl=Math.random()*1.4;b.style.animationDelay=dl.toFixed(2)+'s';layer.append(b);setTimeout(()=>b.remove(),4800+dl*1000)}}
 // ===== screens: one at a time, with a simple Back =====
 const screens=[...document.querySelectorAll('.screen')];let cur=0;
@@ -1088,7 +1138,7 @@ function drawPick(){const p=document.getElementById('pickPanel');p.innerHTML='';
  p.append(el('<p class="rules1" id="tablehint"><span><b>Tap the rack to break!</b> Then flick a ball into a pocket to play its riddle, or just tap a ball.</span></p>'));
  const wrap=el('<div class="tablewrap"><div class="ptable"><div class="felt"><div class="ballarea"></div></div></div><div class="solvedrack"><span class="srl">Solved</span><div class="srow"></div></div></div>');p.append(wrap);
  const more=el('<div class="row"><button class="gbtn" type="button">The Two Guards</button><button class="gbtn" type="button">Dracula’s Bats</button></div>');more.children[0].onclick=()=>go('guards');more.children[1].onclick=()=>go('bats');
- const lg=gbtn('Enough billiards, let’s go! ›',()=>{const o=PICKED||BALLS.find(x=>!x.sunk);if(o)playBall(o)},'arch');lg.classList.add('letsgo');more.prepend(lg);p.append(more);
+ const lg=gbtn('Enough billiards, let’s go! ›',()=>{const o=PICKED||BALLS.filter(x=>!x.cue&&!x.sunk).sort((a,b)=>ballNo(a.ch,a.k)-ballNo(b.ch,b.k))[0]||TRAY[TRAY.length-1];if(o)playBall(o)},'arch');lg.classList.add('letsgo');more.prepend(lg);p.append(more);
  requestAnimationFrame(()=>requestAnimationFrame(()=>layBalls(wrap.querySelector('.ballarea'))))}
 function ballNo(ch,k){const L=rackList(Math.max(0,rackOf(ch)));return L.findIndex(x=>x[0]===ch&&x[1]===k)+1}
 function setHint(t){const h=document.getElementById('tablehint');if(h)h.innerHTML=t}
@@ -1103,12 +1153,12 @@ function layBalls(area){cancelAnimationFrame(BALL_RAF);area.innerHTML='';BALLS=[
  POCKETS.forEach(q=>{const d=el('<span class="pocket"></span>');d.style.width=d.style.height=(q.r*2)+'px';d.style.left=(q.x-q.r)+'px';d.style.top=(q.y-q.r)+'px';area.append(d)});
  
  if(!open.length){area.append(el('<div class="alldone">Every riddle on this table is solved! Tap an emerald to play one again, or pick another table above.</div>'));setHint('Every ball is sunk. Well played, Guardian!');return}
- const D=Math.max(36,Math.min(66,W/12,H/5.6));
+ const D=Math.max(30,Math.min(58,W/14,H/6.4));TRAY=[];
  // the triangle rack
  const rows=[];let left=open.slice();for(let n=1;left.length;n++){rows.push(left.splice(0,n))}
  const dx=D*.88,ax=Math.max(D,W-(rows.length-1)*dx-D*.8-PR),ay=H/2;
  rows.forEach((row,ri_)=>row.forEach(([ch,k,r],j)=>{const x=ax+ri_*dx,y=ay+(j-(row.length-1)/2)*D*1.02;addBall(area,ch,k,r,D,x,y)}));
- RACKED=true;PICKED=null;setHint('<span><b>Tap the rack to break!</b> Then play with the balls as long as you like. When you are ready, tap one to choose it.</span>');
+ RACKED=false;addCue(area,D);markNext();PICKED=null;setHint('<span><b>Pull back on the white ball to aim, then let go to shoot.</b> Sink a ball to win its riddle, or just tap any ball. The glowing one is next in order.</span>');
  placeBalls();ballLoop();requestAnimationFrame(()=>{if((Math.abs(area.clientHeight-H)>2||Math.abs(area.clientWidth-W)>2)&&!area.__re){area.__re=1;layBalls(area);area.__re=0}})}
 function addBall(area,ch,k,r,D,x,y){const n=ballNo(ch,k);const b=el('<button class="ball" type="button"><span class="sph"><span class="dot"><i></i><em></em></span></span><span class="bl"></span></button>');
  b.querySelector('i').textContent=n;b.querySelector('em').textContent='Ch '+ch;b.querySelector('.bl').textContent=CHSHORT[ch]||'';b.style.setProperty('--c',POOLC[(n-1)%15]);b.style.width=D+'px';
@@ -1118,18 +1168,35 @@ function placeBalls(){for(const o of BALLS)if(!o.sunk)o.b.style.transform='trans
 function breakRack(){if(!RACKED)return;RACKED=false;const cx=BALLS.reduce((a,o)=>a+o.x,0)/BALLS.length,cy=BALLS.reduce((a,o)=>a+o.y,0)/BALLS.length;
  BALLS.forEach(o=>{const a=Math.atan2(o.y-cy,o.x-cx)+(Math.random()-.5)*.8,s=500+Math.random()*700;o.vx=Math.cos(a)*s-260;o.vy=Math.sin(a)*s});clack(1);setTimeout(()=>clack(.7),60);setTimeout(()=>clack(.5),130);
  setHint('<span>Flick them, bounce them, sink them. When you are ready, tap a ball to choose its riddle.</span>')}
+function addCue(area,D){const W=area.clientWidth,H=area.clientHeight;const b=el('<button class="ball cueball" type="button" aria-label="The white cue ball"><span class="sph"><span class="dot"><i></i><em></em></span></span></button>');b.style.width=D+'px';area.append(b);
+ const o={b,cue:true,ch:0,k:0,D,x:Math.max(D,W*.22),y:H/2,vx:0,vy:0,drag:false,sunk:false};CUE=o;BALLS.push(o);
+ const stick=el('<div class="cuestick" hidden></div>'),aim=el('<div class="aimline" hidden></div>');area.append(stick);area.append(aim);
+ let aiming=false,px=0,py=0;const rect=()=>area.getBoundingClientRect();
+ b.addEventListener('pointerdown',e=>{if(o.sunk||Math.hypot(o.vx,o.vy)>5)return;aiming=true;b.setPointerCapture(e.pointerId);const r=rect();px=e.clientX-r.left;py=e.clientY-r.top;e.preventDefault()});
+ b.addEventListener('pointermove',e=>{if(!aiming)return;const r=rect();px=e.clientX-r.left;py=e.clientY-r.top;const dx=o.x-px,dy=o.y-py,pull=Math.min(150,Math.hypot(dx,dy)),a=Math.atan2(dy,dx);
+  const L=Math.min(W*.5,320);stick.hidden=pull<8;stick.style.width=L+'px';stick.style.transform='translate('+(o.x-Math.cos(a)*(D/2+6+pull*.6))+'px,'+(o.y-Math.sin(a)*(D/2+6+pull*.6)-4.5)+'px) rotate('+(a+Math.PI)+'rad)';
+  aim.hidden=pull<8;aim.style.width=Math.min(W,140+pull*2.5)+'px';aim.style.transform='translate('+o.x+'px,'+o.y+'px) rotate('+a+'rad)'});
+ b.addEventListener('pointerup',()=>{if(!aiming)return;aiming=false;const dx=o.x-px,dy=o.y-py,pull=Math.min(150,Math.hypot(dx,dy));stick.hidden=aim.hidden=true;if(pull<8)return;const a=Math.atan2(dy,dx),sp=pull*13;
+  stick.hidden=false;stick.animate([{opacity:1},{opacity:0}],{duration:250});setTimeout(()=>stick.hidden=true,250);o.vx=Math.cos(a)*sp;o.vy=Math.sin(a)*sp;clack(Math.min(1,pull/120));
+  setHint('<span>Nice shot! Keep shooting, or tap any ball to choose its riddle.</span>')});
+ b.addEventListener('click',e=>e.preventDefault())}
+function scratch(o,q){o.vx=o.vy=0;thunk();o.b.animate([{opacity:1},{opacity:0},{opacity:1}],{duration:700});const a=o.b.parentNode;o.x=Math.max(o.D,a.clientWidth*.22);o.y=a.clientHeight/2;placeBalls();setHint('<span><b>Scratch!</b> The white ball fell in. It is back on the table. Shoot again!</span>')}
+function markNext(){const L=BALLS.filter(x=>!x.cue&&!x.sunk).sort((a,b)=>ballNo(a.ch,a.k)-ballNo(b.ch,b.k));BALLS.forEach(x=>x.b.classList.remove('next'));if(L[0])L[0].b.classList.add('next')}
+let TRAY=[];
+function toTray(o){const n=ballNo(o.ch,o.k);TRAY.push(o);markNext();const h=document.getElementById('tablehint');if(!h)return;h.innerHTML='';const t=el('<span class="pk"></span>');t.innerHTML='<b>In the pocket!</b> Riddle '+n+' · '+(CHSHORT[o.ch]||'');h.append(t);h.append(gbtn('Play riddle '+n+' ›',()=>playBall(o),'arch small'));
+ const tr=el('<span class="tray"></span>');TRAY.slice(-6).forEach(x=>{const m=el('<button class="tb" type="button"></button>');const k=ballNo(x.ch,x.k);m.textContent=k;m.style.setProperty('--c',POOLC[(k-1)%15]);m.title='Play riddle '+k;m.onclick=()=>playBall(x);tr.append(m)});h.append(tr)}
 function playBall(o){rch=o.ch;ri=o.k;tries=0;RACK=Math.max(0,rackOf(o.ch));riddle();go('trail')}
-function sink(o,q){if(o.sunk)return;o.sunk=true;o.vx=o.vy=0;thunk();o.b.style.transition='transform .35s ease-in,opacity .35s';o.b.style.transform='translate('+(q.x-o.D/2)+'px,'+(q.y-o.D/2)+'px) scale(.2)';o.b.style.opacity='0';
+function sink(o,q){if(o.sunk)return;if(o.cue){scratch(o,q);return}o.sunk=true;o.vx=o.vy=0;thunk();if(SINKSTYLE==='tray'){o.b.style.transition='transform .35s ease-in,opacity .35s';o.b.style.transform='translate('+(q.x-o.D/2)+'px,'+(q.y-o.D/2)+'px) scale(.2)';o.b.style.opacity='0';setTimeout(()=>toTray(o),380);return}o.b.style.transition='transform .35s ease-in,opacity .35s';o.b.style.transform='translate('+(q.x-o.D/2)+'px,'+(q.y-o.D/2)+'px) scale(.2)';o.b.style.opacity='0';
  setTimeout(()=>{const area=o.b.parentNode;if(!area)return;const W=area.clientWidth,H=area.clientHeight;o.x=q.x+(W/2-q.x)*.25;o.y=q.y+(H/2-q.y)*.35;o.b.style.transition='opacity .3s';o.b.style.opacity='1';o.sunk=false;placeBalls();setTimeout(()=>{o.b.style.transition=''},320);pickBall(o,true)},520)}
-let PICKED=null;
-function pickBall(o,pocketed){PICKED=o;BALLS.forEach(x=>x.b.classList.toggle('picked',x===o));const n=ballNo(o.ch,o.k),r=RIDDLES[o.ch].items[o.k];
+let PICKED=null,SINKSTYLE='tray',CUE=null;
+function pickBall(o,pocketed){if(o.cue)return;PICKED=o;BALLS.forEach(x=>x.b.classList.toggle('picked',x===o));const n=ballNo(o.ch,o.k),r=RIDDLES[o.ch].items[o.k];
  const h=document.getElementById('tablehint');if(!h)return;h.innerHTML='';const t=el('<span class="pk"></span>');t.innerHTML=(pocketed?'<b>In the pocket!</b> ':'')+'Riddle <b>'+n+'</b> · Chapter '+o.ch+' · '+(CHSHORT[o.ch]||'')+' · '+r.d;h.append(t);
  const go_=gbtn('Play riddle '+n+' ›',()=>playBall(o),'arch small');h.append(go_)}
 function ballInput(o,area){let sx,sy,lx,ly,lt,moved=false;
- o.b.addEventListener('pointerdown',e=>{if(RACKED){breakRack();e.preventDefault();return}o.drag=true;moved=false;sx=lx=e.clientX;sy=ly=e.clientY;lt=performance.now();o.vx=o.vy=0;o.b.setPointerCapture(e.pointerId);o.b.classList.add('grab')});
- o.b.addEventListener('pointermove',e=>{if(!o.drag)return;const dx=e.clientX-lx,dy=e.clientY-ly,t=performance.now(),dt=Math.max(8,t-lt)/1000;if(Math.hypot(e.clientX-sx,e.clientY-sy)>6)moved=true;
+ o.b.addEventListener('pointerdown',e=>{if(o.cue)return;o.drag=true;moved=false;sx=lx=e.clientX;sy=ly=e.clientY;lt=performance.now();o.vx=o.vy=0;o.b.setPointerCapture(e.pointerId);o.b.classList.add('grab')});
+ o.b.addEventListener('pointermove',e=>{if(o.cue||!o.drag)return;const dx=e.clientX-lx,dy=e.clientY-ly,t=performance.now(),dt=Math.max(8,t-lt)/1000;if(Math.hypot(e.clientX-sx,e.clientY-sy)>6)moved=true;
   o.x+=dx;o.y+=dy;o.vx=dx/dt;o.vy=dy/dt;lx=e.clientX;ly=e.clientY;lt=t;clampBall(o,area)});
- o.b.addEventListener('pointerup',()=>{if(!o.drag)return;o.drag=false;o.b.classList.remove('grab');const sp=Math.hypot(o.vx,o.vy);if(sp>2000){o.vx*=2000/sp;o.vy*=2000/sp}if(!moved){o.vx=o.vy=0;if(PICKED===o)playBall(o);else pickBall(o)}});
+ o.b.addEventListener('pointerup',()=>{if(o.cue||!o.drag)return;o.drag=false;o.b.classList.remove('grab');const sp=Math.hypot(o.vx,o.vy);if(sp>2000){o.vx*=2000/sp;o.vy*=2000/sp}if(!moved){o.vx=o.vy=0;if(PICKED===o)playBall(o);else pickBall(o)}});
  o.b.addEventListener('click',e=>e.preventDefault())}
 function clampBall(o,area){const W=area.clientWidth,H=area.clientHeight,R=o.D/2;for(const q of POCKETS){if(Math.hypot(o.x-q.x,o.y-q.y)<q.r*1.05&&!o.drag){sink(o,q);return}}
  if(o.x<R){o.x=R;o.vx=Math.abs(o.vx)*.8}if(o.x>W-R){o.x=W-R;o.vx=-Math.abs(o.vx)*.8}if(o.y<R){o.y=R;o.vy=Math.abs(o.vy)*.8}if(o.y>H-R){o.y=H-R;o.vy=-Math.abs(o.vy)*.8}}
@@ -1157,14 +1224,15 @@ const GQ={
  direct:'“Does the Desert path lead to Alibaba?”',
  liarq:'“Are you the liar?”',
  sky:'“Is the sky blue?”',
- other:'“If I asked the other guard whether the Palm path leads to Alibaba, what would he say?”'};
+ other:'“If I asked the other guard, would he say the Palm path leads to Alibaba?”'};
 const G_PREMISE='Two guards stand at a fork in the desert road. The Desert path goes left, the Palm path goes right. One leads to Alibaba. The other leads to the spirits of Isfahan, and nobody comes back from there.';
 const G_RULES='“You may ask only <b>one question</b>, of <b>one of us</b>, and we will answer only <b>yes or no</b>. One of us always tells the truth. The other always lies. Choose wisely!”';
 const G_HINTS=['You don’t know which guard lies, so a plain question like “Is this the right path?” can’t be trusted.',
  'Look for a question where the honest guard and the liar would give you the <b>same</b> answer.',
  'Ask one guard what the <b>other</b> guard would say. Then do the opposite.'];
 let gHint=0;
-function newRound(){stage.classList.remove('result');st={safe:Math.random()<.5?'desert':'palm',liar:Math.random()<.5?'Tariq':'Sami',asked:null,q:null,ans:null,done:null,hints:0};gHint=0;draw()}
+const GPAIRS=[['Tariq','Sami'],['Omar','Bilal'],['Faris','Kamal'],['Rustam','Darius'],['Nasir','Hamid'],['Zayd','Idris']];let GN={Tariq:'Tariq',Sami:'Sami'},GROUND=0;
+function newRound(){stage.classList.remove('result');if(GROUND++>0){let pr;do{pr=GPAIRS[1+Math.floor(Math.random()*(GPAIRS.length-1))]}while(pr[0]===GN.Tariq);GN={Tariq:pr[0],Sami:pr[1]}}st={safe:Math.random()<.5?'desert':'palm',liar:Math.random()<.5?'Tariq':'Sami',asked:null,q:null,ans:null,done:null,hints:0};gHint=0;draw()}
 function answerFor(g,k){const liar=g===st.liar,truth=s=>liar?!s:s;let yes;
  if(k==='direct')yes=truth(st.safe==='desert');
  else if(k==='liarq')yes=truth(liar);            // the honest one says No, the liar also says No
@@ -1176,15 +1244,15 @@ function scene(){
  let o='<defs><filter id="mistf" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="8"/></filter>'
   +'<radialGradient id="pgood"><stop offset="0" stop-color="#c8ffe6" stop-opacity=".9"/><stop offset=".5" stop-color="#2fe39a" stop-opacity=".55"/><stop offset="1" stop-color="#2fe39a" stop-opacity="0"/></radialGradient>'
   +'<radialGradient id="pbad"><stop offset="0" stop-color="#ffd0d6" stop-opacity=".9"/><stop offset=".5" stop-color="#ff5a6e" stop-opacity=".55"/><stop offset="1" stop-color="#ff5a6e" stop-opacity="0"/></radialGradient></defs>';
- ['Tariq','Sami'].forEach(n=>{const [x,y]=GH[n].name;o+='<text class="gname'+(st.asked===n?' on':'')+'" x="'+x+'" y="'+y+'" text-anchor="middle" style="fill:'+GH[n].color+'">'+n+'</text>'});
- o+='<text class="pathname" x="250" y="470" text-anchor="middle">Desert path</text><text class="pathname" x="512" y="478" text-anchor="middle">Palm path</text>';
+ ['Tariq','Sami'].forEach(n=>{const [x,y]=GH[n].name;o+='<text class="gname'+(st.asked===n?' on':'')+'" x="'+x+'" y="'+y+'" text-anchor="middle">'+GN[n]+'</text>'});
+ o+='<text class="pathname" x="238" y="398" text-anchor="middle">Desert path</text><text class="pathname" x="520" y="404" text-anchor="middle">Palm path</text>';
  if(!st.asked){o+='<g class="zzz">';for(let i=0;i<4;i++)o+='<text class="z" style="animation-delay:'+(i*2).toFixed(1)+'s" x="'+GH.Tariq.mouth[0]+'" y="'+GH.Tariq.mouth[1]+'">z</text>';o+='</g>'}
  if(done){const [x,y]=PATHPT[done];o+='<ellipse class="pglow" cx="'+x+'" cy="'+(y+22)+'" rx="95" ry="36" fill="url(#'+(done===st.safe?'pgood':'pbad')+')" filter="url(#mistf)"/>'}
  ov.innerHTML=o}
 // a guard speaks: a speech bubble, his own voice, and he glows while he talks
 function guardSay(g,text,then){const sc=document.getElementById('scene');sc.querySelectorAll('.gbubble,.gpulse').forEach(x=>x.remove());
  const p=el('<div class="gpulse"></div>');p.style.clipPath=GH[g].box;p.style.webkitClipPath=GH[g].box;sc.insertBefore(p,document.getElementById('ov'));
- const b=el('<div class="gbubble '+g.toLowerCase()+'"><b></b><span></span></div>');b.querySelector('b').textContent=g;sc.append(b);
+ const b=el('<div class="gbubble plain '+g.toLowerCase()+'"><span></span></div>');sc.append(b);
  const sp=b.querySelector('span');let i=0;const tick=setInterval(()=>{sp.textContent=text.slice(0,++i);if(i>=text.length)clearInterval(tick)},45);
  let ended=false;const end=()=>{if(ended)return;ended=true;p.classList.add('fade');setTimeout(()=>p.remove(),600);if(then)then()};
  if(VOICE&&GESTURE&&window.speechSynthesis){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(VV)u.voice=VV;u.pitch=GH[g].pitch;u.rate=GH[g].rate;u.onend=end;u.onerror=end;speechSynthesis.speak(u);setTimeout(end,6000)}catch(e){setTimeout(end,1800)}}
@@ -1199,19 +1267,19 @@ function draw(){scene();stage.innerHTML='';document.querySelectorAll('#scene .gb
   r.append(h);stage.append(r)};
  if(!st.asked){
   stage.append(el('<p class="gstory">'+G_PREMISE+'</p>'));stage.append(el('<p class="grules">'+G_RULES+'</p>'));
-  const r=step(1,'Which guard will you ask?');['Tariq','Sami'].forEach(n=>r.append(gbtn(n,()=>{st.asked=n;draw();say('You walk up to '+n+'. You have one question. Make it count.')})));
-  extras(alts=>{const t=alts.join(' ');const g=/tariq|tar/.test(t)?'Tariq':/sami|sam/.test(t)?'Sami':null;if(g){st.asked=g;draw()}else toast('Say Tariq or Sami.')});return}
+  const r=step(1,'Which guard will you ask?');['Tariq','Sami'].forEach(n=>r.append(gbtn(GN[n],()=>{st.asked=n;draw();say('You walk up to '+GN[n]+'. You have one question. Make it count.')},'gold')));
+  extras(alts=>{const t=alts.join(' ');const g=new RegExp(GN.Tariq.toLowerCase()).test(t)?'Tariq':new RegExp(GN.Sami.toLowerCase()).test(t)?'Sami':null;if(g){st.asked=g;draw()}else toast('Say '+GN.Tariq+' or '+GN.Sami+'.')});return}
  if(!st.q){
   stage.append(el('<p class="grules small">One question. Yes or no. One of them always lies, and you don’t know which.</p>'));
-  const r=step(2,'Your one question for <b>'+st.asked+'</b>:');['direct','liarq','sky','other'].forEach(k=>r.append(gbtn(GQ[k],()=>askGuard(k),'q')));
+  const r=step(2,'Pick the one question you will ask <b>'+GN[st.asked]+'</b>:');['direct','liarq','sky','other'].forEach(k=>r.append(gbtn(GQ[k],()=>askGuard(k),'q gold')));
   extras(alts=>{const t=alts.join(' ');const k=/other/.test(t)?'other':/liar|lie/.test(t)?'liarq':/sky|blue/.test(t)?'sky':/desert|path|alibaba/.test(t)?'direct':null;if(k)askGuard(k);else toast('Gogo didn’t catch that. Tap your question.')});return}
- const r=step(3,'<b>'+st.asked+'</b> answered: <span class="said">“'+st.ans.replace('.','')+'.”</span><span class="then">Which path will you take?</span>');
- ['desert','palm'].forEach(p=>r.append(gbtn(p==='desert'?'Desert path':'Palm path',()=>finish(p))));
+ const r=step(3,'<b>'+GN[st.asked]+'</b> said <span class="said">“'+st.ans.replace('.','')+'.”</span><span class="then">Which path will you take?</span>');
+ ['desert','palm'].forEach(p=>r.append(gbtn(p==='desert'?'‹ Desert path':'Palm path ›',()=>finish(p),'gold')));
  extras(alts=>{const t=alts.join(' ');const p=/desert|left|sand/.test(t)?'desert':/palm|right|tree/.test(t)?'palm':null;if(p)finish(p);else toast('Say desert path or palm path.')})}
 function askGuard(k){st.q=k;st.ans=answerFor(st.asked,k);stage.querySelectorAll('.gbtn').forEach(b=>b.disabled=true);
  guardSay(st.asked,st.ans,()=>{draw()})}
 function finish(p){st.done=p;scene();const win=p===st.safe,good=st.q==='other',pts=win?(good?(st.hints?15:25):10):0;
- const g=st.asked,oth=g==='Tariq'?'Sami':'Tariq',liarName=st.liar;
+ const g=GN[st.asked],liarName=GN[st.liar];
  let why;
  if(good)why='Here is the secret. If you ask the honest guard, he truthfully reports the liar’s wrong answer. If you ask the liar, he lies about the honest guard’s right answer. Either way the answer points the wrong way, so you take the opposite path. That is exactly how Leah solved it in the book. (This time, '+liarName+' was the liar.)';
  else if(st.q==='direct')why=(win?'You got lucky! ':'')+'You didn’t know whether '+g+' was the liar, so his answer could have been true or false. There is one question that works every single time. Try again and find it.';
@@ -1219,7 +1287,7 @@ function finish(p){st.done=p;scene();const win=p===st.safe,good=st.q==='other',p
  else why=(win?'You got lucky! ':'')+'Now you know whether '+g+' tells the truth, but you have used up your only question, so you still don’t know the way.';
  const after=()=>{stage.innerHTML='';stage.classList.add('result');stage.append(el('<h2 class="agedgold gtitle">'+(win?'You found Alibaba!':'Back to the fork')+'</h2>'));const w=el('<p class="calli"></p>');w.textContent=why;stage.append(w);
   if(win){GW.guards=1;save()}
-  if(win){const nx=gbtn('Next: Dracula’s Forest ›',()=>go('bats'),'arch');const c=el('<div class="centerrow"></div>');c.append(nx);stage.append(c)}const pa=gbtn('Play again with new guards',()=>{stage.classList.remove('result');newRound();sayGuards()},'arch small');const br=el('<div class="brrow"></div>');br.append(pa);stage.append(br);say(why)};
+  if(win){const nx=gbtn('Next: Dracula’s Forest ›',()=>go('bats'),'arch');const c=el('<div class="centerrow"></div>');c.append(nx);stage.append(c)}const pa=gbtn('Play again with two new guards',()=>{stage.classList.remove('result');newRound();sayGuards()},'arch small');const br=el('<div class="brrow"></div>');br.append(pa);stage.append(br);say(why)};
  setTimeout(()=>{if(win)reveal('img/p030.jpg','You found Alibaba!','The path opens, and there he is: Alibaba, smiling like he knew you would make it.',pts,after);
   else{reveal('img/p026.jpg','The spirits of Isfahan!','The wrong path. The spirits rise from the sand... and Gogo pulls you back just in time.',0,after);spiritsOn()}},900)}
 // the spirits of Isfahan drift over the picture on the wrong path
@@ -1283,7 +1351,10 @@ let TYPED=false;const PTS={easy:5,medium:10,hard:15};let rch=1,ri=0,tries=0;let 
 const rcard=document.getElementById('rcard'),tpic=document.getElementById('trailPic');
 function firstOpen(ch){const n=RIDDLES[ch].items.length;for(let k=0;k<n;k++)if(!solved[ch+'-'+k])return k;return n}
 function nextOpen(ch,from){const n=RIDDLES[ch].items.length;for(let k=from+1;k<n;k++)if(!solved[ch+'-'+k])return k;return n}
-function sayRiddle(){const ch=RIDDLES[rch],r=ch&&ch.items[ri];if(r)say(r.q+' Is it: '+r.o.join(', or ')+'?')}
+const GOGO_ASK=['Ooh, a good one. Take your time, Guardian.','Hmm... think it through. I believe in you!','My circuits are tingling. Which one is it?','Read it slowly. The answer is hiding in plain sight.','I know this one... but I won’t tell!','Elderstone says: think first, tap second.'];
+const GOGO_WRONG=['Ha! Nice try. Here is a little help:','Oops! Not that one. Psst...','So close my screen flickered! Hint:','Even Alibaba gets this wrong. Try this:'];
+const GOGO_RIGHT=['Yes! My screen is glowing gold for you!','Brilliant! Grandma would be proud.','Correct! Into the treasure it goes!','You did it! I knew you would.','Woohoo! Another emerald for the Guardians!'];let CAPX=null;
+function sayRiddle(){const ch=RIDDLES[rch],r=ch&&ch.items[ri];if(r)CAPX=GOGO_ASK[Math.floor(Math.random()*GOGO_ASK.length)];if(r)say(r.q+' Is it: '+r.o.join(', or ')+'?')}
 const BOOKI='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5z"/></svg>';
 const PEN='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm17.7-10.2a1 1 0 0 0 0-1.42l-2.33-2.33a1 1 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>';
 const NOTE='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 4h16v12H7l-3 3V4z"/></svg>';
@@ -1301,15 +1372,15 @@ function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';setPic(ch.pic,ch.titl
  const r=ch.items[ri];
  const meta=el('<div class="rmeta"></div>');meta.append(el('<span class="rch"></span>'));meta.lastChild.textContent=ch.title;meta.append(el('<span class="diff '+r.d+'">'+r.d.toUpperCase()+'</span>'));
  const dots=el('<span class="dots"></span>');ch.items.forEach((_,k)=>{const d=el('<button class="dot" type="button"></button>');d.setAttribute('aria-label','Riddle '+(k+1));if(solved[rch+'-'+k])d.classList.add('done');if(k===ri)d.classList.add('cur');d.onclick=()=>{ri=k;tries=0;riddle();sayRiddle()};dots.append(d)});meta.append(dots);rcard.append(meta);
- const q=el('<p class="rq"></p>');q.textContent=r.q;rcard.append(q);
+ const q=el('<p class="rq"></p>');q.textContent=r.q;rcard.append(q);const fb=el('<p class="fb" aria-live="polite"></p>');
  const hint=el('<p class="gogo hint" hidden></p>');hint.textContent='Gogo’s hint: '+r.h;
  const c=el('<div class="opts"></div>');
  r.o.forEach((t,k)=>{const b=medal(t);b.onclick=()=>{b.classList.add('clear');
   if(k===r.a){solved[rch+'-'+ri]=1;save();const pts=(tries===0?PTS[r.d]:Math.ceil(PTS[r.d]/2))+(TYPED?2:0);TYPED=false;b.classList.add('right');c.querySelectorAll('button').forEach(x=>x.disabled=true);pose('cheer',4500);
-   say(['Yes! That is right!','Well done, Guardian!','Brilliant!','You got it!'][Math.floor(Math.random()*4)]);
+   fb.className='fb good';fb.textContent='Correct! '+r.t+'.';CAPX=GOGO_RIGHT[Math.floor(Math.random()*GOGO_RIGHT.length)];say(['Correct! That is right!','Correct! Well done, Guardian!','Correct! Brilliant!','Correct! You got it!'][Math.floor(Math.random()*4)]);
    setTimeout(()=>reveal(r.img,r.t,r.x+' '+r.c,pts,()=>{ri=nextOpen(rch,ri);tries=0;riddle();sayRiddle()}),900)}
-  else{tries++;b.classList.add('wrong');b.disabled=true;hint.hidden=false;pose('surprised',2500);say('Not quite. Here is a hint. '+r.h)}};c.append(b)});
- rcard.append(c);rcard.append(hint);
+  else{tries++;b.classList.add('wrong');b.disabled=true;hint.hidden=false;const nq=['Not quite!','Close, but no!','Hmm, not that one!','Try again, Guardian!'][Math.floor(Math.random()*4)];fb.className='fb bad';fb.textContent=nq+' '+r.h;pose('surprised',2500);CAPX=GOGO_WRONG[Math.floor(Math.random()*GOGO_WRONG.length)]+' '+r.h;say(nq+' Here is a hint. '+r.h)}};c.append(b)});
+ rcard.append(c);rcard.append(fb);
  const tw=el('<form class="typeit" autocomplete="off" hidden><label class="sr" for="typeAns">Type your answer</label><input id="typeAns" type="text" placeholder="Type your answer for +2 emeralds" maxlength="40"><button class="btn" type="submit">Check</button></form>');
  tw.onsubmit=e=>{e.preventDefault();const v=tw.querySelector('input').value.trim();if(!v)return;const k=bestMatch([v],r.o);const bs=c.querySelectorAll('button');if(k===r.a){TYPED=true;bs[k].click()}else if(k>=0&&!bs[k].disabled){bs[k].click()}else{toast('Not quite. Check your spelling, or try again.');say('Not quite. Try again.')}};
  const tools=el('<div class="tools"></div>');const hh=el('<span class="heard"></span>');
@@ -1324,15 +1395,20 @@ let CMT=null;if(window.claude&&claude.use){claude.use('comments').then(c=>{CMT=c
 function reviewNote(node,spot,where){if(window.GGC&&GGC.on){GGC.open({spot:spot||'game',where:where||'the game'});return}window.open('https://form.jotform.com/263087088389069','_blank','noopener');return;CMT.openComposer({element:node}).catch(()=>toast('Review notes are off in this view.'))}
 
 // ===== Dracula's bats =====
+const BATPIC=['/read/img/p018.jpg','/read/img/p019.jpg','/read/img/p022.jpg'];let BMARKS=[];
 const bats=[{t:'Millions of bats pour out of the sky. Eva shouts that Dracula is behind this. What do you do?',o:[['Run toward the lake',1],['Climb the tallest tree',0],['Stand still and hide your face',0]]},
- {t:'You reach the lake. The bats are still coming. Gogo starts to glow. What now?',o:[['Hold Gogo up high',1],['Jump in the water',0],['Throw a stick at the bats',0]]},
+ {t:'You reach the lake. Dracula swoops down and the bats are still coming. Gogo starts to glow. What now?',o:[['Hold Gogo up high',1],['Jump in the water',0],['Throw a stick at the bats',0]]},
  {t:'A blinding light appears. A being made of pure light rises above the trees. Who is it?',o:[['Lumina',1],['Elderstone',0],['The Zolaran librarian',0]]}];
 let bi=0,bsc=0;const bstage=document.getElementById('bstage');
 function batStep(){bstage.innerHTML='';bstage.append(el('<h2 class="agedgold">Escape Dracula’s Bats</h2>'));
- if(bi>=bats.length){const ok=bsc===3;const fin=()=>{bstage.innerHTML='';bstage.append(el('<h2 class="agedgold">'+(ok?'Dracula is driven back!':'Dracula escapes this time')+'</h2>'));bstage.append(el('<p>'+(ok?'Lumina’s light sends Dracula and his bats back into the dark.':'You got '+bsc+' of 3. Try again, Guardian.')+'</p>'));if(ok){GW.bats=1;save()}const b=el('<button class="btn ghost" type="button" style="justify-self:start">Play again</button>');b.onclick=()=>{bi=0;bsc=0;batStep();const p=bstage.querySelector('.bq');say(p?p.textContent:'')};bstage.append(b)};
+ if(bi>=bats.length){const ok=bsc===3;const marks='<span class="marks">'+BMARKS.map(m=>m?'<i class="ok">✓</i>':'<i class="no">✗</i>').join('')+'</span>';const fin=()=>{bstage.innerHTML='';bstage.append(el('<h2 class="agedgold">'+(ok?'Dracula is driven back!':'Dracula escapes this time')+'</h2>'));bstage.append(el('<p>'+(ok?'All three correct! '+marks+' Lumina’s light sends Dracula and his bats back into the dark.':'You got '+bsc+' of 3 correct. '+marks+' Try again, Guardian.')+'</p>'));if(ok){GW.bats=1;save()}const b=el('<button class="btn ghost" type="button" style="justify-self:start">Play again</button>');b.onclick=()=>{bi=0;bsc=0;BMARKS=[];batStep();const p=bstage.querySelector('.bq');say(p?p.textContent:'')};bstage.append(b)};
   if(ok){reveal('img/p020.jpg','Lumina!','A being made of pure light rises above the trees, and Dracula’s bats scatter.',20,fin)}else fin();return}
- const s=bats[bi];bstage.append(el('<p class="step">Moment '+(bi+1)+' of 3</p>'));const p=el('<p class="bq rq"></p>');p.textContent=s.t;bstage.append(p);
- const c=el('<div class="choices"></div>');s.o.forEach(([t,v])=>{const b=el('<button class="choice" type="button"></button>');b.textContent=t;b.onclick=()=>{bsc+=v;bi++;flyBats(v?6:12);batStep();const q=bstage.querySelector('.bq');say(q?q.textContent:'')};c.append(b)});bstage.append(c);
+ const s=bats[bi];{const im=document.querySelector('.screen[data-name="bats"] .pic img');if(im&&!im.src.endsWith(BATPIC[bi])){im.style.opacity=0;setTimeout(()=>{im.src=BATPIC[bi];im.style.opacity=1},350)}}
+ bstage.append(el('<p class="step big">Moment '+(bi+1)+' of 3 <span class="marks">'+BMARKS.map(m=>m?'<i class="ok">✓</i>':'<i class="no">✗</i>').join('')+'</span></p>'));const p=el('<p class="bq rq"></p>');p.textContent=s.t;bstage.append(p);
+ const c=el('<div class="choices"></div>');s.o.forEach(([t,v])=>{const b=el('<button class="choice" type="button"></button>');b.textContent=t;b.onclick=()=>{bsc+=v;BMARKS.push(v);c.querySelectorAll('button').forEach(x=>x.disabled=true);b.classList.add(v?'right':'wrong');flyBats(v?30:60);
+  const OK=['Correct! Run, Guardians, run!','Correct! Gogo blazes with light!','Correct! It is Lumina!'],NO=['Not quite. Trees can’t hide you from bats!','Not quite. The bats just wait for you to come up!','Not quite. That was Lumina, the being of light!'];
+  const f=el('<p class="fb '+(v?'good':'bad')+'"></p>');f.textContent=v?OK[bi]:NO[bi];bstage.append(f);say(f.textContent);
+  setTimeout(()=>{bi++;batStep();const q=bstage.querySelector('.bq');if(q)say(q.textContent)},2200)};c.append(b)});bstage.append(c);
  bstage.append(micRow('Say your choice',alts=>{const k=bestMatch(alts,s.o.map(x=>x[0]));if(k>=0)c.querySelectorAll('button')[k].click();else toast('Gogo didn’t catch that. Tap your choice.')}))}
 
 
@@ -1422,13 +1498,13 @@ function fxGuards(){const sc=document.getElementById('scene');if(sc&&!sc.querySe
 function fxAll(){fxGuards();document.querySelectorAll('.imgbox>img').forEach(img=>{if(img.id!=='trailPic')applyFx(img.parentNode,img.getAttribute('src'))})}
 
 // ===== Gogo slides away when he is quiet, and comes back when he talks =====
-let PIN=false;const GT=document.getElementById('gtab');
+let PIN=innerWidth>1060;const GT=document.getElementById('gtab');
 function showGogo(){cap.classList.add('show');GT.classList.add('open');document.body.classList.add('gogo-on')}
 function hideGogo(){if(PIN)return;cap.classList.remove('show');GT.classList.remove('open');document.body.classList.remove('gogo-on')}
 (function(){const _say=say;say=function(t){_say(t);if(t&&VOICE&&GESTURE)showGogo()};
  const _ch=capHide;capHide=function(ms){_ch(ms);clearTimeout(capHide.h);capHide.h=setTimeout(hideGogo,(ms||0)+1500)};
  GT.onclick=()=>{PIN=!cap.classList.contains('show');if(PIN)showGogo();else{PIN=false;hideGogo()}};
- const x=el('<button class="spclose" type="button" aria-label="Slide Gogo away">&rsaquo;</button>');x.onclick=()=>{PIN=false;hideGogo()};cap.append(x)})();
+ const x=el('<button class="spclose" type="button" aria-label="Slide Gogo away">&rsaquo;</button>');x.onclick=()=>{PIN=false;hideGogo()};cap.append(x);if(PIN)showGogo()})();
 
 // ===== the thieves' treasure: gold bricks, rubies, emeralds and diamonds =====
 function fillLoot(){const L=document.getElementById('loot');if(!L)return;L.innerHTML='';
@@ -1508,8 +1584,8 @@ function turbanRider(x,o){// o: skin, turban, robe, beard, gem
   +'<ellipse cx="0" cy="79" rx="19" ry="6" fill="'+(o.pants||'#d8c8a0')+'"/>'
   +'<path d="M-14 79 Q-13 52 0 50 Q13 52 14 79Z" fill="'+o.robe+'"/><path d="M-6 54 L0 79 L6 54Z" fill="#e8dcc0"/>'
   +'<path d="M-11 64 Q0 70 11 64" stroke="#e9c26a" stroke-width="1.4" fill="none"/>'
-  +'<circle cx="0" cy="41" r="8.5" fill="'+o.skin+'"/><circle cx="-3" cy="40" r=".9" fill="#1a1410"/><circle cx="3" cy="40" r=".9" fill="#1a1410"/>'
-  +(o.beard?'<path d="M-8 43 Q-6 56 0 57 Q6 56 8 43 Q4 48 0 48 Q-4 48 -8 43Z" fill="'+o.beard+'"/><path d="M-4 46 Q0 44 4 46" stroke="'+o.beard+'" stroke-width="1.6" fill="none"/>':'')
+  +'<circle cx="0" cy="41" r="8.5" fill="'+o.skin+'"/><path d="M-4.6 40.6 Q-3 38.6 -1.4 40.6 M1.4 40.6 Q3 38.6 4.6 40.6" stroke="#1a1410" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M-5 37 L-1.6 37.9 M5 36.4 L1.6 37.6" stroke="#1a1410" stroke-width=".9" stroke-linecap="round"/>'
+  +(o.beard?'<path d="M-8 43 Q-6 56 0 57 Q6 56 8 43 Q4 48 0 48 Q-4 48 -8 43Z" fill="'+o.beard+'"/><path d="M-4 46 Q0 44 4 46" stroke="'+o.beard+'" stroke-width="1.6" fill="none"/>':'')+'<path d="M-4.6 44.6 Q0 51 4.6 44.6 Z" fill="#4a0f0f"/><path d="M-4.3 44.8 L4.3 44.8 L3.6 46.4 L-3.6 46.4 Z" fill="#fffaf0"/><path d="M-1.5 44.8 V46.4 M1.5 44.8 V46.4" stroke="#d8d0c0" stroke-width=".35"/>'
   +'<path d="M-10 38 Q-11 25 0 24 Q12 25 10 38 Q4 33 0 34 Q-5 33 -10 38Z" fill="'+o.turban+'"/>'
   +'<path d="M-8 31 Q0 27 9 32 M-9 35 Q0 30 10 36" stroke="rgba(0,0,0,.25)" stroke-width="1.3" fill="none"/>'
   +'<circle cx="0" cy="28.5" r="2" fill="#19c27a" stroke="#f6d27a" stroke-width=".8"/>'
