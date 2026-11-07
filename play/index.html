@@ -892,6 +892,34 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
 .tray{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
 .tray .tb{width:38px;height:38px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;font:900 14px var(--body);color:#111;
  background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.9) 0 8%,rgba(255,255,255,0) 30%),radial-gradient(circle,#fff 0 30%,var(--c) 31%);box-shadow:0 3px 6px #000a}
+
+/* ===== Version 25 ===== */
+/* no outlines on buttons */
+.tool,.tab,.pill,.racktab,.btn,.gbtn:not(.arch),.navb,.dock button,.linkbtn,.mock,.vswitch{border:0!important}
+.linkbtn{border-bottom:0!important}
+/* the progress bar: a glass pipe filling with gold coins seen from the side */
+.top .tc{background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
+.top .goal{gap:5px!important}
+.top .gtxt{font:italic 700 15px var(--calli)!important;color:#ffe9b8!important;text-shadow:0 1px 2px #000}
+.gbar{width:min(300px,46vw)!important;height:22px!important;border-radius:12px!important;border:0!important;position:relative;
+ background:linear-gradient(180deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.04) 30%,rgba(0,0,0,.35) 70%,rgba(255,255,255,.12) 100%),#0d0a1c!important;
+ box-shadow:inset 0 2px 5px rgba(0,0,0,.8),0 0 0 2px #3a2306,0 0 0 3px #b9862c,0 4px 10px rgba(0,0,0,.6)!important}
+.gbar i{border-radius:10px!important;box-shadow:none!important;
+ background:linear-gradient(180deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 35%,rgba(0,0,0,0) 65%,rgba(0,0,0,.4) 100%),repeating-linear-gradient(90deg,#6a3e0c 0 1.5px,#fff0b8 1.5px 3px,#f0c96a 3px 6px,#c9902e 6px 8px,#8a5a14 8px 9px)!important;
+ transition:width 1s cubic-bezier(.2,1.4,.4,1)!important}
+.gbar::after{content:"";position:absolute;inset:3px 6px auto;height:5px;border-radius:6px;background:rgba(255,255,255,.35);pointer-events:none}
+.gems{font-size:20px!important}
+/* the reward screen: a real universe behind it, and Gogo cheering */
+.reveal{background:radial-gradient(1.2px 1.2px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 33% 72%,#cfe0ff,transparent),radial-gradient(1.6px 1.6px at 58% 12%,#fff,transparent),radial-gradient(1px 1px at 81% 44%,#ffe9b8,transparent),radial-gradient(1.3px 1.3px at 91% 83%,#fff,transparent),radial-gradient(1px 1px at 7% 61%,#fff,transparent),radial-gradient(1.4px 1.4px at 46% 91%,#cfe0ff,transparent),radial-gradient(1px 1px at 69% 27%,#fff,transparent),
+ radial-gradient(ellipse 45% 35% at 25% 30%,rgba(110,60,200,.42),transparent 70%),radial-gradient(ellipse 50% 40% at 78% 72%,rgba(30,120,190,.38),transparent 70%),radial-gradient(ellipse 30% 25% at 62% 22%,rgba(220,120,60,.25),transparent 70%),radial-gradient(circle at 50% 50%,#0a0d24,#010208)!important;background-size:240px 240px,310px 310px,270px 270px,190px 190px,350px 350px,220px 220px,290px 290px,160px 160px,100% 100%,100% 100%,100% 100%,100% 100%!important}
+.rvbar{flex-wrap:wrap!important;justify-content:center!important;row-gap:8px!important}
+.rvgogo{width:100%}.rvgogo img{width:40px!important;height:48px!important}
+.rvgogo{display:flex;align-items:center;gap:10px;justify-content:center}
+.rvgogo img{width:54px;height:64px;object-fit:cover;border-radius:12px;filter:drop-shadow(0 0 10px rgba(246,210,122,.7))}
+.rvgogo span{font:italic 700 clamp(17px,1.6vw,22px)/1.3 var(--calli);color:#ffe9b8;text-shadow:0 1px 3px #000;max-width:520px;text-align:left}
+@media (prefers-reduced-motion:no-preference){.rvgogo img{animation:gbob 2.4s ease-in-out infinite}}
+.racktab.locked{opacity:.55}.racktab.locked b::before{content:"\1F512  "}
+.linkbtn.skip{margin-left:auto;color:#f6d27a;font:italic 700 15px var(--calli)}
 </style>
 <div class="app">
   <header class="top">
@@ -966,7 +994,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
   <div class="rv2">
     <div style="display:grid;gap:6px;justify-items:center"><h3 class="agedgold" id="rvt">Well done, Guardian!</h3><p class="cap2" id="rvc"></p></div>
     <div class="floatpic idle" id="fp"><img id="rvimg" src="img/p003.jpg" alt=""></div>
-    <div class="rvbar"><p class="tally" id="tally">Drag the picture into the thieves’ treasure</p><button class="btn" id="rvgo" type="button">Collect your emeralds</button></div>
+    <div class="rvbar"><div class="rvgogo"><img src="img/pose_cheer.jpg" alt=""><span id="rvg"></span></div><p class="tally" id="tally">Drag the picture into the thieves’ treasure</p><button class="btn" id="rvgo" type="button">Collect your emeralds</button></div>
     <button class="treasure" id="treasure" type="button" aria-label="The thieves' treasure"><span class="tbox"><img src="img/m_chest.jpg" alt=""><span class="loot" id="loot"></span></span><span>The thieves’ treasure</span></button>
   </div>
 </div>
@@ -989,9 +1017,19 @@ let gems=0;const gc=document.getElementById('gemCount');
 function toast(t){const e=document.getElementById('toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2800)}
 let AC=null;try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
 addEventListener('pointerdown',()=>{try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();if(!AC.__w){AC.__w=1;const b=AC.createBuffer(1,1,22050),s=AC.createBufferSource();s.buffer=b;s.connect(AC.destination);s.start(0)}}catch(e){}},{capture:true});
-function chime(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime;[784,988,1319,1568].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(0.0001,t+i*.08);g.gain.exponentialRampToValueAtTime(0.16,t+i*.08+.02);g.gain.exponentialRampToValueAtTime(0.0001,t+i*.08+.4);o.connect(g).connect(AC.destination);o.start(t+i*.08);o.stop(t+i*.08+.45)})}catch(e){}}
-function addGems(n){gems+=n;gc.textContent=gems;chime();burst();goal()}
-function goal(){const P=[[25,'the Elderstone card'],[50,'Dracula\u2019s Forest trophy'],[100,'the gates of Zolara'],[200,'the Emerald Moon']];const nx=P.find(p=>p[0]>gems);const prev=[...P].reverse().find(p=>p[0]<=gems);const lo=prev?prev[0]:0;if(!nx){document.getElementById('gtxt').textContent='Every treasure unlocked!';document.getElementById('gfill').style.width='100%';return}document.getElementById('gtxt').textContent=(nx[0]-gems)+' more to unlock '+nx[1];document.getElementById('gfill').style.width=Math.round((gems-lo)*100/(nx[0]-lo))+'%'}
+function chime(){return hijaz()}
+function chimeOld(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime;[784,988,1319,1568].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(0.0001,t+i*.08);g.gain.exponentialRampToValueAtTime(0.16,t+i*.08+.02);g.gain.exponentialRampToValueAtTime(0.0001,t+i*.08+.4);o.connect(g).connect(AC.destination);o.start(t+i*.08);o.stop(t+i*.08+.45)})}catch(e){}}
+// an accordion-like Hijaz phrase over a soft darbuka: low, warm, never shrill
+function accNote(f,at,dur,vol){const o1=AC.createOscillator(),o2=AC.createOscillator(),lf=AC.createOscillator(),lg=AC.createGain(),fl=AC.createBiquadFilter(),g=AC.createGain();
+ o1.type='sawtooth';o2.type='sawtooth';o1.frequency.value=f;o2.frequency.value=f*1.006;lf.frequency.value=5.6;lg.gain.value=f*.006;lf.connect(lg);lg.connect(o1.frequency);lg.connect(o2.frequency);
+ fl.type='lowpass';fl.frequency.value=1300;fl.Q.value=.7;g.gain.setValueAtTime(.0001,at);g.gain.exponentialRampToValueAtTime(vol,at+.05);g.gain.setValueAtTime(vol,at+dur*.7);g.gain.exponentialRampToValueAtTime(.0001,at+dur);
+ o1.connect(fl);o2.connect(fl);fl.connect(g).connect(AC.destination);[o1,o2,lf].forEach(x=>{x.start(at);x.stop(at+dur+.05)})}
+function drum(at,low){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(low?110:240,at);o.frequency.exponentialRampToValueAtTime(low?55:160,at+.18);g.gain.setValueAtTime(low?.5:.18,at);g.gain.exponentialRampToValueAtTime(.0001,at+(low?.35:.12));o.connect(g).connect(AC.destination);o.start(at);o.stop(at+.4)}
+const HIJAZ=[[293.7,370,392,440],[440,392,370,311.1,293.7],[293.7,311.1,370,392,440,466.2,440],[392,440,466.2,440,392,370],[220,293.7,311.1,370,293.7]];let HZI=0;
+function hijaz(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime+.02,ph=HIJAZ[HZI++%HIJAZ.length];
+ drum(t,true);drum(t+.24,false);drum(t+.36,false);drum(t+.48,true);ph.forEach((f,i)=>accNote(f,t+i*.12,i===ph.length-1?.7:.2,.07))}catch(e){}}
+function addGems(n){const before=gems;gems+=n;const MS=[[15,'The Elderstone card','img/m_elder.jpg','The guardian spirit inside Gogo is now yours. Elderstone has watched over Oliver’s family for generations.'],[30,'The world of Zolara','img/p037.jpg','The living library opens its gates. The Zolara and Raptor riddle table is now open for you!'],[50,'The world of Raptor','img/p071.jpg','The jungle world of the Reptocrats welcomes you. Caiman and Gekkota are waiting!'],[80,'The Emerald Moon','img/p080.jpg','You reached the Emerald Moon. You are a true Guardian of the Emerald!']];const hit=MS.find(m=>before<m[0]&&gems>=m[0]);if(hit)UNLOCK=hit;gc.textContent=gems;chime();burst();goal()}
+function goal(){const P=[[15,'the Elderstone card'],[30,'the world of Zolara'],[50,'the world of Raptor'],[80,'the Emerald Moon']];const nx=P.find(p=>p[0]>gems);const prev=[...P].reverse().find(p=>p[0]<=gems);const lo=prev?prev[0]:0;if(!nx){document.getElementById('gtxt').textContent='Every treasure unlocked!';document.getElementById('gfill').style.width='100%';return}document.getElementById('gtxt').textContent=(nx[0]-gems)+' more to unlock '+nx[1];document.getElementById('gfill').style.width=Math.round((gems-lo)*100/(nx[0]-lo))+'%'}
 function burst(){if(matchMedia('(prefers-reduced-motion: reduce)').matches||document.body.classList.contains('rvopen'))return;const r=gc.getBoundingClientRect();for(let i=0;i<9;i++){const s=el('<svg class="burst"><use href="#gem"/></svg>');s.style.left=(r.left-6)+'px';s.style.top=(r.top-4)+'px';const a=Math.random()*Math.PI*2,d=60+Math.random()*90;s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',(Math.sin(a)*d+60)+'px');document.body.append(s);setTimeout(()=>s.remove(),1200)}}
 const GEM='<svg class="gemi" style="width:20px;height:20px"><use href="#gem"/></svg>';
 
@@ -1031,7 +1069,9 @@ function micRow(label,onAlts){const row=el('<div class="row"></div>');const b=vb
 const RV=document.getElementById('reveal'),FP=document.getElementById('fp'),TR=document.getElementById('treasure');let rvNext=null,rvPts=0,rvDone=false;
 const PRIZES=[[25,'the Elderstone card'],[50,'Dracula’s Forest trophy'],[100,'the gates of Zolara'],[200,'the Emerald Moon']];
 function clink(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime;[2093,2637,3136,2349].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,t+i*.06);g.gain.exponentialRampToValueAtTime(0.12,t+i*.06+.005);g.gain.exponentialRampToValueAtTime(0.0001,t+i*.06+.25);o.connect(g).connect(AC.destination);o.start(t+i*.06);o.stop(t+i*.06+.3)})}catch(e){}}
-function reveal(img,title,caption,pts,next){const im=document.getElementById('rvimg');im.src=img;im.onload=()=>FP.style.setProperty('--ar',im.naturalWidth/im.naturalHeight);
+const BAG={};function pick(k,L){if(!BAG[k]||!BAG[k].length){BAG[k]=L.slice().sort(()=>Math.random()-.5);if(BAG[k][0]===BAG[k+'last'])BAG[k].push(BAG[k].shift())}const v=BAG[k].shift();BAG[k+'last']=v;return v}
+const RV_YES=['You cracked it! Into the treasure it goes!','My screen is glowing gold for you!','Grandma would do a little dance for that one!','Alibaba himself would tip his turban to you!','Elderstone just whispered: impressive!','That was sharper than a thief’s dagger!','You think like a true Guardian!','Forty thieves could not have solved it faster!','Ding ding ding! Emeralds incoming!','I knew you had it. I always know!'],RV_NO=['That path was spooky! Good thing I pulled you back.','No worries, Guardian. Even heroes take a wrong turn.','We learn more from the spirits than from the easy road!'];
+function reveal(img,title,caption,pts,next){{const g=document.getElementById('rvg');if(g)g.textContent=pts?pick('yes',RV_YES):pick('no',RV_NO)}const im=document.getElementById('rvimg');im.src=img;im.onload=()=>FP.style.setProperty('--ar',im.naturalWidth/im.naturalHeight);
  document.getElementById('rvt').textContent=title;document.getElementById('rvc').textContent=caption;rvNext=next||null;rvPts=pts;rvDone=false;
  FP.getAnimations().forEach(a=>a.cancel());FP.style.transform='';FP.style.opacity='';FP.className='floatpic idle';document.querySelectorAll('.biggem').forEach(x=>x.remove());TR.hidden=!pts;
  document.getElementById('tally').textContent=pts?'Tap the button, or drag the picture into the treasure':'';document.getElementById('rvgo').textContent=pts?'Collect your emeralds':'Continue';
@@ -1055,13 +1095,14 @@ function stash(){if(rvDone)return;rvDone=true;const fr=FP.getBoundingClientRect(
   const big=el('<div class="biggem">'+(window.THREE?'<canvas class="gem3d big"></canvas>':'<svg viewBox="0 0 40 40"><use href="#gem"/></svg>')+'<div class="bg-num">+'+rvPts+'</div></div>');document.querySelector('.rv2').append(big);const bc=big.querySelector('canvas');if(bc)requestAnimationFrame(()=>gem3d(bc,true));
   document.getElementById('tally').textContent='You have '+gems+' emeralds!'+(nx?' Collect '+(nx[0]-gems)+' more to unlock '+nx[1]+'.':'');
   say('You have '+gems+' emeralds.'+(nx?' Collect '+(nx[0]-gems)+' more to unlock '+nx[1]+'.':''));document.getElementById('rvgo').textContent='Continue'}}
-function swoosh(){const r=Math.random();if(r<.25)return swooshCoins();if(r<.5)return swooshHarp();if(r<.75)return swooshDeep();return swooshWind()}
+function swoosh(){const r=Math.random();if(r<.5)return swooshDeep();return swooshWind()}
 function swooshCoins(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime;for(let i=0;i<14;i++){const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=2200+Math.random()*2600;const at=t+i*.045+Math.random()*.02;g.gain.setValueAtTime(.09,at);g.gain.exponentialRampToValueAtTime(.0001,at+.18);o.connect(g).connect(AC.destination);o.start(at);o.stop(at+.2)}setTimeout(chime,650)}catch(e){}}
 function swooshHarp(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime;[523,587,659,784,880,1047,1175,1319,1568,1760].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;const at=t+i*.055;g.gain.setValueAtTime(.12,at);g.gain.exponentialRampToValueAtTime(.0001,at+.9);o.connect(g).connect(AC.destination);o.start(at);o.stop(at+1)})}catch(e){}}
 function swooshDeep(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(420,t);o.frequency.exponentialRampToValueAtTime(60,t+.8);g.gain.setValueAtTime(.4,t);g.gain.exponentialRampToValueAtTime(.0001,t+.9);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+.95);setTimeout(chime,700)}catch(e){}}
 function swooshWind(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime,len=1.0,buf=AC.createBuffer(1,AC.sampleRate*len,AC.sampleRate),d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);
  const src=AC.createBufferSource();src.buffer=buf;const f=AC.createBiquadFilter();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(400,t);f.frequency.exponentialRampToValueAtTime(3200,t+.9);const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.7,t+.25);g.gain.exponentialRampToValueAtTime(.0001,t+1);src.connect(f).connect(g).connect(AC.destination);src.start(t);const o=AC.createOscillator(),og=AC.createGain();o.type='sine';o.frequency.setValueAtTime(220,t);o.frequency.exponentialRampToValueAtTime(880,t+.8);og.gain.setValueAtTime(.0001,t);og.gain.exponentialRampToValueAtTime(.18,t+.3);og.gain.exponentialRampToValueAtTime(.0001,t+.95);o.connect(og).connect(AC.destination);o.start(t);o.stop(t+1)}catch(e){}}
-function closeRv(){document.querySelectorAll('#fp .spirits').forEach(x=>x.remove());RV.hidden=true;document.body.classList.remove('rvopen');capHide(0);try{speechSynthesis.cancel()}catch(e){}if(rvNext)rvNext()}
+let UNLOCK=null;
+function closeRv(){if(UNLOCK){const u=UNLOCK;UNLOCK=null;const nx=rvNext;rvNext=null;RV.hidden=true;document.body.classList.remove('rvopen');setTimeout(()=>{reveal(u[2],'Unlocked: '+u[1]+'!',u[3],0,nx);const g=document.getElementById('rvg');if(g)g.textContent='Look what you unlocked! I am so proud of you, Guardian!';hijaz();setTimeout(hijaz,700)},250);return}document.querySelectorAll('#fp .spirits').forEach(x=>x.remove());RV.hidden=true;document.body.classList.remove('rvopen');capHide(0);try{speechSynthesis.cancel()}catch(e){}if(rvNext)rvNext()}
 document.getElementById('rvgo').onclick=()=>{if(rvPts&&!rvDone)stash();else closeRv()};
 TR.onclick=()=>stash();
 (function(){let sx,sy,on=false;FP.addEventListener('pointerdown',e=>{if(rvDone)return;on=true;sx=e.clientX;sy=e.clientY;FP.classList.remove('idle');FP.classList.add('drag');FP.style.transition='none';FP.setPointerCapture(e.pointerId)});
@@ -1114,15 +1155,15 @@ const WORLDS=[
  {k:'sumner',name:'Sumner County',img:'img/p003.jpg',sub:'Riddles from the whole book',need:0,go:()=>go('pick')},
  {k:'persia',name:'Ancient Persia',img:'img/p026.jpg',sub:'The riddle of the two guards',need:0,go:()=>go('guards')},
  {k:'dracula',name:'Dracula’s Forest',img:'img/p019.jpg',sub:'Escape the bats',need:0,go:()=>go('bats')},
- {k:'zolara',name:'Zolara',img:'img/p037.jpg',sub:'The living library'},
- {k:'raptor',name:'Raptor',img:'img/p071.jpg',sub:'The emerald heist'},
- {k:'moon',name:'The Emerald Moon',img:'img/p080.jpg',sub:'The final reward'}];
-function drawWorlds(){const g=document.getElementById('worldGrid');g.innerHTML='';WORLDS.forEach(w=>{const open=!!w.go;
+ {k:'zolara',name:'Zolara',img:'img/p037.jpg',sub:'The living library riddles',need:30,go:()=>{RACK=2;go('pick')}},
+ {k:'raptor',name:'Raptor',img:'img/p071.jpg',sub:'The emerald heist riddles',need:50,go:()=>{RACK=2;go('pick')}},
+ {k:'moon',name:'The Emerald Moon',img:'img/p080.jpg',sub:'The final reward',need:80,go:()=>reveal('img/p080.jpg','The Emerald Moon','You made it, Guardian. The whole book, every riddle, every world. The emerald glows for you.',0,null)}];
+function drawWorlds(){const g=document.getElementById('worldGrid');g.innerHTML='';WORLDS.forEach(w=>{const open=!!w.go&&gems>=(w.need||0);
  const b=el('<button class="world" type="button"><span class="wimg"><img alt=""><span class="portal"></span></span><span class="cap"><h3></h3><span class="tag"></span></span></button>');
  b.querySelector('img').src=w.img;b.querySelector('h3').textContent=w.name;const tg=b.querySelector('.tag');
  const n=Object.keys(solved).length,prog=w.k==='sumner'?(n?' · '+n+' of '+Object.values(RIDDLES).reduce((a,c)=>a+c.items.length,0)+' solved':''):w.k==='persia'?(GW.guards?' · solved':''):w.k==='dracula'?(GW.bats?' · solved':''):'';
- if(open){tg.className='tag open';tg.textContent=w.sub+prog}else{b.classList.add('lock');tg.className='tag locked';tg.textContent='Coming soon · '+w.sub}
- b.onclick=()=>{if(open)w.go();else{const m=w.name+' opens in the full game. Keep collecting emeralds, Guardian.';toast(m);say(m)}};g.append(b)})}
+ if(open){tg.className='tag open';tg.textContent=w.sub+prog}else{b.classList.add('lock');tg.className='tag locked';tg.textContent=(w.need?'Unlocks at '+w.need+' emeralds · ':'Coming soon · ')+w.sub}
+ b.onclick=()=>{if(open)w.go();else{const m=w.need?w.name+' opens at '+w.need+' emeralds. You have '+gems+'. Only '+(w.need-gems)+' to go!':w.name+' is coming soon.';toast(m);say(m)}};g.append(b)})}
 
 // ===== choose a riddle: a carpet pool table. Break the rack, sink a ball to play its riddle =====
 const CHSHORT={1:'Midnight Glow',2:'Birthday Buzz',3:'Mysterious Gift',4:'Other World',5:'Ancestors',6:'Powers',7:'Hidden Realms',8:'Light',9:'Sands of Time',10:'Thieves',11:'To Zolara',12:'Wisdom',13:'Sky City',14:'Emerald',15:'The Heist',16:'Schemes',17:'Uproar',18:'Exodus',19:'Diplomacy',20:'New Dawn',21:'Farewells'};
@@ -1134,7 +1175,7 @@ const BALLC={1:['#f2c230','#f07a1a','#d42a2a','#8a1a2a'],2:['#2a7ad8','#1aa0a0',
 let BALLS=[],BALL_RAF=0,RACKED=true,POCKETS=[];
 function drawPick(){const p=document.getElementById('pickPanel');p.innerHTML='';
  p.append(el('<h2 class="agedgold">Choose a riddle</h2>'));
- const tabs=el('<div class="racktabs"></div>');RACKS.forEach((r,i)=>{const L=rackList(i),done=L.filter(x=>solved[x[0]+'-'+x[1]]).length;const b=el('<button type="button" class="racktab"><b></b><small></small></button>');b.querySelector('b').textContent=r.name;b.querySelector('small').textContent=r.sub+' · '+done+' of '+L.length;b.classList.toggle('on',i===RACK);b.onclick=()=>{RACK=i;try{localStorage.setItem('gg_rack',i)}catch(e){}drawPick()};tabs.append(b)});p.append(tabs);
+ if(RACK===2&&gems<30)RACK=0;const tabs=el('<div class="racktabs"></div>');RACKS.forEach((r,i)=>{const L=rackList(i),done=L.filter(x=>solved[x[0]+'-'+x[1]]).length;const b=el('<button type="button" class="racktab"><b></b><small></small></button>');b.querySelector('b').textContent=r.name;b.querySelector('small').textContent=r.sub+' · '+done+' of '+L.length;b.classList.toggle('on',i===RACK);if(i===2&&gems<30){b.classList.add('locked');b.querySelector('small').textContent='Unlocks at 30 emeralds';b.onclick=()=>{toast('Collect 30 emeralds to open Zolara and Raptor. You have '+gems+'.');say('Collect 30 emeralds to open Zolara and Raptor.')};tabs.append(b);return}b.onclick=()=>{RACK=i;try{localStorage.setItem('gg_rack',i)}catch(e){}drawPick()};tabs.append(b)});p.append(tabs);
  p.append(el('<p class="rules1" id="tablehint"><span><b>Tap the rack to break!</b> Then flick a ball into a pocket to play its riddle, or just tap a ball.</span></p>'));
  const wrap=el('<div class="tablewrap"><div class="ptable"><div class="felt"><div class="ballarea"></div></div></div><div class="solvedrack"><span class="srl">Solved</span><div class="srow"></div></div></div>');p.append(wrap);
  const more=el('<div class="row"><button class="gbtn" type="button">The Two Guards</button><button class="gbtn" type="button">Dracula’s Bats</button></div>');more.children[0].onclick=()=>go('guards');more.children[1].onclick=()=>go('bats');
@@ -1209,7 +1250,7 @@ function ballLoop(){let last=performance.now();const area=document.querySelector
    if(d>0&&d<m){const nx=dx/d,ny=dy/d,ov=(m-d)/2;if(!a.drag){a.x-=nx*ov;a.y-=ny*ov}if(!b.drag){b.x+=nx*ov;b.y+=ny*ov}
     const va=a.vx*nx+a.vy*ny,vb=b.vx*nx+b.vy*ny;if(va-vb>0){const imp=(va-vb)*.95;if(!a.drag){a.vx-=imp*nx;a.vy-=imp*ny}if(!b.drag){b.vx+=imp*nx;b.vy+=imp*ny}if(imp>120)clack(Math.min(1,imp/1200))}}}
   placeBalls();BALL_RAF=requestAnimationFrame(step)})(last)}
-function clack(v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.setValueAtTime(1800,t);o.frequency.exponentialRampToValueAtTime(900,t+.04);g.gain.setValueAtTime(.14*v,t);g.gain.exponentialRampToValueAtTime(.0001,t+.06);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+.07)}catch(e){}}
+function clack(v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.setValueAtTime(950,t);o.frequency.exponentialRampToValueAtTime(520,t+.04);g.gain.setValueAtTime(.14*v,t);g.gain.exponentialRampToValueAtTime(.0001,t+.06);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+.07)}catch(e){}}
 function thunk(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(260,t);o.frequency.exponentialRampToValueAtTime(70,t+.25);g.gain.setValueAtTime(.35,t);g.gain.exponentialRampToValueAtTime(.0001,t+.3);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+.32);setTimeout(chime,250)}catch(e){}}
 addEventListener('resize',()=>{const a=document.querySelector('.screen.on .ballarea');if(a)layBalls(a)});
 
@@ -1351,16 +1392,17 @@ let TYPED=false;const PTS={easy:5,medium:10,hard:15};let rch=1,ri=0,tries=0;let 
 const rcard=document.getElementById('rcard'),tpic=document.getElementById('trailPic');
 function firstOpen(ch){const n=RIDDLES[ch].items.length;for(let k=0;k<n;k++)if(!solved[ch+'-'+k])return k;return n}
 function nextOpen(ch,from){const n=RIDDLES[ch].items.length;for(let k=from+1;k<n;k++)if(!solved[ch+'-'+k])return k;return n}
-const GOGO_ASK=['Ooh, a good one. Take your time, Guardian.','Hmm... think it through. I believe in you!','My circuits are tingling. Which one is it?','Read it slowly. The answer is hiding in plain sight.','I know this one... but I won’t tell!','Elderstone says: think first, tap second.'];
-const GOGO_WRONG=['Ha! Nice try. Here is a little help:','Oops! Not that one. Psst...','So close my screen flickered! Hint:','Even Alibaba gets this wrong. Try this:'];
+const GOGO_ASK=['My circuits are tingling... this one is sneaky!','Psst. I know the answer. My lips are sealed. Mostly.','Grandpa Henry got this one wrong. Can you beat him?','The answer is hiding in plain sight. Like a thief in a crowd!','Elderstone says: think first, tap second.','If you solve this, I will glow so bright the neighbors will call.','Riddle time! My favorite time. Well, after nap time.','Hmm. Read it twice. Riddles love to play tricks.','The Forty Thieves argued about this one for forty days!','Ooh, Lily would love this one. Go on, Guardian!','I bet you solve this faster than Jack.','Close your eyes and picture it. Then open them. Reading works better that way.'];
+const GOGO_WRONG=['Ha! Nice try. Here is a little help:','Oops! Not that one. Psst...','So close my screen flickered! Hint:','Even Alibaba got this wrong. Try this:','Sorry, not this time. No problem, you can do better!','Whoops! Wrong door. Try another:','Not quite, but I like your style! Hint:','The thieves would laugh... but I won’t. Here:','Almost! Your brain is warming up. Hint:','That one fooled me too, once. Psst:'];
 const GOGO_RIGHT=['Yes! My screen is glowing gold for you!','Brilliant! Grandma would be proud.','Correct! Into the treasure it goes!','You did it! I knew you would.','Woohoo! Another emerald for the Guardians!'];let CAPX=null;
-function sayRiddle(){const ch=RIDDLES[rch],r=ch&&ch.items[ri];if(r)CAPX=GOGO_ASK[Math.floor(Math.random()*GOGO_ASK.length)];if(r)say(r.q+' Is it: '+r.o.join(', or ')+'?')}
+function sayRiddle(){const ch=RIDDLES[rch],r=ch&&ch.items[ri];if(r)CAPX=pick('ask',GOGO_ASK);if(r)say(r.q+' Is it: '+r.o.join(', or ')+'?')}
 const BOOKI='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5z"/></svg>';
 const PEN='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm17.7-10.2a1 1 0 0 0 0-1.42l-2.33-2.33a1 1 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>';
 const NOTE='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 4h16v12H7l-3 3V4z"/></svg>';
 function tool(icon,label,cls){const b=el('<button class="tool '+(cls||'')+'" type="button"></button>');b.innerHTML=icon+'<span></span>';b.querySelector('span').textContent=label;b.title=label;return b}
 function setPic(src,alt){tpic.src=src;tpic.alt=alt;const box=tpic.closest('.imgbox');if(box)applyFx(box,src)}
-function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';setPic(ch.pic,ch.title);if(screens[cur]&&screens[cur].dataset.name==='trail')document.getElementById('pname').textContent=ri<ch.items.length?'Chapter '+rch+' · Riddle '+(ri+1)+' of '+ch.items.length:'Chapter '+rch+' complete';
+function rpic(ch,k){const it=RIDDLES[ch].items[k];if(it&&it.scene)return it.scene;const c=CHAPTERS[ch-1];const pool=[];if(c)c.b.forEach(b=>{if(b.src)pool.push(b.src)});RIDDLES[ch].items.forEach((x,j)=>{if(j!==k&&x.img&&!pool.includes(x.img))pool.push(x.img)});const own=it&&it.img;const p=pool.filter(x=>x!==own&&!x.endsWith(own));return p.length?p[k%p.length]:RIDDLES[ch].pic}
+function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';setPic(ri<ch.items.length?rpic(rch,ri):ch.pic,ch.title);if(screens[cur]&&screens[cur].dataset.name==='trail')document.getElementById('pname').textContent=ri<ch.items.length?'Chapter '+rch+' · Riddle '+(ri+1)+' of '+ch.items.length:'Chapter '+rch+' complete';
  if(ri>=ch.items.length){
   const done=ch.items.filter((_,k)=>solved[rch+'-'+k]).length,name=ch.title.split(' · ')[0];
   const box=el('<div class="rdone"><h2 class="agedgold"></h2><p class="rq"></p></div>');box.querySelector('h2').textContent=name+' complete!';box.querySelector('p').textContent='You solved '+done+' of '+ch.items.length+' riddles. You have '+gems+' emeralds.';rcard.append(box);
@@ -1371,15 +1413,15 @@ function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';setPic(ch.pic,ch.titl
   say(name+' complete! '+(RIDDLES[rch+1]?'On to Chapter '+(rch+1)+'.':'Next, the riddle of the two guards.'));save();return}
  const r=ch.items[ri];
  const meta=el('<div class="rmeta"></div>');meta.append(el('<span class="rch"></span>'));meta.lastChild.textContent=ch.title;meta.append(el('<span class="diff '+r.d+'">'+r.d.toUpperCase()+'</span>'));
- const dots=el('<span class="dots"></span>');ch.items.forEach((_,k)=>{const d=el('<button class="dot" type="button"></button>');d.setAttribute('aria-label','Riddle '+(k+1));if(solved[rch+'-'+k])d.classList.add('done');if(k===ri)d.classList.add('cur');d.onclick=()=>{ri=k;tries=0;riddle();sayRiddle()};dots.append(d)});meta.append(dots);rcard.append(meta);
+ const dots=el('<span class="dots"></span>');ch.items.forEach((_,k)=>{const d=el('<button class="dot" type="button"></button>');d.setAttribute('aria-label','Riddle '+(k+1));if(solved[rch+'-'+k])d.classList.add('done');if(k===ri)d.classList.add('cur');d.onclick=()=>{ri=k;tries=0;riddle();sayRiddle()};dots.append(d)});meta.append(dots);{const ns=ch.items.filter((_,k)=>solved[rch+'-'+k]).length;if(ns>=2&&RIDDLES[rch+1]){const sk=el('<button class="linkbtn skip" type="button"></button>');sk.textContent='Skip to Chapter '+(rch+1)+' ›';sk.onclick=()=>{rch++;ri=firstOpen(rch);tries=0;riddle();sayRiddle()};meta.append(sk)}}rcard.append(meta);
  const q=el('<p class="rq"></p>');q.textContent=r.q;rcard.append(q);const fb=el('<p class="fb" aria-live="polite"></p>');
  const hint=el('<p class="gogo hint" hidden></p>');hint.textContent='Gogo’s hint: '+r.h;
  const c=el('<div class="opts"></div>');
  r.o.forEach((t,k)=>{const b=medal(t);b.onclick=()=>{b.classList.add('clear');
   if(k===r.a){solved[rch+'-'+ri]=1;save();const pts=(tries===0?PTS[r.d]:Math.ceil(PTS[r.d]/2))+(TYPED?2:0);TYPED=false;b.classList.add('right');c.querySelectorAll('button').forEach(x=>x.disabled=true);pose('cheer',4500);
-   fb.className='fb good';fb.textContent='Correct! '+r.t+'.';CAPX=GOGO_RIGHT[Math.floor(Math.random()*GOGO_RIGHT.length)];say(['Correct! That is right!','Correct! Well done, Guardian!','Correct! Brilliant!','Correct! You got it!'][Math.floor(Math.random()*4)]);
+   fb.className='fb good';fb.textContent='Correct! '+r.t+'.';CAPX=pick('right',GOGO_RIGHT);say(['Correct! That is right!','Correct! Well done, Guardian!','Correct! Brilliant!','Correct! You got it!'][Math.floor(Math.random()*4)]);
    setTimeout(()=>reveal(r.img,r.t,r.x+' '+r.c,pts,()=>{ri=nextOpen(rch,ri);tries=0;riddle();sayRiddle()}),900)}
-  else{tries++;b.classList.add('wrong');b.disabled=true;hint.hidden=false;const nq=['Not quite!','Close, but no!','Hmm, not that one!','Try again, Guardian!'][Math.floor(Math.random()*4)];fb.className='fb bad';fb.textContent=nq+' '+r.h;pose('surprised',2500);CAPX=GOGO_WRONG[Math.floor(Math.random()*GOGO_WRONG.length)]+' '+r.h;say(nq+' Here is a hint. '+r.h)}};c.append(b)});
+  else{tries++;b.classList.add('wrong');b.disabled=true;hint.hidden=false;const nq=['Not quite!','Close, but no!','Hmm, not that one!','Try again, Guardian!'][Math.floor(Math.random()*4)];fb.className='fb bad';fb.textContent=nq+' '+r.h;pose('surprised',2500);CAPX=pick('wrong',GOGO_WRONG)+' '+r.h;say(nq+' Here is a hint. '+r.h)}};c.append(b)});
  rcard.append(c);rcard.append(fb);
  const tw=el('<form class="typeit" autocomplete="off" hidden><label class="sr" for="typeAns">Type your answer</label><input id="typeAns" type="text" placeholder="Type your answer for +2 emeralds" maxlength="40"><button class="btn" type="submit">Check</button></form>');
  tw.onsubmit=e=>{e.preventDefault();const v=tw.querySelector('input').value.trim();if(!v)return;const k=bestMatch([v],r.o);const bs=c.querySelectorAll('button');if(k===r.a){TYPED=true;bs[k].click()}else if(k>=0&&!bs[k].disabled){bs[k].click()}else{toast('Not quite. Check your spelling, or try again.');say('Not quite. Try again.')}};
