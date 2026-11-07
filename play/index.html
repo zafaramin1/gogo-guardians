@@ -1045,7 +1045,11 @@ function capType(text,u){lastSaid=text;capt.classList.remove('idle');if(CAPX){co
  const show=n=>{if(n>shown){shown=Math.min(n,words.length);capt.textContent=words.slice(0,shown).join(' ')}};
  capTimer=setInterval(()=>{show(shown+1);if(shown>=words.length){clearInterval(capTimer);if(!u)capHide(2600)}},340);
  if(u){u.onboundary=e=>{if(e.name&&e.name!=='word')return;show(text.slice(0,e.charIndex+1).split(' ').length)};u.onend=()=>{clearInterval(capTimer);show(words.length);capHide(2600)}}}
-function say(t){if(!VOICE||!GESTURE||!t)return;const text=String(t).replace(/[“”"]/g,'').replace(/·/g,',').replace(/\s+/g,' ').trim();
+let VAUD=null;function stopVoice(){try{if(VAUD){VAUD.pause();VAUD=null}}catch(e){}}
+function say(t,file){if(!VOICE||!GESTURE||!t)return;const text=String(t).replace(/[“”"]/g,'').replace(/·/g,',').replace(/\s+/g,' ').trim();stopVoice();
+ if(file){try{speechSynthesis.cancel()}catch(e){}const a=new Audio(file);VAUD=a;capType(text,null);a.onerror=()=>{if(VAUD===a){VAUD=null;sayTTS(text)}};a.play().catch(()=>{if(VAUD===a){VAUD=null;sayTTS(text)}});return}
+ sayTTS(text)}
+function sayTTS(text){
  if(!window.speechSynthesis){capType(text,null);return}
  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(VV)u.voice=VV;u.rate=.92;u.pitch=1.05;capType(text,u);speechSynthesis.speak(u)}catch(e){}}
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -1075,7 +1079,7 @@ function reveal(img,title,caption,pts,next){{const g=document.getElementById('rv
  document.getElementById('rvt').textContent=title;document.getElementById('rvc').textContent=caption;rvNext=next||null;rvPts=pts;rvDone=false;
  FP.getAnimations().forEach(a=>a.cancel());FP.style.transform='';FP.style.opacity='';FP.className='floatpic idle';document.querySelectorAll('.biggem').forEach(x=>x.remove());TR.hidden=!pts;
  document.getElementById('tally').textContent=pts?'Tap the button, or drag the picture into the treasure':'';document.getElementById('rvgo').textContent=pts?'Collect your emeralds':'Continue';
- RV.hidden=false;document.body.classList.add('rvopen');document.getElementById('rvgo').focus();say(title+'. '+caption)}
+ RV.hidden=false;document.body.classList.add('rvopen');document.getElementById('rvgo').focus();say(title+'. '+caption,RVF);RVF=null}
 let DRAG={x:0,y:0,k:1};
 function stash(){if(rvDone)return;rvDone=true;const fr=FP.getBoundingClientRect(),tb=TR.querySelector('.tbox'),tr=tb.getBoundingClientRect();
  FP.classList.remove('idle','drag');FP.style.transition='none';const D=DRAG;DRAG={x:0,y:0,k:1};
@@ -1101,8 +1105,9 @@ function swooshHarp(){try{AC=AC||new (window.AudioContext||window.webkitAudioCon
 function swooshDeep(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(420,t);o.frequency.exponentialRampToValueAtTime(60,t+.8);g.gain.setValueAtTime(.4,t);g.gain.exponentialRampToValueAtTime(.0001,t+.9);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+.95);setTimeout(chime,700)}catch(e){}}
 function swooshWind(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime,len=1.0,buf=AC.createBuffer(1,AC.sampleRate*len,AC.sampleRate),d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);
  const src=AC.createBufferSource();src.buffer=buf;const f=AC.createBiquadFilter();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(400,t);f.frequency.exponentialRampToValueAtTime(3200,t+.9);const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.7,t+.25);g.gain.exponentialRampToValueAtTime(.0001,t+1);src.connect(f).connect(g).connect(AC.destination);src.start(t);const o=AC.createOscillator(),og=AC.createGain();o.type='sine';o.frequency.setValueAtTime(220,t);o.frequency.exponentialRampToValueAtTime(880,t+.8);og.gain.setValueAtTime(.0001,t);og.gain.exponentialRampToValueAtTime(.18,t+.3);og.gain.exponentialRampToValueAtTime(.0001,t+.95);o.connect(og).connect(AC.destination);o.start(t);o.stop(t+1)}catch(e){}}
-let UNLOCK=null;
-function closeRv(){if(UNLOCK){const u=UNLOCK;UNLOCK=null;const nx=rvNext;rvNext=null;RV.hidden=true;document.body.classList.remove('rvopen');setTimeout(()=>{reveal(u[2],'Unlocked: '+u[1]+'!',u[3],0,nx);const g=document.getElementById('rvg');if(g)g.textContent='Look what you unlocked! I am so proud of you, Guardian!';hijaz();setTimeout(hijaz,700)},250);return}document.querySelectorAll('#fp .spirits').forEach(x=>x.remove());RV.hidden=true;document.body.classList.remove('rvopen');capHide(0);try{speechSynthesis.cancel()}catch(e){}if(rvNext)rvNext()}
+let UNLOCK=null,RVF=null;
+function closeRvStop(){stopVoice()}
+function closeRv(){stopVoice();if(UNLOCK){const u=UNLOCK;UNLOCK=null;const nx=rvNext;rvNext=null;RV.hidden=true;document.body.classList.remove('rvopen');setTimeout(()=>{reveal(u[2],'Unlocked: '+u[1]+'!',u[3],0,nx);const g=document.getElementById('rvg');if(g)g.textContent='Look what you unlocked! I am so proud of you, Guardian!';hijaz();setTimeout(hijaz,700)},250);return}document.querySelectorAll('#fp .spirits').forEach(x=>x.remove());RV.hidden=true;document.body.classList.remove('rvopen');capHide(0);try{speechSynthesis.cancel()}catch(e){}if(rvNext)rvNext()}
 document.getElementById('rvgo').onclick=()=>{if(rvPts&&!rvDone)stash();else closeRv()};
 TR.onclick=()=>stash();
 (function(){let sx,sy,on=false;FP.addEventListener('pointerdown',e=>{if(rvDone)return;on=true;sx=e.clientX;sy=e.clientY;FP.classList.remove('idle');FP.classList.add('drag');FP.style.transition='none';FP.setPointerCapture(e.pointerId)});
@@ -1296,7 +1301,8 @@ function guardSay(g,text,then){const sc=document.getElementById('scene');sc.quer
  const b=el('<div class="gbubble plain '+g.toLowerCase()+'"><span></span></div>');sc.append(b);
  const sp=b.querySelector('span');let i=0;const tick=setInterval(()=>{sp.textContent=text.slice(0,++i);if(i>=text.length)clearInterval(tick)},45);
  let ended=false;const end=()=>{if(ended)return;ended=true;p.classList.add('fade');setTimeout(()=>p.remove(),600);if(then)then()};
- if(VOICE&&GESTURE&&window.speechSynthesis){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(VV)u.voice=VV;u.pitch=GH[g].pitch;u.rate=GH[g].rate;u.onend=end;u.onerror=end;speechSynthesis.speak(u);setTimeout(end,6000)}catch(e){setTimeout(end,1800)}}
+ if(VOICE&&GESTURE&&/^(Yes|No)\.$/.test(text)){stopVoice();try{speechSynthesis.cancel()}catch(e){}const a=new Audio('voice/v_'+g.toLowerCase()+'_'+text.slice(0,-1).toLowerCase()+'.mp3');VAUD=a;a.onended=end;a.onerror=()=>setTimeout(end,900);a.play().catch(()=>setTimeout(end,900));setTimeout(end,5000)}
+ else if(VOICE&&GESTURE&&window.speechSynthesis){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(VV)u.voice=VV;u.pitch=GH[g].pitch;u.rate=GH[g].rate;u.onend=end;u.onerror=end;speechSynthesis.speak(u);setTimeout(end,6000)}catch(e){setTimeout(end,1800)}}
  else setTimeout(end,1800)}
 function gbtn(t,fn,cls){const b=el('<button class="gbtn '+(cls||'')+'" type="button"></button>');b.innerHTML=t;b.onclick=fn;return b}
 function sayGuards(){const g=stage.querySelector('.gstory'),a=stage.querySelector('.ask');say((g?g.textContent+' ':'')+(a?a.textContent:''))}
@@ -1308,6 +1314,7 @@ function draw(){scene();stage.innerHTML='';document.querySelectorAll('#scene .gb
   r.append(h);stage.append(r)};
  if(!st.asked){
   stage.append(el('<p class="gstory">'+G_PREMISE+'</p>'));stage.append(el('<p class="grules">'+G_RULES+'</p>'));
+  if(!st.warned&&VOICE&&GESTURE){st.warned=1;stopVoice();const a=new Audio('voice/v_tariq_warning.mp3');VAUD=a;a.play().catch(()=>{})}
   const r=step(1,'Which guard will you ask?');['Tariq','Sami'].forEach(n=>r.append(gbtn(GN[n],()=>{st.asked=n;draw();say('You walk up to '+GN[n]+'. You have one question. Make it count.')},'gold')));
   extras(alts=>{const t=alts.join(' ');const g=new RegExp(GN.Tariq.toLowerCase()).test(t)?'Tariq':new RegExp(GN.Sami.toLowerCase()).test(t)?'Sami':null;if(g){st.asked=g;draw()}else toast('Say '+GN.Tariq+' or '+GN.Sami+'.')});return}
  if(!st.q){
@@ -1395,7 +1402,8 @@ function nextOpen(ch,from){const n=RIDDLES[ch].items.length;for(let k=from+1;k<n
 const GOGO_ASK=['My circuits are tingling... this one is sneaky!','Psst. I know the answer. My lips are sealed. Mostly.','Grandpa Henry got this one wrong. Can you beat him?','The answer is hiding in plain sight. Like a thief in a crowd!','Elderstone says: think first, tap second.','If you solve this, I will glow so bright the neighbors will call.','Riddle time! My favorite time. Well, after nap time.','Hmm. Read it twice. Riddles love to play tricks.','The Forty Thieves argued about this one for forty days!','Ooh, Lily would love this one. Go on, Guardian!','I bet you solve this faster than Jack.','Close your eyes and picture it. Then open them. Reading works better that way.'];
 const GOGO_WRONG=['Ha! Nice try. Here is a little help:','Oops! Not that one. Psst...','So close my screen flickered! Hint:','Even Alibaba got this wrong. Try this:','Sorry, not this time. No problem, you can do better!','Whoops! Wrong door. Try another:','Not quite, but I like your style! Hint:','The thieves would laugh... but I won’t. Here:','Almost! Your brain is warming up. Hint:','That one fooled me too, once. Psst:'];
 const GOGO_RIGHT=['Yes! My screen is glowing gold for you!','Brilliant! Grandma would be proud.','Correct! Into the treasure it goes!','You did it! I knew you would.','Woohoo! Another emerald for the Guardians!'];let CAPX=null;
-function sayRiddle(){const ch=RIDDLES[rch],r=ch&&ch.items[ri];if(r)CAPX=pick('ask',GOGO_ASK);if(r)say(r.q+' Is it: '+r.o.join(', or ')+'?')}
+function vf(kind){return (rch<=3&&ri<4)?'voice/v_gogo_'+kind+rch+'-'+(ri+1)+'.mp3':null}
+function sayRiddle(){const ch=RIDDLES[rch],r=ch&&ch.items[ri];if(r)CAPX=pick('ask',GOGO_ASK);if(r)say(r.q+' Is it: '+r.o.join(', or ')+'?',vf('q'))}
 const BOOKI='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5z"/></svg>';
 const PEN='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm17.7-10.2a1 1 0 0 0 0-1.42l-2.33-2.33a1 1 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>';
 const NOTE='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 4h16v12H7l-3 3V4z"/></svg>';
@@ -1419,9 +1427,9 @@ function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';setPic(ri<ch.items.le
  const c=el('<div class="opts"></div>');
  r.o.forEach((t,k)=>{const b=medal(t);b.onclick=()=>{b.classList.add('clear');
   if(k===r.a){solved[rch+'-'+ri]=1;save();const pts=(tries===0?PTS[r.d]:Math.ceil(PTS[r.d]/2))+(TYPED?2:0);TYPED=false;b.classList.add('right');c.querySelectorAll('button').forEach(x=>x.disabled=true);pose('cheer',4500);
-   fb.className='fb good';fb.textContent='Correct! '+r.t+'.';CAPX=pick('right',GOGO_RIGHT);say(['Correct! That is right!','Correct! Well done, Guardian!','Correct! Brilliant!','Correct! You got it!'][Math.floor(Math.random()*4)]);
+   fb.className='fb good';fb.textContent='Correct! '+r.t+'.';CAPX=pick('right',GOGO_RIGHT);{const yi=Math.floor(Math.random()*4);say(['Correct! That is right!','Correct! Well done, Guardian!','Correct! Brilliant!','Correct! You got it!'][yi],'voice/v_gogo_yay'+(yi+1)+'.mp3')}RVF=vf('x');
    setTimeout(()=>reveal(r.img,r.t,r.x+' '+r.c,pts,()=>{ri=nextOpen(rch,ri);tries=0;riddle();sayRiddle()}),900)}
-  else{tries++;b.classList.add('wrong');b.disabled=true;hint.hidden=false;const nq=['Not quite!','Close, but no!','Hmm, not that one!','Try again, Guardian!'][Math.floor(Math.random()*4)];fb.className='fb bad';fb.textContent=nq+' '+r.h;pose('surprised',2500);CAPX=pick('wrong',GOGO_WRONG)+' '+r.h;say(nq+' Here is a hint. '+r.h)}};c.append(b)});
+  else{tries++;b.classList.add('wrong');b.disabled=true;hint.hidden=false;const nq=['Not quite!','Close, but no!','Hmm, not that one!','Try again, Guardian!'][Math.floor(Math.random()*4)];fb.className='fb bad';fb.textContent=nq+' '+r.h;pose('surprised',2500);CAPX=pick('wrong',GOGO_WRONG)+' '+r.h;say(nq+' Here is a hint. '+r.h,vf('h'))}};c.append(b)});
  rcard.append(c);rcard.append(fb);
  const tw=el('<form class="typeit" autocomplete="off" hidden><label class="sr" for="typeAns">Type your answer</label><input id="typeAns" type="text" placeholder="Type your answer for +2 emeralds" maxlength="40"><button class="btn" type="submit">Check</button></form>');
  tw.onsubmit=e=>{e.preventDefault();const v=tw.querySelector('input').value.trim();if(!v)return;const k=bestMatch([v],r.o);const bs=c.querySelectorAll('button');if(k===r.a){TYPED=true;bs[k].click()}else if(k>=0&&!bs[k].disabled){bs[k].click()}else{toast('Not quite. Check your spelling, or try again.');say('Not quite. Try again.')}};
@@ -1516,7 +1524,7 @@ function gem3d(canvas,big){if(!window.THREE)return null;try{
 addEventListener('resize',()=>GEMS.forEach(s=>s.size()));
 (function(){const host=document.querySelector('.gems svg.gemi');if(!host||!window.THREE)return;const c=document.createElement('canvas');c.className='gem3d';host.replaceWith(c);gem3d(c,false)})();
 function pose(p,ms){const g=document.getElementById('gogoPose');if(!g)return;MOODP=p;const t=document.querySelector('#gtab img');if(t)t.src='img/pose_'+p+'.jpg';document.getElementById('gtab')&&document.getElementById('gtab').classList.toggle('asleep',p==='sleepy');g.src='img/pose_'+p+'.jpg';g.classList.remove('pop');void g.offsetWidth;g.classList.add('pop');clearTimeout(pose.t);if(ms)pose.t=setTimeout(()=>pose('happy'),ms)}
-(function(){const _add=addGems;addGems=function(n){_add(n);pose('cheer',3500);save()};const _say=say;say=function(t){_say(t);if(t&&/\?\s*$/.test(String(t).trim()))pose('think');};
+(function(){const _add=addGems;addGems=function(n){_add(n);pose('cheer',3500);save()};const _say=say;say=function(t,f){_say(t,f);if(t&&/\?\s*$/.test(String(t).trim()))pose('think');};
  document.addEventListener('click',e=>{if(e.target.closest('.med.wrong,.choice.wrong'))pose('surprised',2500)},true);
  let lastAct=Date.now();
  ['pointerdown','keydown'].forEach(ev=>addEventListener(ev,()=>{lastAct=Date.now();if(MOODP==='sleepy'||MOODP==='think'){pose('surprised',900)}}));
@@ -1543,7 +1551,7 @@ function fxAll(){fxGuards();document.querySelectorAll('.imgbox>img').forEach(img
 let PIN=innerWidth>1060;const GT=document.getElementById('gtab');
 function showGogo(){cap.classList.add('show');GT.classList.add('open');document.body.classList.add('gogo-on')}
 function hideGogo(){if(PIN)return;cap.classList.remove('show');GT.classList.remove('open');document.body.classList.remove('gogo-on')}
-(function(){const _say=say;say=function(t){_say(t);if(t&&VOICE&&GESTURE)showGogo()};
+(function(){const _say=say;say=function(t,f){_say(t,f);if(t&&VOICE&&GESTURE)showGogo()};
  const _ch=capHide;capHide=function(ms){_ch(ms);clearTimeout(capHide.h);capHide.h=setTimeout(hideGogo,(ms||0)+1500)};
  GT.onclick=()=>{PIN=!cap.classList.contains('show');if(PIN)showGogo();else{PIN=false;hideGogo()}};
  const x=el('<button class="spclose" type="button" aria-label="Slide Gogo away">&rsaquo;</button>');x.onclick=()=>{PIN=false;hideGogo()};cap.append(x);if(PIN)showGogo()})();
