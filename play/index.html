@@ -980,7 +980,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
           <span class="orn">~ &#9670; ~</span>
           <p class="lead">Solve Gogo&rsquo;s riddles from the book, collect emeralds, and travel with Oliver, Alibaba and the Forty Thieves.</p>
           <p class="age">Ages 8 to 12 &middot; fun for the whole family</p>
-          <div class="homebtns"><button class="btn big" type="button" id="playBtn">Play</button><button class="btn ghost" type="button" id="readBtn">Read the story</button><button class="btn ghost" type="button" data-go="worlds">Choose a world</button><button class="btn ghost" type="button" id="certBtn" hidden>My certificate</button></div>
+          <div class="homebtns"><button class="btn big" type="button" id="playBtn">Play</button><button class="btn ghost" type="button" id="readBtn">Read the story</button><button class="btn ghost" type="button" data-go="worlds">Choose a world</button><button class="btn ghost" type="button" id="certBtn" hidden>My certificate</button><button class="btn ghost daily" type="button" id="dailyBtn">Today&rsquo;s riddle<small id="dailyStreak"></small></button></div>
           <p class="saved" id="savedLine" hidden></p>
         </div>
       </div>
@@ -1902,6 +1902,21 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
  const _cr=window.closeRv;window.closeRv=function(){const t=(document.getElementById('rvt')||{}).textContent||'';_cr.apply(this,arguments);
   if(/Emerald Moon/.test(t)&&/^Unlocked/.test(t)&&!ls('gg_cert80')){ls('gg_cert80','1');setTimeout(openCert,700)}};
  sync();setInterval(sync,1500);
+})();
+</script>
+<style id="dailycss">.daily small{display:block;font-size:11px;font-weight:600;opacity:.85;letter-spacing:.02em}.daily small:empty{display:none}</style>
+<script>
+(function(){const B=document.getElementById('dailyBtn'),S=document.getElementById('dailyStreak');
+ function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}}
+ function day(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+ function st(){try{return JSON.parse(ls('gg_daily')||'{}')}catch(e){return{}}}
+ function show(){const o=st();S.textContent=o.streak>1&&(o.last===day()||o.last===day(new Date(Date.now()-864e5)))?o.streak+' days in a row':''}
+ function todays(){const L=[];Object.keys(RIDDLES).map(Number).sort((a,b)=>a-b).forEach(ch=>RIDDLES[ch].items.forEach((_,k)=>L.push([ch,k])));
+  const n=Math.floor(new Date(day()+'T12:00:00').getTime()/864e5);const start=(n*37)%L.length;
+  for(let i=0;i<L.length;i++){const x=L[(start+i)%L.length];if(!(typeof solved!=='undefined'&&solved[x[0]+'-'+x[1]]))return x}return L[start]}
+ B.onclick=()=>{const o=st(),t=day(),y=day(new Date(Date.now()-864e5));if(o.last!==t){o.streak=o.last===y?(o.streak||1)+1:1;o.last=t;ls('gg_daily',JSON.stringify(o))}show();
+  const x=todays();rch=x[0];ri=x[1];tries=0;riddle();go('trail');};
+ show();
 })();
 </script>
 </body>
