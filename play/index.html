@@ -4,7 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="icon" href="/img/pose_happy.jpg">
-<style>html,body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<style>html,body{margin:0}[hidden]{display:none!important}img{max-width:100%}#vpause{position:fixed;right:14px;bottom:86px;z-index:200;display:none;align-items:center;gap:8px;padding:10px 18px;border:0;border-radius:999px;background:linear-gradient(#f3d98a,#c99a3a);color:#2a1a06;font:700 16px/1 inherit;box-shadow:0 4px 14px rgba(0,0,0,.45);cursor:pointer}
+#vpause.show{display:inline-flex}
+@media (max-width:820px){#vpause{top:12px;bottom:auto;right:12px}}
+</style>
 </head>
 <body>
 <div id="gate" style="position:fixed;inset:0;z-index:999;background:radial-gradient(circle at 50% 40%,#1a1206,#000 75%);display:grid;place-items:center;font-family:Georgia,serif;color:#f6d27a;padding:16px">
@@ -1036,8 +1039,14 @@ function accNote(f,at,dur,vol){const o1=AC.createOscillator(),o2=AC.createOscill
  o1.connect(fl);o2.connect(fl);fl.connect(g).connect(AC.destination);[o1,o2,lf].forEach(x=>{x.start(at);x.stop(at+dur+.05)})}
 function drum(at,low){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(low?110:240,at);o.frequency.exponentialRampToValueAtTime(low?55:160,at+.18);g.gain.setValueAtTime(low?.5:.18,at);g.gain.exponentialRampToValueAtTime(.0001,at+(low?.35:.12));o.connect(g).connect(AC.destination);o.start(at);o.stop(at+.4)}
 const HIJAZ=[[293.7,370,392,440],[440,392,370,311.1,293.7],[293.7,311.1,370,392,440,466.2,440],[392,440,466.2,440,392,370],[220,293.7,311.1,370,293.7]];let HZI=0;
-function hijaz(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime+.02,ph=HIJAZ[HZI++%HIJAZ.length];
- drum(t,true);drum(t+.24,false);drum(t+.36,false);drum(t+.48,true);ph.forEach((f,i)=>accNote(f,t+i*.12,i===ph.length-1?.7:.2,.07))}catch(e){}}
+function harmNote(f,at,dur,vol){const g=AC.createGain(),fl=AC.createBiquadFilter(),lf=AC.createOscillator(),lg=AC.createGain();fl.type='lowpass';fl.frequency.value=1500;fl.Q.value=.7;
+ [[f,'sawtooth',1],[f*1.004,'sawtooth',.8],[f/2,'square',.35],[f*2,'triangle',.12]].forEach(([fr,ty,a])=>{const o=AC.createOscillator(),og=AC.createGain();o.type=ty;o.frequency.value=fr;og.gain.value=a;o.connect(og);og.connect(fl);o.start(at);o.stop(at+dur+.5)});
+ lf.frequency.value=5;lg.gain.value=vol*.18;lf.connect(lg);lg.connect(g.gain);lf.start(at);lf.stop(at+dur+.5);
+ g.gain.setValueAtTime(.0001,at);g.gain.linearRampToValueAtTime(vol,at+.09);g.gain.setValueAtTime(vol,at+dur);g.gain.exponentialRampToValueAtTime(.0001,at+dur+.45);fl.connect(g);g.connect(AC.destination)}
+const HARM=[[146.8,185,196,220],[220,196,185,155.6,146.8],[146.8,155.6,185,196,220],[196,220,233.1,220,196],[110,146.8,155.6,185,146.8]];
+function hijaz(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime+.02,ph=HARM[HZI++%HARM.length];
+ harmNote(73.4,t,ph.length*.22+.5,.035);harmNote(110,t,ph.length*.22+.5,.025);
+ ph.forEach((f,i)=>harmNote(f,t+i*.22,i===ph.length-1?.7:.24,.05))}catch(e){}}
 function addGems(n){const before=gems;gems+=n;const MS=[[15,'The Elderstone card','img/m_elder.jpg','The guardian spirit inside Gogo is now yours. Elderstone has watched over Oliver’s family for generations.'],[30,'The world of Zolara','img/p037.jpg','The living library opens its gates. The Zolara and Raptor riddle table is now open for you!'],[50,'The world of Raptor','img/p071.jpg','The jungle world of the Reptocrats welcomes you. Caiman and Gekkota are waiting!'],[80,'The Emerald Moon','img/p080.jpg','You reached the Emerald Moon. You are a true Guardian of the Emerald!']];const hit=MS.find(m=>before<m[0]&&gems>=m[0]);if(hit)UNLOCK=hit;gc.textContent=gems;chime();burst();goal()}
 function goal(){const P=[[15,'the Elderstone card'],[30,'the world of Zolara'],[50,'the world of Raptor'],[80,'the Emerald Moon']];const nx=P.find(p=>p[0]>gems);const prev=[...P].reverse().find(p=>p[0]<=gems);const lo=prev?prev[0]:0;if(!nx){document.getElementById('gtxt').textContent='Every treasure unlocked!';document.getElementById('gfill').style.width='100%';return}document.getElementById('gtxt').textContent=(nx[0]-gems)+' more to unlock '+nx[1];document.getElementById('gfill').style.width=Math.round((gems-lo)*100/(nx[0]-lo))+'%'}
 function burst(){if(matchMedia('(prefers-reduced-motion: reduce)').matches||document.body.classList.contains('rvopen'))return;const r=gc.getBoundingClientRect();for(let i=0;i<9;i++){const s=el('<svg class="burst"><use href="#gem"/></svg>');s.style.left=(r.left-6)+'px';s.style.top=(r.top-4)+'px';const a=Math.random()*Math.PI*2,d=60+Math.random()*90;s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',(Math.sin(a)*d+60)+'px');document.body.append(s);setTimeout(()=>s.remove(),1200)}}
@@ -1057,7 +1066,12 @@ function capType(text,u){lastSaid=text;capt.classList.remove('idle');if(CAPX){co
  if(u){u.onboundary=e=>{if(e.name&&e.name!=='word')return;show(text.slice(0,e.charIndex+1).split(' ').length)};u.onend=()=>{clearInterval(capTimer);show(words.length);capHide(2600)}}}
 const VEL=new Audio();VEL.preload='auto';let VAUD=null,VPRIMED=false;
 addEventListener('pointerdown',()=>{if(VPRIMED)return;VPRIMED=true;try{if(!VEL.src){VEL.muted=true;VEL.src='voice/v_gogo_yay3.mp3';VEL.play().then(()=>{VEL.pause();VEL.muted=false}).catch(()=>{VEL.muted=false})}}catch(e){}},{capture:true});
-function stopVoice(){try{VEL.pause()}catch(e){}VAUD=null}
+
+const VPB=document.createElement('button');VPB.id='vpause';VPB.type='button';VPB.textContent='❚❚ Pause';document.body.append(VPB);let VPAUSED=false;
+function vpUI(){if(!VPB)return;const on=VEL.src&&!VEL.ended&&(!VEL.paused||VPAUSED);VPB.classList.toggle('show',!!on);VPB.textContent=VPAUSED?'▶ Play':'❚❚ Pause';VPB.setAttribute('aria-label',VPAUSED?'Play Gogo':'Pause Gogo')}
+VEL.addEventListener('play',()=>{VPAUSED=false;vpUI()});VEL.addEventListener('ended',()=>{VPAUSED=false;vpUI()});VEL.addEventListener('pause',()=>setTimeout(vpUI,0));
+VPB.onclick=e=>{e.stopPropagation();if(VPAUSED){VPAUSED=false;VEL.play().catch(()=>{})}else{VPAUSED=true;VEL.pause()}vpUI()};
+function stopVoice(){VPAUSED=false;try{VEL.pause()}catch(e){}VAUD=null;vpUI()}
 function say(t,file){if(!VOICE||!GESTURE||!t)return;const text=String(t).replace(/[“”"]/g,'').replace(/·/g,',').replace(/\s+/g,' ').trim();stopVoice();
  if(file){try{speechSynthesis.cancel()}catch(e){}VAUD=VEL;VEL.onended=null;VEL.muted=false;VEL.src=file;capType(text,null);VEL.play().catch(()=>{});return}
  sayTTS(text)}
