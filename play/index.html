@@ -980,7 +980,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
           <span class="orn">~ &#9670; ~</span>
           <p class="lead">Solve Gogo&rsquo;s riddles from the book, collect emeralds, and travel with Oliver, Alibaba and the Forty Thieves.</p>
           <p class="age">Ages 8 to 12 &middot; fun for the whole family</p>
-          <div class="homebtns"><button class="btn big" type="button" id="playBtn">Play</button><button class="btn ghost" type="button" id="readBtn">Read the story</button><button class="btn ghost" type="button" data-go="worlds">Choose a world</button></div>
+          <div class="homebtns"><button class="btn big" type="button" id="playBtn">Play</button><button class="btn ghost" type="button" id="readBtn">Read the story</button><button class="btn ghost" type="button" data-go="worlds">Choose a world</button><button class="btn ghost" type="button" id="certBtn" hidden>My certificate</button></div>
           <p class="saved" id="savedLine" hidden></p>
         </div>
       </div>
@@ -1846,5 +1846,63 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 .cavehole.raptor{box-shadow:0 0 0 4px #2fe39a,0 0 30px 10px rgba(47,227,154,.6),inset 0 6px 14px #000}
 .cavehole.meadow{box-shadow:0 0 0 4px #f6d27a,0 0 30px 10px rgba(255,230,160,.6),inset 0 6px 14px #000}
 </style>
+
+<div id="cert" hidden role="dialog" aria-label="Guardian certificate"><div class="certwrap">
+ <div class="certcard" id="certcard">
+  <div class="cseal">&#9670;</div>
+  <div class="ctop">Certificate of the</div>
+  <div class="ctitle">Gogo Guardians</div>
+  <div class="cline">This certifies that</div>
+  <input id="certName" class="cname" maxlength="28" placeholder="Type your name" aria-label="Your name" autocomplete="off">
+  <div class="cline">has joined the Guardians of the Emerald and collected</div>
+  <div class="cgems"><span id="certGems">0</span> emeralds</div>
+  <div class="cline" id="certUn"></div>
+  <div class="csign"><div><span class="cs">Gogo</span><small>the Magic Phone</small></div><div><span class="cs" id="certDate"></span><small>date</small></div></div>
+  <button type="button" class="cbook" id="certBook"><img src="img/cover5.jpg" alt=""><div>Read the whole adventure:<b>Gogo the Magic Phone</b>gogoguardians.com</div></button>
+ </div>
+ <div class="certbtns"><button class="btn big" type="button" id="certPrint">Print it</button><button class="btn ghost" type="button" id="certClose">Close</button></div>
+</div></div>
+<style id="certcss">
+#certBtn[hidden]{display:none}
+#cert{position:fixed;inset:0;z-index:90;background:rgba(4,6,20,.88);display:grid;place-items:center;overflow:auto;padding:16px}
+#cert[hidden]{display:none}
+.certwrap{display:grid;gap:14px;justify-items:center;width:min(760px,100%)}
+.certcard{position:relative;width:100%;aspect-ratio:1.414;max-height:82dvh;box-sizing:border-box;padding:4.5% 7%;background:#f6ecd2 var(--paper);color:#3a2306;border:22px solid transparent;border-image:var(--frame) 40 stretch;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;font-family:var(--body)}
+.cseal{position:absolute;top:6%;right:6%;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7ff0bf,#1f8a5c 60%,#0c4a30);color:#f6d27a;display:grid;place-items:center;font-size:22px;box-shadow:0 0 0 3px #d9a441,0 0 0 5px #8a5a14}
+.ctop{font-family:var(--display);letter-spacing:.2em;text-transform:uppercase;font-size:clamp(11px,2vw,15px);color:#8a5a14}
+.ctitle{font-family:var(--deco);font-size:clamp(24px,5.4vw,46px);line-height:1;color:#7a4a10}
+.cline{font-size:clamp(12px,2vw,16px)}
+.cname{font-family:var(--deco);font-size:clamp(20px,4.2vw,36px);text-align:center;color:#1f5a3c;background:transparent;border:0;border-bottom:2px solid #b9862c;width:80%;outline:none;padding:2px}
+.cname::placeholder{color:#b9a27a}
+.cgems{font-family:var(--display);font-size:clamp(18px,3.6vw,30px);color:#1f7a50;font-weight:700}
+.csign{display:flex;justify-content:space-around;width:100%}
+.csign div{display:grid;gap:2px;min-width:30%}
+.cs{font-family:var(--deco);font-size:clamp(14px,2.6vw,22px);border-bottom:1px solid #8a5a14;padding-bottom:2px}
+.csign small{font-size:11px;color:#8a6a3a}
+.cbook{background:none;border:0;cursor:pointer;color:inherit;font-family:inherit;padding:0;display:flex;align-items:center;gap:10px;font-size:clamp(10px,1.7vw,13px);text-align:left}
+.cbook img{height:clamp(34px,7vw,56px);border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.cbook b{display:block;font-family:var(--display);color:#7a4a10}
+@media (max-width:700px){.certcard{aspect-ratio:auto;max-height:none;gap:10px;padding:22px 12px;border-width:14px}.cseal{width:38px;height:38px;font-size:16px;top:10px;right:10px}.csign{gap:10px}}
+@media print{@page{size:landscape;margin:8mm}html,body{background:#fff!important;background-image:none!important}body::before,body::after{display:none!important}body>*:not(#cert){display:none!important}#cert{position:static;background:#fff;padding:0}.certbtns{display:none}.certcard{max-height:none;width:100%;-webkit-print-color-adjust:exact;print-color-adjust:exact}.cname{border-bottom-color:#b9862c}}
+</style>
+<script>
+(function(){const C=document.getElementById('cert'),B=document.getElementById('certBtn'),N=document.getElementById('certName');
+ const UN=[[15,'the Elderstone card'],[30,'Zolara'],[50,'Raptor'],[80,'the Emerald Moon']];
+ function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}}
+ function sync(){B.hidden=!(gems>0)}
+ window.openCert=function(){document.getElementById('certGems').textContent=gems;const u=UN.filter(x=>gems>=x[0]).map(x=>x[1]);
+  document.getElementById('certUn').textContent=u.length?('and unlocked '+(u.length>1?u.slice(0,-1).join(', ')+' and '+u[u.length-1]:u[0])+'.'):'on the way to the Elderstone card.';
+  document.getElementById('certDate').textContent=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  N.value=ls('gg_name')||'';C.hidden=false;if(typeof stopVoice==='function')stopVoice();
+  if(typeof say==='function')say('Here is your Guardian certificate. Type your name, then print it and hang it on your wall.','voice/v_cert1.mp3');if(!N.value)setTimeout(()=>N.focus(),300)};
+ N.addEventListener('input',()=>ls('gg_name',N.value));
+ B.onclick=openCert;document.getElementById('certClose').onclick=()=>{C.hidden=true;if(typeof stopVoice==='function')stopVoice()};
+ document.getElementById('certPrint').onclick=()=>{if(!N.value.trim()){N.focus();N.placeholder='Type your name first';return}window.print()};
+ document.getElementById('certBook').onclick=()=>{C.hidden=true;if(typeof BOOK!=='undefined'&&BOOK.open)BOOK.open(1);setTimeout(()=>{if(typeof say==='function')say('Want to know what happens next? Read the whole adventure in the book, Gogo the Magic Phone.','voice/v_book1.mp3')},600)};
+ const _cr=window.closeRv;window.closeRv=function(){const t=(document.getElementById('rvt')||{}).textContent||'';_cr.apply(this,arguments);
+  if(/Emerald Moon/.test(t)&&/^Unlocked/.test(t)&&!ls('gg_cert80')){ls('gg_cert80','1');setTimeout(openCert,700)}};
+ sync();setInterval(sync,1500);
+})();
+</script>
 </body>
 </html>
