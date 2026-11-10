@@ -1231,12 +1231,12 @@ function confirmReset(){const b=document.querySelector('.linkbtn');if(b&&b.datas
 
 // ===== the worlds =====
 const WORLDS=[
- {k:'sumner',name:'Sumner County',img:'img/p003.jpg',sub:'Riddles from the whole book',need:0,go:()=>go('pick')},
+ {k:'sumner',name:'Sumner County',img:'/read/img/p010.jpg',sub:'Riddles from the whole book',need:0,go:()=>go('pick')},
  {k:'persia',name:'Ancient Persia',img:'img/p026.jpg',sub:'The riddle of the two guards',need:0,go:()=>go('guards')},
- {k:'dracula',name:'Dracula’s Forest',img:'img/p019.jpg',sub:'Escape the bats',need:0,go:()=>go('bats')},
+ {k:'dracula',name:'Dracula’s Forest',img:'img/bats_run.jpg',sub:'Escape the bats',need:0,go:()=>go('bats')},
  {k:'zolara',name:'Zolara',img:'img/p037.jpg',sub:'The living library riddles',need:30,go:()=>{RACK=2;go('pick')}},
  {k:'raptor',name:'Raptor',img:'img/p071.jpg',sub:'The emerald heist riddles',need:50,go:()=>{RACK=2;go('pick')}},
- {k:'moon',name:'The Emerald Moon',img:'img/p080.jpg',sub:'The final reward',need:80,go:()=>reveal('img/p080.jpg','The Emerald Moon','You made it, Guardian. The whole book, every riddle, every world. The emerald glows for you.',0,null)}];
+ {k:'moon',name:'The Emerald Moon',img:'img/p080.jpg',sub:'The final reward',need:80,go:()=>reveal('img/p080.jpg','The Emerald Moon','You made it, Guardian. The whole book, every riddle, every world. The emerald glows for you.',0,()=>{if(window.openCert)setTimeout(openCert,500)})}];
 function drawWorlds(){const g=document.getElementById('worldGrid');g.innerHTML='';WORLDS.forEach(w=>{const open=!!w.go&&gems>=(w.need||0);
  const b=el('<button class="world" type="button"><span class="wimg"><img alt=""><span class="portal"></span></span><span class="cap"><h3></h3><span class="tag"></span></span></button>');
  b.querySelector('img').src=w.img;b.querySelector('h3').textContent=w.name;const tg=b.querySelector('.tag');
