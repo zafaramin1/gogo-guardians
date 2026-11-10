@@ -1013,7 +1013,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
 
     <section class="screen frame" data-name="bats" data-title="Dracula's Bats">
       <div class="panel split">
-        <div class="pic"><img src="img/p019.jpg" alt="Dracula and his bats in a golden forest"></div>
+        <div class="pic"><img src="img/bats_run.jpg" alt="The friends run toward the lake as bats pour from the sky"></div>
         <div id="bstage" style="display:grid;gap:12px;align-content:start;min-width:0"></div>
       </div>
     </section>
@@ -1583,7 +1583,7 @@ let CMT=null;if(window.claude&&claude.use){claude.use('comments').then(c=>{CMT=c
 function reviewNote(node,spot,where){if(window.GGC&&GGC.on){GGC.open({spot:spot||'game',where:where||'the game'});return}window.open('https://form.jotform.com/263087088389069','_blank','noopener');return;CMT.openComposer({element:node}).catch(()=>toast('Review notes are off in this view.'))}
 
 // ===== Dracula's bats =====
-const BATPIC=['/read/img/p018.jpg','/read/img/p019.jpg','/read/img/p022.jpg'];let BMARKS=[];
+const BATPIC=['img/bats_run.jpg','img/bats_glow.jpg','img/bats_lumina.jpg'];let BMARKS=[];
 const bats=[{t:'Millions of bats pour out of the sky. Eva shouts that Dracula is behind this. What do you do?',o:[['Run toward the lake',1],['Climb the tallest tree',0]]},
  {t:'You reach the lake. Dracula swoops down and the bats are still coming. Gogo starts to glow. What now?',o:[['Hold Gogo up high',1],['Jump in the water',0]]},
  {t:'A blinding light appears. A being made of pure light rises above the trees. Who is it?',o:[['Lumina',1],['Elderstone',0]]}];
