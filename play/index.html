@@ -980,7 +980,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
           <span class="orn">~ &#9670; ~</span>
           <p class="lead">Solve Gogo&rsquo;s riddles from the book, collect emeralds, and travel with Oliver, Alibaba and the Forty Thieves.</p>
           <p class="age">Ages 8 to 12 &middot; fun for the whole family</p>
-          <div class="homebtns"><button class="btn big" type="button" id="playBtn">Play</button><button class="btn ghost" type="button" id="readBtn">Read the story</button><button class="btn ghost" type="button" data-go="worlds">Choose a world</button><button class="btn ghost" type="button" id="certBtn" hidden>My certificate</button><button class="btn ghost daily" type="button" id="dailyBtn">Today&rsquo;s riddle<small id="dailyStreak"></small></button></div>
+          <div class="homebtns"><button class="btn big" type="button" id="playBtn">Play</button><button class="btn readbig" type="button" id="readBtn">Read the book<small>Know the answers. Win the prizes.</small></button><button class="btn ghost" type="button" data-go="worlds">Choose a world</button><button class="btn ghost" type="button" id="certBtn" hidden>My certificate</button><button class="btn ghost daily" type="button" id="dailyBtn">Today&rsquo;s riddle<small id="dailyStreak"></small></button></div>
           <p class="saved" id="savedLine" hidden></p>
         </div>
       </div>
@@ -1919,5 +1919,10 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
  show();
 })();
 </script>
+<style id="readbigcss">
+.btn.readbig{background:linear-gradient(180deg,#2fae78,#167a50);color:#fff8e0;border:2px solid #f6d27a;box-shadow:0 0 18px rgba(54,194,135,.45);font-weight:800}
+.btn.readbig small{display:block;font-size:12px;font-weight:700;color:#f6d27a;letter-spacing:.02em;margin-top:2px}
+.btn.readbig:hover{filter:brightness(1.08)}
+</style>
 </body>
 </html>
