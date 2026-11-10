@@ -1252,7 +1252,7 @@ function rackOf(ch){return RACKS.findIndex(r=>r.ch.includes(ch))}
 function rackList(i){const L=[];RACKS[i].ch.forEach(ch=>RIDDLES[ch]&&RIDDLES[ch].items.forEach((r,k)=>L.push([ch,k,r])));return L}
 const BALLC={1:['#f2c230','#f07a1a','#d42a2a','#8a1a2a'],2:['#2a7ad8','#1aa0a0','#1a8a4a','#1a2a6a'],3:['#7a3ac3','#c43a6a','#e05aa0','#1c1c22']};
 let BALLS=[],BALL_RAF=0,RACKED=true,POCKETS=[];
-let GOLF=true,BUMPS=[],SHOTS=0;
+let GOLF=true,BUMPS=[],SHOTS=0,GOLFTH='meadow';const HOLE={meadow:'Gogo\'s portal',desert:'The thieves\' cave',zolara:'The library door',raptor:'The emerald vault'};
 function nextUp(){for(const ch of Object.keys(RIDDLES).map(Number).sort((a,b)=>a-b)){const k=firstOpen(ch);if(k<RIDDLES[ch].items.length)return [ch,k]}return null}
 function riddleNo(ch,k){let n=0;for(const c of Object.keys(RIDDLES).map(Number).sort((a,b)=>a-b)){if(c===ch)return n+k+1;n+=RIDDLES[c].items.length}return n}
 function drawPick(){const p=document.getElementById('pickPanel');p.innerHTML='';p.classList.add('golfp');
@@ -1261,19 +1261,19 @@ function drawPick(){const p=document.getElementById('pickPanel');p.innerHTML='';
  if(nx){hd.querySelector('b').textContent='Riddle '+riddleNo(nx[0],nx[1])+' of '+total;hd.querySelector('span').textContent=RIDDLES[nx[0]].title.replace(/^Chapter (\d+) · /,'Chapter $1: ')}
  else{hd.querySelector('b').textContent='Every riddle solved!';hd.querySelector('span').textContent='You are a true Guardian'}
  p.append(hd);
- p.append(el('<p class="rules1" id="tablehint"><span><b>Pull back on the golden ball and let go.</b> Roll it into the cave to open your next riddle.</span></p>'));
+ p.append(el('<p class="rules1" id="tablehint"><span><b>Pull back on the golden ball and let go.</b> Roll it into the glowing hole to open your next riddle.</span></p>'));
  const wrap=el('<div class="tablewrap golf"><div class="ptable"><div class="felt"><div class="ballarea"></div></div></div></div>');p.append(wrap);
  const more=el('<div class="row"></div>');
  if(nx)more.append(gbtn('Skip, go to the riddle ›',()=>{rch=nx[0];ri=nx[1];tries=0;riddle();go('trail')},'arch small'));
  more.append(gbtn('The Two Guards',()=>go('guards')));more.append(gbtn('Dracula’s Bats',()=>go('bats')));p.append(more);
  requestAnimationFrame(()=>requestAnimationFrame(()=>layBalls(wrap.querySelector('.ballarea'))))}
-function layGolf(area){cancelAnimationFrame(BALL_RAF);area.innerHTML='';BALLS=[];BUMPS=[];SHOTS=0;
+function layGolf(area){cancelAnimationFrame(BALL_RAF);area.innerHTML='';BALLS=[];BUMPS=[];SHOTS=0;{const nx_=nextUp(),ch_=nx_?nx_[0]:1,th=ch_<=8?'meadow':ch_<=11?'desert':ch_===12?'zolara':'raptor';const fe=area.closest('.felt');if(fe){fe.classList.remove('meadow','desert','zolara','raptor');fe.classList.add(th)}GOLFTH=th}
  const W=area.clientWidth,H=area.clientHeight;if(!W||!H)return;
  if(!nextUp()){area.append(el('<div class="alldone">Every riddle is solved! Visit the worlds for more adventures.</div>'));return}
  const D=Math.max(30,Math.min(52,W/16,H/7)),R=Math.max(26,D*.85);
  const hx=W*(.72+Math.random()*.16),hy=H*(.22+Math.random()*.56);
  POCKETS=[{x:hx,y:hy,r:R}];
- const cave=el('<span class="cavehole"><i></i><em>Cave</em></span>');cave.style.width=cave.style.height=(R*2)+'px';cave.style.left=(hx-R)+'px';cave.style.top=(hy-R)+'px';area.append(cave);
+ const cave=el('<span class="cavehole '+GOLFTH+'"><i></i><em></em></span>');cave.querySelector('em').textContent=HOLE[GOLFTH];cave.style.width=cave.style.height=(R*2)+'px';cave.style.left=(hx-R)+'px';cave.style.top=(hy-R)+'px';area.append(cave);
  const nb=W>700?3:2;for(let n=0,tries_=0;n<nb&&tries_<60;tries_++){const r=Math.max(18,D*.7),x=W*(.35+Math.random()*.3),y=H*(.15+Math.random()*.7);
   if(Math.hypot(x-hx,y-hy)<R+r+D*1.5||BUMPS.some(b=>Math.hypot(b.x-x,b.y-y)<b.r+r+D*1.4)||Math.hypot(x-W*.18,y-H/2)<r+D*2)continue;
   BUMPS.push({x,y,r});const b=el('<span class="bumper"></span>');b.style.width=b.style.height=(r*2)+'px';b.style.left=(x-r)+'px';b.style.top=(y-r)+'px';area.append(b);n++}
@@ -1836,6 +1836,15 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
  .top .gtxt{font-size:11.5px!important;line-height:1.15!important;white-space:normal;max-width:44vw;display:block;text-align:center}
  .top .goal{max-width:46vw}
 }
+</style>
+<style>
+.felt.meadow::before{background:radial-gradient(ellipse at 50% 45%,rgba(30,110,60,.85),rgba(8,46,26,.96))!important}
+.felt.desert::before{background:radial-gradient(ellipse at 50% 40%,rgba(214,160,80,.92),rgba(120,72,24,.97))!important}
+.felt.zolara::before{background:radial-gradient(ellipse at 50% 40%,rgba(90,60,170,.9),rgba(24,12,60,.97))!important}
+.felt.raptor::before{background:radial-gradient(ellipse at 50% 40%,rgba(20,140,90,.9),rgba(4,50,40,.97))!important}
+.cavehole.zolara{box-shadow:0 0 0 4px #b9a6ff,0 0 26px 8px rgba(160,130,255,.6),inset 0 6px 14px #000}
+.cavehole.raptor{box-shadow:0 0 0 4px #2fe39a,0 0 30px 10px rgba(47,227,154,.6),inset 0 6px 14px #000}
+.cavehole.meadow{box-shadow:0 0 0 4px #f6d27a,0 0 30px 10px rgba(255,230,160,.6),inset 0 6px 14px #000}
 </style>
 </body>
 </html>
