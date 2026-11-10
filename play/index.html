@@ -1242,7 +1242,7 @@ function drawWorlds(){const g=document.getElementById('worldGrid');g.innerHTML='
  b.querySelector('img').src=w.img;b.querySelector('h3').textContent=w.name;const tg=b.querySelector('.tag');
  const n=Object.keys(solved).length,prog=w.k==='sumner'?(n?' · '+n+' of '+Object.values(RIDDLES).reduce((a,c)=>a+c.items.length,0)+' solved':''):w.k==='persia'?(GW.guards?' · solved':''):w.k==='dracula'?(GW.bats?' · solved':''):'';
  if(open){tg.className='tag open';tg.textContent=w.sub+prog}else{b.classList.add('lock');tg.className='tag locked';tg.textContent=(w.need?'Unlocks at '+w.need+' emeralds · ':'Coming soon · ')+w.sub}
- b.onclick=()=>{if(open)w.go();else{const m=w.need?w.name+' opens at '+w.need+' emeralds. You have '+gems+'. Only '+(w.need-gems)+' to go!':w.name+' is coming soon.';toast(m);say(m)}};g.append(b)})}
+ b.onclick=()=>{if(open)w.go();else{const m=w.need?w.name+' opens at '+w.need+' emeralds. You have '+gems+'. Only '+(w.need-gems)+' to go!':w.name+' is coming soon.';toast(m);const lf={zolara:'zolara',raptor:'raptor',moon:'moon'}[w.k];if(lf)say(w.name+' opens at '+w.need+' emeralds. Keep solving riddles, Guardian. You are getting close!','voice/v_lock_'+lf+'.mp3');else say(m)}};g.append(b)})}
 
 // ===== choose a riddle: a carpet pool table. Break the rack, sink a ball to play its riddle =====
 const CHSHORT={1:'Midnight Glow',2:'Birthday Buzz',3:'Mysterious Gift',4:'Other World',5:'Ancestors',6:'Powers',7:'Hidden Realms',8:'Light',9:'Sands of Time',10:'Thieves',11:'To Zolara',12:'Wisdom',13:'Sky City',14:'Emerald',15:'The Heist',16:'Schemes',17:'Uproar',18:'Exodus',19:'Diplomacy',20:'New Dawn',21:'Farewells'};
