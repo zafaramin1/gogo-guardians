@@ -1217,13 +1217,13 @@ document.getElementById('next').onclick=()=>{if(screens[cur].dataset.name==='hom
 document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
 addEventListener('keydown',e=>{if(!RV.hidden||!document.getElementById('flip').hidden)return;if(e.target.closest('input,textarea'))return;if(e.key==='Escape')document.getElementById('prev').click()});
 function onEnter(n){if(n==='guards')sayGuards();if(n==='trail')sayRiddle();if(n==='bats'){const p=document.querySelector('#bstage .bq');say(p?p.textContent:'');setTimeout(()=>flyBats(10),350)}
- if(n==='worlds'){drawWorlds();say('Choose a world, Guardian.')}if(n==='pick'){drawPick();if(nextUp())setTimeout(()=>say('Pull back on the golden ball and let go. Roll it into the cave to open your next riddle.'),400)}if(n==='home')homeLine()}
+ if(n==='worlds'){drawWorlds();say('Choose a world, Guardian.')}if(n==='pick'){drawPick();if(nextUp())setTimeout(()=>(GOLFTH==='desert'?say('Pull back on the golden ball and let go. Roll it into the cave to open your next riddle.'):say({meadow:'Pull back on the golden ball and let go. Roll it into my glowing portal to open your next riddle.',zolara:'Pull back on the golden ball and let go. Roll it through the library door to open your next riddle.',raptor:'Pull back on the golden ball and let go. Roll it into the emerald vault to open your next riddle.'}[GOLFTH]||'Pull back on the golden ball and let go.','voice/v_g_golf_'+({meadow:'portal',zolara:'library',raptor:'vault'}[GOLFTH])+'.mp3')),400)}if(n==='home')homeLine()}
 
 // ===== saved progress =====
 const SAVEKEY='gg_game_v1';let GW={};
 function save(){try{localStorage.setItem(SAVEKEY,JSON.stringify({gems,solved,rch,ri,gw:GW}))}catch(e){}}
 function load(){try{const v=JSON.parse(localStorage.getItem(SAVEKEY)||'null');if(v){gems=v.gems||0;solved=v.solved||{};rch=RIDDLES[v.rch]?v.rch:1;ri=v.ri||0;GW=v.gw||{}}}catch(e){}gc.textContent=gems}
-function playOn(){for(const ch of Object.keys(RIDDLES).map(Number)){const k=firstOpen(ch);if(k<RIDDLES[ch].items.length){rch=ch;ri=k;tries=0;riddle();go('trail');return}}if(!GW.guards){go('guards');return}if(!GW.bats){go('bats');return}go('worlds')}
+function playOn(){WF=null;for(const ch of Object.keys(RIDDLES).map(Number)){const k=firstOpen(ch);if(k<RIDDLES[ch].items.length){rch=ch;ri=k;tries=0;riddle();go('trail');return}}if(!GW.guards){go('guards');return}if(!GW.bats){go('bats');return}go('worlds')}
 function homeLine(){const n=Object.keys(solved).length,sl=document.getElementById('savedLine'),pb=document.getElementById('playBtn');
  if(n||gems){sl.hidden=false;sl.innerHTML='';sl.append(document.createTextNode('Welcome back! '+n+' riddle'+(n===1?'':'s')+' solved and '+gems+' emeralds so far. '));const r=el('<button class="linkbtn" type="button">Start over</button>');r.onclick=()=>{if(confirmReset()){try{localStorage.removeItem(SAVEKEY)}catch(e){}location.hash='';location.reload()}};sl.append(r);pb.textContent='Continue where you left off'}
  else{sl.hidden=true;pb.textContent='Play'}}
@@ -1231,11 +1231,11 @@ function confirmReset(){const b=document.querySelector('.linkbtn');if(b&&b.datas
 
 // ===== the worlds =====
 const WORLDS=[
- {k:'sumner',name:'Sumner County',img:'img/p003.jpg',sub:'Riddles from the whole book',need:0,go:()=>go('pick')},
+ {k:'sumner',name:'Sumner County',img:'img/p003.jpg',sub:'Riddles from the whole book',need:0,go:()=>{WF=null;go('pick')}},
  {k:'persia',name:'Ancient Persia',img:'img/p026.jpg',sub:'The riddle of the two guards',need:0,go:()=>go('guards')},
  {k:'dracula',name:'Dracula’s Forest',img:'img/bats_run.jpg',sub:'Escape the bats',need:0,go:()=>go('bats')},
- {k:'zolara',name:'Zolara',img:'img/p037.jpg',sub:'The living library riddles',need:30,go:()=>{RACK=2;go('pick')}},
- {k:'raptor',name:'Raptor',img:'img/p071.jpg',sub:'The emerald heist riddles',need:50,go:()=>{RACK=2;go('pick')}},
+ {k:'zolara',name:'Zolara',img:'img/p037.jpg',sub:'The living library riddles',need:30,go:()=>{RACK=2;WF=[12,13];go('pick')}},
+ {k:'raptor',name:'Raptor',img:'img/p071.jpg',sub:'The emerald heist riddles',need:50,go:()=>{RACK=2;WF=[14,15,16,17,18,19,20,21];go('pick')}},
  {k:'moon',name:'The Emerald Moon',img:'img/p080.jpg',sub:'The final reward',need:80,go:()=>reveal('img/p080.jpg','The Emerald Moon','You made it, Guardian. The whole book, every riddle, every world. The emerald glows for you.',0,()=>{if(window.openCert)setTimeout(openCert,500)})}];
 function drawWorlds(){const g=document.getElementById('worldGrid');g.innerHTML='';WORLDS.forEach(w=>{const open=!!w.go&&gems>=(w.need||0);
  const b=el('<button class="world" type="button"><span class="wimg"><img alt=""><span class="portal"></span></span><span class="cap"><h3></h3><span class="tag"></span></span></button>');
@@ -1253,7 +1253,7 @@ function rackList(i){const L=[];RACKS[i].ch.forEach(ch=>RIDDLES[ch]&&RIDDLES[ch]
 const BALLC={1:['#f2c230','#f07a1a','#d42a2a','#8a1a2a'],2:['#2a7ad8','#1aa0a0','#1a8a4a','#1a2a6a'],3:['#7a3ac3','#c43a6a','#e05aa0','#1c1c22']};
 let BALLS=[],BALL_RAF=0,RACKED=true,POCKETS=[];
 let GOLF=true,BUMPS=[],SHOTS=0,GOLFTH='meadow';const HOLE={meadow:'Gogo\'s portal',desert:'The thieves\' cave',zolara:'The library door',raptor:'The emerald vault'};
-function nextUp(){for(const ch of Object.keys(RIDDLES).map(Number).sort((a,b)=>a-b)){const k=firstOpen(ch);if(k<RIDDLES[ch].items.length)return [ch,k]}return null}
+let WF=null;function nextUp(){if(WF){for(const ch of WF){if(!RIDDLES[ch])continue;const k=firstOpen(ch);if(k<RIDDLES[ch].items.length)return [ch,k]}}for(const ch of Object.keys(RIDDLES).map(Number).sort((a,b)=>a-b)){const k=firstOpen(ch);if(k<RIDDLES[ch].items.length)return [ch,k]}return null}
 function riddleNo(ch,k){let n=0;for(const c of Object.keys(RIDDLES).map(Number).sort((a,b)=>a-b)){if(c===ch)return n+k+1;n+=RIDDLES[c].items.length}return n}
 function drawPick(){const p=document.getElementById('pickPanel');p.innerHTML='';p.classList.add('golfp');
  const nx=nextUp(),total=Object.values(RIDDLES).reduce((a,c)=>a+c.items.length,0);
@@ -1267,7 +1267,7 @@ function drawPick(){const p=document.getElementById('pickPanel');p.innerHTML='';
  if(nx)more.append(gbtn('Skip, go to the riddle ›',()=>{rch=nx[0];ri=nx[1];tries=0;riddle();go('trail')},'arch small'));
  more.append(gbtn('The Two Guards',()=>go('guards')));more.append(gbtn('Dracula’s Bats',()=>go('bats')));p.append(more);
  requestAnimationFrame(()=>requestAnimationFrame(()=>layBalls(wrap.querySelector('.ballarea'))))}
-function layGolf(area){cancelAnimationFrame(BALL_RAF);area.innerHTML='';BALLS=[];BUMPS=[];SHOTS=0;{const nx_=nextUp(),ch_=nx_?nx_[0]:1,th=ch_<=8?'meadow':ch_<=11?'desert':ch_===12?'zolara':'raptor';const fe=area.closest('.felt');if(fe){fe.classList.remove('meadow','desert','zolara','raptor');fe.classList.add(th)}GOLFTH=th}
+function layGolf(area){cancelAnimationFrame(BALL_RAF);area.innerHTML='';BALLS=[];BUMPS=[];SHOTS=0;{const nx_=nextUp(),ch_=nx_?nx_[0]:1,th=ch_<=8?'meadow':ch_<=11?'desert':ch_<=13?'zolara':'raptor';const fe=area.closest('.felt');if(fe){fe.classList.remove('meadow','desert','zolara','raptor');fe.classList.add(th)}GOLFTH=th}
  const W=area.clientWidth,H=area.clientHeight;if(!W||!H)return;
  if(!nextUp()){area.append(el('<div class="alldone">Every riddle is solved! Visit the worlds for more adventures.</div>'));return}
  const D=Math.max(30,Math.min(52,W/16,H/7)),R=Math.max(26,D*.85);
