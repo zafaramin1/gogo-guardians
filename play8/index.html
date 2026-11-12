@@ -463,7 +463,7 @@ body{background:#02030a!important;background-image:none!important}
 .rcard{display:grid;gap:12px;align-content:center;min-width:0;min-height:0}
 .rcard .rq{margin:0;font-size:clamp(18px,2vw,23px);line-height:1.38}
 .rmeta .rch{font:700 13px var(--display);letter-spacing:.06em;color:#d9b46a}
-.dots{align-items:center;flex-wrap:wrap}.dots .dlbl{font:700 12px var(--body);color:var(--muted);margin-right:4px;white-space:nowrap}.dots .dot{cursor:pointer;padding:0;width:22px;height:22px;display:grid;place-items:center;font:800 11px/1 var(--body);color:#c9b98f}.dots .dot.cur{color:#1e1202}.dots .dot.done{color:#eafff4}
+.dots{align-items:center;flex-wrap:wrap}.dots .dlbl{font:700 12px var(--body);color:var(--muted);margin-right:4px;white-space:nowrap}.dots .dot{cursor:pointer;padding:3px 0 2px;width:32px;height:auto;border-radius:9px;display:grid;place-items:center;gap:1px;font:800 12px/1 var(--body);color:#c9b98f}.dots .dot i{font:800 8px/1 var(--body);font-style:normal;text-transform:uppercase;letter-spacing:.04em}.dots .dot i.easy{color:#4fcf96}.dots .dot i.medium{color:#f6d27a}.dots .dot i.hard{color:#ff9aa5}.dots .dot.cur i,.dots .dot.done i{color:inherit;opacity:.85}.dots .dot.cur{color:#1e1202}.dots .dot.done{color:#eafff4}
 .hint{margin:0}
 .tools{display:flex;flex-wrap:wrap;gap:8px}
 .tool{display:inline-flex;align-items:center;gap:6px;font:800 13px var(--body);color:#f6d27a;cursor:pointer;padding:7px 12px 7px 9px;border-radius:999px;border:1px solid #8a5a14;
@@ -472,7 +472,7 @@ body{background:#02030a!important;background-image:none!important}
 .tool:hover,.tool:focus-visible,.tool.on{border-color:#f6d27a;box-shadow:0 0 14px #d9a44177,inset 0 1px 0 #f6d27a66;outline:none}
 .tool.listen{background:#a3232f;color:#fff}
 .typeit[hidden]{display:none!important}
-.heard{font-size:13px;color:#cfe6ff}
+.heard{font-size:13px;color:#cfe6ff}.heard:not(:empty){display:block;justify-self:center;text-align:center;margin:4px auto 0;padding:9px 18px;border-radius:14px;font:800 clamp(18px,2vw,24px)/1.2 var(--body);color:#ffe9a8;background:linear-gradient(#24306a,#141a3e);border:1.5px solid #f6d27a;box-shadow:0 0 18px rgba(246,210,122,.35)}
 .rdone{display:grid;gap:8px}
 /* ornate answer tiles: lacquer inside a carpet border */
 .opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
@@ -787,6 +787,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
 .med.wordonly{align-content:center;min-height:clamp(120px,16vh,190px)}
 .med .bigword{display:grid;place-items:center;text-align:center;padding:10px 8px;font:800 clamp(17px,1.9vw,24px)/1.15 var(--display);color:#ffe9a8;text-shadow:0 0 14px rgba(217,164,65,.55),0 2px 0 #000;text-wrap:balance}
 .med .bigword::before{content:"\25C6";display:block;font-size:.5em;color:#2fe39a;margin-bottom:8px;text-shadow:0 0 8px #2fe39a}
+.med.long .bigword{font-size:clamp(13px,1.35vw,18px);padding:8px 5px;overflow-wrap:break-word;hyphens:manual}.med.vlong .bigword{font-size:clamp(12px,1.15vw,15px)}.med.long .bigword::before{margin-bottom:5px}
 .med.numonly .bigword{font-size:clamp(34px,4vw,54px)}
 /* speech bubbles point at the guard who is talking */
 .gbubble{top:16%!important}
@@ -968,7 +969,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
   <header class="top">
     <div class="tl"><a class="mock" href="/" style="text-decoration:none">&larr; Website</a><a class="mock" href="https://form.jotform.com/263087088389069" target="_blank" rel="noopener" style="text-decoration:none">&#9998; Leave a note</a></div>
     <div class="tc"><span class="goal" id="goal"><span class="gtxt" id="gtxt">Collect 25 to unlock the Elderstone card</span><span class="gbar"><i id="gfill"></i><span class="coins" id="coins"></span></span></span><span class="gems" aria-live="polite"><svg class="gemi"><use href="#gem"/></svg><span id="gemCount">0</span></span></div>
-    <div class="tr"><button class="mswitch on" id="mswitch" type="button" aria-pressed="true" aria-label="Music on or off"><span class="mn">♫</span><span class="mlbl"><b>MUSIC</b><em>ON</em></span></button><button class="vswitch on" id="vswitch" type="button" aria-pressed="true" aria-label="Gogo's voice"><span class="lamp"><i></i></span><span class="vlbl"><b>GOGO'S VOICE</b><em id="vstate">ON</em></span></button></div>
+    <div class="tr"><button class="mswitch on" id="mswitch" type="button" aria-pressed="true" aria-label="Music on or off"><span class="mn">♫</span><span class="mlbl"><b>MUSIC</b><em>ON</em></span></button><button class="vswitch on" id="vswitch" type="button" aria-pressed="true" aria-label="Elderstone's voice"><span class="lamp"><i></i></span><span class="vlbl"><b>ELDERSTONE'S VOICE</b><em id="vstate">ON</em></span></button></div>
   </header>
 
   <main class="screens" id="screens">
@@ -977,7 +978,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
       <div class="panel home">
         <div class="pic"><img src="img/cover5.jpg" alt="The book cover: Oliver and Alibaba on the flying carpet"></div>
         <div class="copy">
-          <div class="logo agedgold shine">GOGO<br>GUARDIANS</div>
+          <div class="logo agedgold shine"><span class="lg1">GOGO</span><br>GUARDIANS</div>
           <span class="orn">~ &#9670; ~</span>
           <p class="lead">Solve Gogo&rsquo;s riddles from the book, collect emeralds, and travel with Oliver, Alibaba and the Forty Thieves.</p>
           <p class="age">Ages 8 to 12 &middot; fun for the whole family</p>
@@ -1083,8 +1084,8 @@ let MUSIC=true;try{MUSIC=localStorage.getItem('gg_music')!=='0'}catch(e){}
 let MSRC=null,MG=null;
 const SONGS=[['m_lahore','Lahore Night Celebration'],['m_feast','Desert Feast Dance'],['m_desert','Desert Feast Dance II'],['m_bhangra','Rang De Bhangra'],['m_rise','Majestic Rise']];
 const PLAYLIST=SONGS.map(x=>x[0]);let PLI=0;try{PLI=+(localStorage.getItem('gg_song')||0)||0}catch(e){}
-let MVOL=.6;try{const v=localStorage.getItem('gg_mvol');if(v!==null)MVOL=+v}catch(e){}
-function mLevel(){const speaking=!(VEL.paused||VEL.ended);const full=.42*MVOL;if(!speaking)return full;const s=VEL.currentSrc||VEL.src||'';if(/v_(tariq|sami)_/i.test(s))return full*.35;if(/v_gd_/.test(s))return full*.05;return full*.15}
+let MVOL=.45;try{const v=localStorage.getItem('gg_mvol');if(v!==null)MVOL=+v}catch(e){}
+function mLevel(){const speaking=!(VEL.paused||VEL.ended);const onR=!!document.querySelector('.screen.on[data-name=trail]');const full=.42*MVOL*(onR?.6:1);if(!speaking)return full;const s=VEL.currentSrc||VEL.src||'';if(/v_(tariq|sami)_/i.test(s))return full*.35;if(/v_gd_/.test(s))return full*.05;return full*.15}
 function musicStart(){if(!MUSIC||MSRC)return;const nm=PLAYLIST[PLI%PLAYLIST.length];const b=SFXB[nm];if(!b){sfxLoad(nm);setTimeout(musicStart,1200);return}try{if(AC.state!=='running')AC.resume();MG=AC.createGain();MG.gain.value=0;const src=AC.createBufferSource();MSRC=src;src.buffer=b;src.loop=false;src.onended=()=>{if(MSRC===src){MSRC=null;PLI++;sfxLoad(PLAYLIST[PLI%PLAYLIST.length]);setTimeout(musicStart,400)}};src.connect(MG);MG.connect(AC.destination);try{if(!window.GAN){window.GAN=AC.createAnalyser();GAN.fftSize=512;GAN.smoothingTimeConstant=.6}MG.connect(GAN)}catch(e){}src.start();try{window.__mdraw&&__mdraw()}catch(e){}MG.gain.linearRampToValueAtTime(mLevel(),AC.currentTime+2);sfxLoad(PLAYLIST[(PLI+1)%PLAYLIST.length])}catch(e){}}
 function musicStop(){try{if(MG)MG.gain.linearRampToValueAtTime(0,AC.currentTime+.6);const s_=MSRC;MSRC=null;setTimeout(()=>{try{s_&&s_.stop()}catch(e){}},700)}catch(e){}}
 function musicDuck(){if(MG&&AC)try{MG.gain.cancelScheduledValues(AC.currentTime);MG.gain.setValueAtTime(MG.gain.value,AC.currentTime);MG.gain.linearRampToValueAtTime(mLevel(),AC.currentTime+(VEL.paused||VEL.ended?2.5:.3))}catch(e){}}
@@ -1102,7 +1103,7 @@ addEventListener('pointerdown',()=>{sfxLoad(PLAYLIST[0]);setTimeout(musicStart,3
  const _ms=musicStart;})();
 
 // ===== two tiny line-drawn dancers on the frame: they find the beat, switch moves, and sweat =====
-(()=>{const m=document.getElementById('mswitch');if(!m)return;const cv=document.createElement('canvas');cv.className='dancers';cv.setAttribute('aria-hidden','true');cv.title='Touch to stop, let go to dance';const host=document.getElementById('screens')||m.parentNode;if(getComputedStyle(host).position==='static')host.style.position='relative';host.appendChild(cv);let hold=false;const st=e=>{hold=true;e.preventDefault()},go_=()=>{hold=false};cv.addEventListener('pointerdown',st);addEventListener('pointerup',go_);addEventListener('pointercancel',go_);
+(()=>{const m=document.getElementById('mswitch');if(!m)return;const cv=document.createElement('canvas');cv.className='dancers';cv.setAttribute('aria-hidden','true');cv.title='Touch to stop, let go to dance';const lg=document.querySelector('[data-name=home] .logo');const host=lg?lg.parentNode:(document.getElementById('screens')||m.parentNode);if(getComputedStyle(host).position==='static')host.style.position='relative';host.appendChild(cv);let pc=0;const placeD=()=>{const s_=lg&&lg.querySelector('.lg1');if(!s_)return;const hr=host.getBoundingClientRect(),sr=s_.getBoundingClientRect();if(!sr.width)return;const fs=parseFloat(getComputedStyle(lg).fontSize)||40;cv.style.left=(sr.right-hr.left+fs*.25)+'px';cv.style.top=(sr.bottom-hr.top-cv.offsetHeight-fs*.04)+'px'};let hold=false;const st=e=>{hold=true;e.preventDefault()},go_=()=>{hold=false};cv.addEventListener('pointerdown',st);addEventListener('pointerup',go_);addEventListener('pointercancel',go_);
  const W=84,H=58,dpr=Math.min(2,devicePixelRatio||1);cv.width=W*dpr;cv.height=H*dpr;const g=cv.getContext('2d');g.scale(dpr,dpr);
  let px=null;addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();px=(e.clientX-r.left)*W/r.width},{passive:true});
  let lvl=0,avg=0,beat=0,ph=0,last=performance.now(),lastBeat=0,per=.5,beats=0,move=0;const ivs=[],drops=[],buf=new Uint8Array(256);
@@ -1139,11 +1140,18 @@ addEventListener('pointerdown',()=>{sfxLoad(PLAYLIST[0]);setTimeout(musicStart,3
   // a drop of sweat now and then when the music is pumping
   if(e>.45&&Math.random()<.012*e)drops.push({x:sx+(Math.random()<.5?-5:5),y:hd-2,vx:(Math.random()<.5?-1:1)*(18+Math.random()*16),vy:-28-Math.random()*14,life:.9})}
  function sweat(dt){g.fillStyle='#9fd8ff';for(let i=drops.length-1;i>=0;i--){const d=drops[i];d.vy+=110*dt;d.x+=d.vx*dt;d.y+=d.vy*dt;d.life-=dt;if(d.life<=0||d.y>H){drops.splice(i,1);continue}g.globalAlpha=Math.min(1,d.life*2);const a=Math.atan2(d.vy,d.vx);g.beginPath();g.arc(d.x,d.y,1.4,0,7);g.moveTo(d.x-Math.cos(a)*3.2,d.y-Math.sin(a)*3.2);g.lineTo(d.x+Math.cos(a+1.57)*1.3,d.y+Math.sin(a+1.57)*1.3);g.lineTo(d.x-Math.cos(a+1.57)*1.3,d.y-Math.sin(a+1.57)*1.3);g.fill()}g.globalAlpha=1}
- function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;const en=energy();avg=avg*.95+en*.05;const T=now/1000;
+ const zs=[];let zt=0;
+ function sleeper(x,who,col,T){const y=H-6,br=Math.sin(T*1.3)*.8;g.strokeStyle=col;g.lineWidth=2;g.lineCap='round';g.lineJoin='round';g.shadowColor='rgba(246,210,122,.6)';g.shadowBlur=3;g.beginPath();
+  g.moveTo(x+6,y-1);g.quadraticCurveTo(x+14,y-3-br,x+20,y-1);g.lineTo(x+27,y-4);g.lineTo(x+31,y);g.moveTo(x+20,y-1);g.lineTo(x+30,y-1);
+  g.moveTo(x+9,y-2);g.lineTo(x+4,y-7);g.lineTo(x-1,y-4);g.stroke();
+  g.beginPath();g.arc(x+1,y-6,4.6,0,7);g.stroke();g.shadowBlur=0;g.lineWidth=1;g.beginPath();g.moveTo(x-1.5,y-7);g.lineTo(x+.3,y-7);g.moveTo(x+1.8,y-7);g.lineTo(x+3.6,y-7);g.stroke();
+  if(who){g.lineWidth=2;g.beginPath();g.moveTo(x-3,y-9);g.quadraticCurveTo(x-8,y-6,x-7,y-1);g.stroke()}}
+ function zzz(dt,T){zt-=dt;if(zt<=0){zt=1.1;zs.push({x:18+(zs.length%2)*32,y:H-16,a:1,s:7})}g.fillStyle='#bfe3ff';g.font='bold 9px system-ui,sans-serif';for(let i=zs.length-1;i>=0;i--){const z=zs[i];z.y-=dt*9;z.x+=Math.sin(T*2+i)*dt*6;z.a-=dt*.32;z.s+=dt*2.5;if(z.a<=0){zs.splice(i,1);continue}g.globalAlpha=z.a;g.font='bold '+z.s.toFixed(1)+'px system-ui,sans-serif';g.fillText('z',z.x,z.y)}g.globalAlpha=1}
+ function frame(now){if((pc++%30)===0)placeD();const dt=Math.min(.05,(now-last)/1000);last=now;const en=energy();avg=avg*.95+en*.05;const T=now/1000;
   if(en>avg*1.3&&en>.16&&T-lastBeat>.26){let iv=T-lastBeat;lastBeat=T;if(iv<2){while(iv>.8)iv/=2;while(iv<.32)iv*=2;ivs.push(iv);if(ivs.length>10)ivs.shift();const so=[...ivs].sort((a,b)=>a-b);per=so[so.length>>1]}
    beat=1;const k=Math.round(ph/Math.PI)*Math.PI;ph+=(k-ph)*.6;beats++;if(beats%8===0)move=(move+1+(Math.random()*2|0))%4}
   beat=Math.max(0,beat-dt*5);lvl+=(Math.min(1,en*2.4)-lvl)*Math.min(1,dt*(en?6:10));
-  if(lvl>.03)ph+=dt*Math.PI/per;g.clearRect(0,0,W,H);fig(26,0,"#f6d27a");fig(56,1,'#ffe7a8');sweat(dt);requestAnimationFrame(frame)}
+  if(lvl>.03)ph+=dt*Math.PI/per;g.clearRect(0,0,W,H);const sleepy=!hold&&MUSIC&&MSRC&&typeof PLAYLIST!=='undefined'&&PLAYLIST[PLI%PLAYLIST.length]==='m_rise';if(sleepy){sleeper(14,0,"#f6d27a",T);sleeper(46,1,'#ffe7a8',T+1.7);zzz(dt,T)}else{zs.length=0;fig(26,0,"#f6d27a");fig(56,1,'#ffe7a8');sweat(dt)}requestAnimationFrame(frame)}
  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)requestAnimationFrame(frame);else{lvl=0;frame(performance.now())}})();
 
 function spooky(){if(MG)try{MG.gain.linearRampToValueAtTime(0,AC.currentTime+.5);setTimeout(musicDuck,9000)}catch(e){}if(playSfx('spooky',.55))return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime+.05;
@@ -1216,7 +1224,7 @@ function reveal(img,title,caption,pts,next){{const g=document.getElementById('rv
  document.getElementById('tally').textContent=pts?'Tap the button, or drag the picture into the treasure':'';document.getElementById('rvgo').textContent=pts?'Collect your emeralds':'Continue';
  RV.hidden=false;document.body.classList.add('rvopen');document.getElementById('rvgo').focus();say(title+'. '+caption,RVF);RVF=null}
 let DRAG={x:0,y:0,k:1};
-function stash(){if(rvDone)return;rvDone=true;const fr=FP.getBoundingClientRect(),tb=TR.querySelector('.tbox'),tr=tb.getBoundingClientRect();
+function stash(){if(rvDone)return;rvDone=true;try{stopVoice();capHide(0)}catch(e){}const fr=FP.getBoundingClientRect(),tb=TR.querySelector('.tbox'),tr=tb.getBoundingClientRect();
  FP.classList.remove('idle','drag');FP.style.transition='none';const D=DRAG;DRAG={x:0,y:0,k:1};
  const cx=fr.left+fr.width/2-D.x,cy=fr.top+fr.height/2-D.y;
  const dx=(tr.left+tr.width/2)-cx,dy=(tr.top+tr.height*.45)-cy;
@@ -1242,7 +1250,7 @@ function swooshWind(){try{AC=AC||new (window.AudioContext||window.webkitAudioCon
  const src=AC.createBufferSource();src.buffer=buf;const f=AC.createBiquadFilter();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(400,t);f.frequency.exponentialRampToValueAtTime(3200,t+.9);const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.7,t+.25);g.gain.exponentialRampToValueAtTime(.0001,t+1);src.connect(f).connect(g).connect(AC.destination);src.start(t);const o=AC.createOscillator(),og=AC.createGain();o.type='sine';o.frequency.setValueAtTime(220,t);o.frequency.exponentialRampToValueAtTime(880,t+.8);og.gain.setValueAtTime(.0001,t);og.gain.exponentialRampToValueAtTime(.18,t+.3);og.gain.exponentialRampToValueAtTime(.0001,t+.95);o.connect(og).connect(AC.destination);o.start(t);o.stop(t+1)}catch(e){}}
 let UNLOCK=null,RVF=null;
 function closeRvStop(){stopVoice()}
-function closeRv(){stopVoice();if(UNLOCK){const u=UNLOCK;UNLOCK=null;const nx=rvNext;rvNext=null;RV.hidden=true;document.body.classList.remove('rvopen');setTimeout(()=>{RVF='voice/v_un_'+({15:1,30:2,50:3,80:4}[u[0]])+'.mp3';reveal(u[2],'Unlocked: '+u[1]+'!',u[3],0,nx);const g=document.getElementById('rvg');if(g)g.textContent='Look what you unlocked! I am so proud of you, Guardian!';hijaz(true)},250);return}document.querySelectorAll('#fp .spirits').forEach(x=>x.remove());RV.hidden=true;document.body.classList.remove('rvopen');capHide(0);try{speechSynthesis.cancel()}catch(e){}if(rvNext)rvNext()}
+function closeRv(){stopVoice();if(UNLOCK){const u=UNLOCK;UNLOCK=null;const nx=rvNext;rvNext=null;RV.hidden=true;document.body.classList.remove('rvopen');setTimeout(()=>{RVF='voice/v_un_'+({15:1,30:2,50:3,80:4}[u[0]])+'.mp3';reveal(u[2],'Unlocked: '+u[1]+'!',u[3],0,nx);const g=document.getElementById('rvg');if(g)g.textContent='Look what you unlocked! I am so proud of you, Guardian!';{const t0_=Date.now();let st_=false;const w_=()=>{if(!(VEL.paused||VEL.ended))st_=true;if((st_&&(VEL.paused||VEL.ended))||(!st_&&Date.now()-t0_>2000))hijaz(true);else setTimeout(w_,200)};setTimeout(w_,400)}},250);return}document.querySelectorAll('#fp .spirits').forEach(x=>x.remove());RV.hidden=true;document.body.classList.remove('rvopen');capHide(0);try{speechSynthesis.cancel()}catch(e){}if(rvNext)rvNext()}
 document.getElementById('rvgo').onclick=()=>{if(rvPts&&!rvDone)stash();else closeRv()};
 TR.onclick=()=>stash();
 (function(){let sx,sy,on=false;FP.addEventListener('pointerdown',e=>{if(rvDone)return;on=true;sx=e.clientX;sy=e.clientY;FP.classList.remove('idle');FP.classList.add('drag');FP.style.transition='none';FP.setPointerCapture(e.pointerId)});
@@ -1599,7 +1607,7 @@ Object.assign(MIRROR,{"Moons": "img/m_moonlight.jpg", "Suns": "img/m_sun.jpg", "
 function medal(t){const b=el('<button class="med" type="button"><span class="mirror"><span class="glass"></span></span><span class="lbl"></span></button>');b.querySelector('.lbl').textContent=t;const g=b.querySelector('.glass');
  const _r=RIDDLES[rch]&&RIDDLES[rch].items[ri];const NUMPIC=/^\d+$/.test(t)?((_r&&_r.np)||(rch===1?'img/m_bell.jpg':'img/m_hats.jpg')):null;const src=MIRROR[t]||NUMPIC;
  if(src){const i=el('<img alt="">');i.src=src;if(/\.png$/.test(src))i.className='icon';g.append(i);g.append(el('<span class="mist"></span>'));if(NUMPIC){const n=el('<span class="numbadge"></span>');n.textContent=t;b.querySelector('.mirror').append(n)}}
- else{b.classList.add('wordonly');if(/^\d+$/.test(t))b.classList.add('numonly');const w=el('<span class="bigword"></span>');w.textContent=t;b.insertBefore(w,b.firstChild)}
+ else{b.classList.add('wordonly');if(/^\d+$/.test(t))b.classList.add('numonly');if(t.length>11)b.classList.add('long');if(t.length>18)b.classList.add('vlong');const w=el('<span class="bigword"></span>');w.textContent=t;b.insertBefore(w,b.firstChild)}
  return b}
 let TYPED=false;const PTS={easy:5,medium:10,hard:15};let rch=1,ri=0,tries=0;let solved={};
 const rcard=document.getElementById('rcard'),tpic=document.getElementById('trailPic');
@@ -1627,7 +1635,7 @@ function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';setPic(ri<ch.items.le
   say(name+' complete! '+(RIDDLES[rch+1]?'On to Chapter '+(rch+1)+'.':'Next, the riddle of the two guards.'),'voice/v_g_chapter.mp3');save();return}
  const r=ch.items[ri];
  const meta=el('<div class="rmeta"></div>');meta.append(el('<span class="rch"></span>'));meta.lastChild.textContent=ch.title;meta.append(el('<span class="diff '+r.d+'">'+r.d.toUpperCase()+'</span>'));
- const dots=el('<span class="dots"><span class="dlbl">Riddle '+(ri+1)+' of '+ch.items.length+'</span></span>');ch.items.forEach((_,k)=>{const d=el('<button class="dot" type="button"></button>');d.setAttribute('aria-label','Riddle '+(k+1)+(solved[rch+'-'+k]?', solved':''));d.title=solved[rch+'-'+k]?'Solved! Tap to see it again':'Go to riddle '+(k+1);d.textContent=solved[rch+'-'+k]?'✓':(k+1);if(solved[rch+'-'+k])d.classList.add('done');if(k===ri)d.classList.add('cur');d.onclick=()=>{ri=k;tries=0;riddle();sayRiddle()};dots.append(d)});meta.append(dots);{const ns=ch.items.filter((_,k)=>solved[rch+'-'+k]).length;if(ns>=2&&RIDDLES[rch+1]){const sk=el('<button class="linkbtn skip" type="button"></button>');sk.textContent='Skip to Chapter '+(rch+1)+' ›';sk.onclick=()=>{rch++;ri=firstOpen(rch);tries=0;riddle();sayRiddle()};meta.append(sk)}}rcard.append(meta);
+ const dots=el('<span class="dots"><span class="dlbl">Riddle '+(ri+1)+' of '+ch.items.length+'</span></span>');ch.items.forEach((_,k)=>{const d=el('<button class="dot" type="button"></button>');d.setAttribute('aria-label','Riddle '+(k+1)+(solved[rch+'-'+k]?', solved':''));d.title=solved[rch+'-'+k]?'Solved! Tap to see it again':'Go to riddle '+(k+1);{const dd=ch.items[k].d||'easy';d.innerHTML='<b>'+(solved[rch+'-'+k]?'✓':(k+1))+'</b><i class="'+dd+'">'+({easy:'easy',medium:'med',hard:'hard'}[dd]||dd)+'</i>'}if(solved[rch+'-'+k])d.classList.add('done');if(k===ri)d.classList.add('cur');d.onclick=()=>{ri=k;tries=0;riddle();sayRiddle()};dots.append(d)});meta.append(dots);{const ns=ch.items.filter((_,k)=>solved[rch+'-'+k]).length;if(ns>=2&&RIDDLES[rch+1]){const sk=el('<button class="linkbtn skip" type="button"></button>');sk.textContent='Skip to Chapter '+(rch+1)+' ›';sk.onclick=()=>{rch++;ri=firstOpen(rch);tries=0;riddle();sayRiddle()};meta.append(sk)}}rcard.append(meta);
  const q=el('<p class="rq"></p>');q.textContent=r.q;rcard.append(q);const fb=el('<p class="fb" aria-live="polite"></p>');
  const hint=el('<p class="gogo hint" hidden></p>');hint.textContent='Gogo’s hint: '+r.h;
  const c=el('<div class="opts"></div>');
@@ -1645,7 +1653,7 @@ function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';setPic(ri<ch.items.le
  const t3=tool(PEN,'Type it');t3.onclick=()=>{tw.hidden=!tw.hidden;t3.classList.toggle('on',!tw.hidden);if(!tw.hidden)tw.querySelector('input').focus()};
  const t4=tool(BOOKI,'Chapter '+rch);t4.onclick=()=>BOOK.open(rch);
  const t5=tool(NOTE,'Note');t5.onclick=()=>reviewNote(rcard,'riddle-'+rch+'-'+(ri+1),'Chapter '+rch+', riddle '+(ri+1));
- tools.append(t1,t2,t3,t4,t5);rcard.append(tools);rcard.append(tw);rcard.append(hh)}
+ tools.append(t1,t2,t3,t4,t5);rcard.append(tools);rcard.append(tw);c.after(hh)}
 function tabs(){}
 let CMT=null;if(window.claude&&claude.use){claude.use('comments').then(c=>{CMT=c})}
 function reviewNote(node,spot,where){if(window.GGC&&GGC.on){GGC.open({spot:spot||'game',where:where||'the game'});return}window.open('https://form.jotform.com/263087088389069','_blank','noopener');return;CMT.openComposer({element:node}).catch(()=>toast('Review notes are off in this view.'))}
@@ -1706,6 +1714,7 @@ let BOOK_READY=false;function layoutBook(){if(BOOK_READY)return;BOOK_READY=true;
  const gb=document.getElementById('getbook');if(gb)gb.onclick=()=>location.href='/read/';})();
 document.querySelectorAll('.buy').forEach(b=>b.onclick=()=>{location.href='/#book'});
 BOOK.goScreen=n=>go(n==='trail'?'pick':n);
+{const ld=document.querySelector('[data-name=home] .lead');if(ld&&typeof RIDDLES!=='undefined'){const n_=Object.values(RIDDLES).reduce((a,c)=>a+c.items.length,0);const nc=Object.keys(RIDDLES).length;ld.textContent=ld.textContent.replace('Solve Gogo’s riddles from the book','Solve '+n_+' of Gogo’s riddles from '+nc+' chapters of the book')}}
 
 // ===== 3D cut emerald =====
 const GEMS=[];
@@ -1892,7 +1901,7 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 @media (max-width:820px){.gname{font-size:62px!important}}
 </style>
 <style>
-.dancers{position:absolute;right:16px;top:-56px;width:84px;height:58px;z-index:5;cursor:pointer;touch-action:none}@media (max-width:820px){.dancers{width:70px;height:48px;top:auto;bottom:-50px;right:auto;left:14px}}
+.dancers{position:absolute;width:84px;height:58px;z-index:5;cursor:pointer;touch-action:none}@media (max-width:820px){.dancers{width:64px;height:44px}}
 .mpanel{position:fixed;z-index:80;width:262px;max-height:70vh;overflow:auto;padding:12px;border-radius:14px;background:linear-gradient(#1c1408,#0c0803);border:1px solid #b9862c;box-shadow:0 10px 30px #000c;color:#f3e3bd;font:14px system-ui,sans-serif}.mpanel .mph{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font:700 16px Georgia,serif;color:#f6d27a}.mpanel .mpx{background:none;border:0;color:#f6d27a;font-size:22px;cursor:pointer}.mpanel label{display:flex;align-items:center;gap:8px;margin:6px 0}.mpanel input[type=range]{flex:1;accent-color:#e6bd62}.mpanel input[type=checkbox]{accent-color:#e6bd62;width:18px;height:18px}.mpanel .mpl{display:grid;gap:6px;margin-top:8px}.mpanel .mps{text-align:left;padding:8px 10px;border-radius:9px;border:1px solid #5a3a0c;background:#1a1206;color:#f3e3bd;font:600 14px system-ui,sans-serif;cursor:pointer}.mpanel .mps.on{background:linear-gradient(#f3cf78,#a86e1e);color:#1e1202;border-color:#fff3c4;box-shadow:0 0 12px #f3cf78aa;animation:mpglow 1.6s ease-in-out infinite}@keyframes mpglow{50%{box-shadow:0 0 20px #f3cf78}}
 .mswitch{width:40px;height:40px;border-radius:50%;border:0;margin-right:8px;font:900 19px/1 serif;color:#7a6a4a;background:radial-gradient(circle at 35% 30%,#3a2a10,#120a02);box-shadow:inset 0 0 0 2px #5a3a0c,0 2px 6px #000;cursor:pointer;vertical-align:middle}
 .mswitch.on{color:#2a1a06;background:radial-gradient(circle at 35% 30%,#fff3c4,#f0c96a 45%,#b9862c);box-shadow:0 0 12px rgba(246,210,122,.6),0 2px 6px #000}
@@ -1900,6 +1909,7 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 @media (max-width:820px){.mswitch{width:34px;height:34px;font-size:16px;margin-right:6px}}
 .mswitch{width:auto;border-radius:999px;padding:0 12px 0 10px;display:inline-flex;align-items:center;gap:7px;margin-right:3px;font:900 18px/1 serif}.mswitch .mlbl{display:grid;font:800 10px/1.15 system-ui,sans-serif;letter-spacing:.08em;text-align:left}.mswitch .mlbl em{font-style:normal;font-size:13px}
 .msongs{width:24px;height:40px;border:0;border-radius:999px;margin-right:8px;background:#1a1206;color:#f6d27a;box-shadow:inset 0 0 0 1px #5a3a0c;cursor:pointer;font-size:13px;vertical-align:middle;padding:0}
+@media (max-width:480px){.vswitch .vlbl{display:none!important}.vswitch{padding:4px!important;gap:0!important}.msongs{width:18px!important;margin-right:4px!important}}
 @media (max-width:820px){.mswitch{width:auto;height:34px;padding:0 9px 0 7px;gap:5px}.mswitch .mlbl b{display:none}.msongs{height:34px;width:20px;margin-right:6px}}
 </style>
 <style>@media (min-width:821px){.reveal{height:100dvh!important;max-height:100dvh!important;overflow:hidden!important}.rv2{height:100dvh!important;max-height:100dvh!important;box-sizing:border-box!important;padding-bottom:26px!important;overflow:hidden}.rv2 #rvgo{padding:12px 34px!important;font-size:20px!important}}</style>
@@ -1924,7 +1934,7 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 
 <div id="cert" hidden role="dialog" aria-label="Guardian certificate"><div class="certwrap">
  <div class="certcard" id="certcard">
-  <div class="cseal">&#9670;</div><div class="cstamps" id="certStamps"></div>
+  <div class="cseal">&#9670;</div><div class="cstamps l" id="certStamps"></div><div class="cstamps r" id="certStampsR"></div>
   <div class="ctop">Certificate of the</div>
   <div class="ctitle">Gogo Guardians</div>
   <div class="cguards"><figure><img src="img/m_oliver.jpg" alt=""><figcaption>Oliver</figcaption></figure><figure><img src="img/m_jack.jpg" alt=""><figcaption>Jack</figcaption></figure><figure><img src="img/m_leah.jpg" alt=""><figcaption>Leah</figcaption></figure><figure><img src="img/m_gogo.jpg" alt=""><figcaption>Gogo</figcaption></figure></div>
@@ -1934,7 +1944,7 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
   <div class="cgems"><svg class="cgem" aria-hidden="true"><use href="#gem"/></svg><span id="certGems">0</span> emeralds</div>
   <div class="cline" id="certUn"></div>
   <div class="csign"><div><span class="cs">Gogo</span><small>the Magic Phone</small></div><div><span class="cs" id="certDate"></span><small>date</small></div></div>
-  <button type="button" class="cbook" id="certBook"><img src="img/cover5.jpg" alt=""><div>Read the whole adventure:<b>Gogo the Magic Phone</b>gogoguardians.com</div></button>
+  <button type="button" class="cbook" id="certBook"><img src="img/cover5.jpg" alt=""><div>Continue the adventure in the book:<b>Gogo Guardians</b>gogoguardians.com</div></button>
  </div>
  <div class="certbtns"><button class="btn big" type="button" id="certPrint">Print it</button><button class="btn ghost" type="button" id="certClose">Close</button></div>
 </div></div>
@@ -1950,7 +1960,7 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 .cline{font-size:clamp(12px,2vw,16px)}
 .cname{font-family:var(--deco);font-size:clamp(20px,4.2vw,36px);text-align:center;color:#1f5a3c;background:transparent;border:0;border-bottom:2px solid #b9862c;width:80%;outline:none;padding:2px}
 .cname::placeholder{color:#b9a27a}
-.cstamps{position:absolute;top:5%;left:5%;display:grid;grid-template-columns:repeat(2,auto);gap:6px 8px}.cstamps figure{margin:0;display:grid;justify-items:center;gap:1px;transform:rotate(-8deg)}.cstamps figure:nth-child(even){transform:rotate(7deg)}.cstamps img{width:clamp(28px,5vw,44px);height:clamp(28px,5vw,44px);border-radius:50%;object-fit:cover;border:2px dashed #b9862c;outline:2px solid #d9a441;outline-offset:1px;filter:sepia(.15) saturate(1.1)}@media (max-width:700px){.cstamps{position:static;display:flex;justify-content:center;order:9}.csign,.cbook{order:10}}.cstamps figcaption{font:700 clamp(7px,1.1vw,9px) var(--display);color:#8a5a14;text-transform:uppercase;letter-spacing:.04em}
+.cstamps{position:absolute;top:50%;transform:translateY(-50%);display:grid;gap:14px}.cstamps.l{left:2.5%}.cstamps.r{right:2.5%}@media (min-width:701px){.certcard{padding-left:13%!important;padding-right:13%!important}}.cstamps figure{margin:0;display:grid;justify-items:center;gap:1px;transform:rotate(-8deg)}.cstamps figure:nth-child(even){transform:rotate(7deg)}.cstamps img{width:clamp(28px,5vw,44px);height:clamp(28px,5vw,44px);border-radius:50%;object-fit:cover;border:2px dashed #b9862c;outline:2px solid #d9a441;outline-offset:1px;filter:sepia(.15) saturate(1.1)}@media (max-width:700px){.cstamps{position:static;transform:none;display:flex;justify-content:center;order:9}.csign,.cbook{order:10}}.cstamps figcaption{font:700 clamp(7px,1.1vw,9px) var(--display);color:#8a5a14;text-transform:uppercase;letter-spacing:.04em}
 .cguards{display:flex;gap:clamp(8px,2.2vw,20px);justify-content:center}.cguards figure{margin:0;display:grid;justify-items:center;gap:2px}.cguards img{width:clamp(40px,7.5vw,66px);height:clamp(40px,7.5vw,66px);border-radius:50%;object-fit:cover;object-position:50% 22%;border:2px solid #d9a441;box-shadow:0 2px 6px rgba(0,0,0,.3)}.cguards figcaption{font:700 clamp(9px,1.5vw,12px) var(--display);color:#7a4a10}
 .cgem{width:1.25em;height:1.25em;vertical-align:-.25em;margin-right:.3em;filter:drop-shadow(0 0 6px #3dffa0) drop-shadow(0 1px 2px rgba(0,0,0,.4))}
 .cgems{font-family:var(--display);font-size:clamp(18px,3.6vw,30px);color:#1f7a50;font-weight:700}
@@ -1970,7 +1980,7 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}}
  function sync(){B.hidden=!(gems>0)}
  window.openCert=function(){document.getElementById('certGems').textContent=gems;const u=UN.filter(x=>gems>=x[0]).map(x=>x[1]);
-  {const SI={15:['img/m_elder.jpg','Elderstone'],30:['img/p037.jpg','Zolara'],50:['img/p071.jpg','Raptor'],80:['img/p080.jpg','Emerald Moon']};const cs=document.getElementById('certStamps');cs.innerHTML='';UN.filter(x=>gems>=x[0]).forEach(x=>{const f_=document.createElement('figure');const im=document.createElement('img');im.src=SI[x[0]][0];im.alt='';const c_=document.createElement('figcaption');c_.textContent=SI[x[0]][1];f_.append(im,c_);cs.append(f_)})}document.getElementById('certUn').textContent=u.length?('and unlocked '+(u.length>1?u.slice(0,-1).join(', ')+' and '+u[u.length-1]:u[0])+'.'):'on the way to the Elderstone card.';
+  {const SI={15:['img/m_elder.jpg','Elderstone'],30:['img/p037.jpg','Zolara'],50:['img/p071.jpg','Raptor'],80:['img/p080.jpg','Emerald Moon']};const cs0=document.getElementById('certStamps'),cs1=document.getElementById('certStampsR');cs0.innerHTML='';cs1.innerHTML='';UN.filter(x=>gems>=x[0]).forEach((x,ix)=>{const cs=ix<2?cs0:cs1;const f_=document.createElement('figure');const im=document.createElement('img');im.src=SI[x[0]][0];im.alt='';const c_=document.createElement('figcaption');c_.textContent=SI[x[0]][1];f_.append(im,c_);cs.append(f_)})}document.getElementById('certUn').textContent=u.length?('and unlocked '+(u.length>1?u.slice(0,-1).join(', ')+' and '+u[u.length-1]:u[0])+'.'):'on the way to the Elderstone card.';
   document.getElementById('certDate').textContent=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
   N.value=ls('gg_name')||'';C.hidden=false;if(typeof stopVoice==='function')stopVoice();
   if(typeof say==='function')say('Here is your Guardian certificate. Type your name, then print it and hang it on your wall.','voice/v_cert1.mp3');if(!N.value)setTimeout(()=>N.focus(),300)};
