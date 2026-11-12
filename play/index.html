@@ -462,7 +462,7 @@ body{background:#02030a!important;background-image:none!important}
 .rcard{display:grid;gap:12px;align-content:center;min-width:0;min-height:0}
 .rcard .rq{margin:0;font-size:clamp(18px,2vw,23px);line-height:1.38}
 .rmeta .rch{font:700 13px var(--display);letter-spacing:.06em;color:#d9b46a}
-.dots .dot{cursor:pointer;padding:0;width:13px;height:13px}
+.dots{align-items:center;flex-wrap:wrap}.dots .dlbl{font:700 12px var(--body);color:var(--muted);margin-right:4px;white-space:nowrap}.dots .dot{cursor:pointer;padding:0;width:22px;height:22px;display:grid;place-items:center;font:800 11px/1 var(--body);color:#c9b98f}.dots .dot.cur{color:#1e1202}.dots .dot.done{color:#eafff4}
 .hint{margin:0}
 .tools{display:flex;flex-wrap:wrap;gap:8px}
 .tool{display:inline-flex;align-items:center;gap:6px;font:800 13px var(--body);color:#f6d27a;cursor:pointer;padding:7px 12px 7px 9px;border-radius:999px;border:1px solid #8a5a14;
@@ -1619,7 +1619,7 @@ function riddle(){const ch=RIDDLES[rch];rcard.innerHTML='';setPic(ri<ch.items.le
   say(name+' complete! '+(RIDDLES[rch+1]?'On to Chapter '+(rch+1)+'.':'Next, the riddle of the two guards.'),'voice/v_g_chapter.mp3');save();return}
  const r=ch.items[ri];
  const meta=el('<div class="rmeta"></div>');meta.append(el('<span class="rch"></span>'));meta.lastChild.textContent=ch.title;meta.append(el('<span class="diff '+r.d+'">'+r.d.toUpperCase()+'</span>'));
- const dots=el('<span class="dots"></span>');ch.items.forEach((_,k)=>{const d=el('<button class="dot" type="button"></button>');d.setAttribute('aria-label','Riddle '+(k+1));if(solved[rch+'-'+k])d.classList.add('done');if(k===ri)d.classList.add('cur');d.onclick=()=>{ri=k;tries=0;riddle();sayRiddle()};dots.append(d)});meta.append(dots);{const ns=ch.items.filter((_,k)=>solved[rch+'-'+k]).length;if(ns>=2&&RIDDLES[rch+1]){const sk=el('<button class="linkbtn skip" type="button"></button>');sk.textContent='Skip to Chapter '+(rch+1)+' ›';sk.onclick=()=>{rch++;ri=firstOpen(rch);tries=0;riddle();sayRiddle()};meta.append(sk)}}rcard.append(meta);
+ const dots=el('<span class="dots"><span class="dlbl">Riddle '+(ri+1)+' of '+ch.items.length+'</span></span>');ch.items.forEach((_,k)=>{const d=el('<button class="dot" type="button"></button>');d.setAttribute('aria-label','Riddle '+(k+1)+(solved[rch+'-'+k]?', solved':''));d.title=solved[rch+'-'+k]?'Solved! Tap to see it again':'Go to riddle '+(k+1);d.textContent=solved[rch+'-'+k]?'✓':(k+1);if(solved[rch+'-'+k])d.classList.add('done');if(k===ri)d.classList.add('cur');d.onclick=()=>{ri=k;tries=0;riddle();sayRiddle()};dots.append(d)});meta.append(dots);{const ns=ch.items.filter((_,k)=>solved[rch+'-'+k]).length;if(ns>=2&&RIDDLES[rch+1]){const sk=el('<button class="linkbtn skip" type="button"></button>');sk.textContent='Skip to Chapter '+(rch+1)+' ›';sk.onclick=()=>{rch++;ri=firstOpen(rch);tries=0;riddle();sayRiddle()};meta.append(sk)}}rcard.append(meta);
  const q=el('<p class="rq"></p>');q.textContent=r.q;rcard.append(q);const fb=el('<p class="fb" aria-live="polite"></p>');
  const hint=el('<p class="gogo hint" hidden></p>');hint.textContent='Gogo’s hint: '+r.h;
  const c=el('<div class="opts"></div>');
@@ -1914,7 +1914,7 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 
 <div id="cert" hidden role="dialog" aria-label="Guardian certificate"><div class="certwrap">
  <div class="certcard" id="certcard">
-  <div class="cseal">&#9670;</div>
+  <div class="cseal">&#9670;</div><div class="cstamps" id="certStamps"></div>
   <div class="ctop">Certificate of the</div>
   <div class="ctitle">Gogo Guardians</div>
   <div class="cguards"><figure><img src="img/m_oliver.jpg" alt=""><figcaption>Oliver</figcaption></figure><figure><img src="img/m_jack.jpg" alt=""><figcaption>Jack</figcaption></figure><figure><img src="img/m_leah.jpg" alt=""><figcaption>Leah</figcaption></figure><figure><img src="img/m_gogo.jpg" alt=""><figcaption>Gogo</figcaption></figure></div>
@@ -1940,6 +1940,7 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 .cline{font-size:clamp(12px,2vw,16px)}
 .cname{font-family:var(--deco);font-size:clamp(20px,4.2vw,36px);text-align:center;color:#1f5a3c;background:transparent;border:0;border-bottom:2px solid #b9862c;width:80%;outline:none;padding:2px}
 .cname::placeholder{color:#b9a27a}
+.cstamps{position:absolute;top:5%;left:5%;display:grid;grid-template-columns:repeat(2,auto);gap:6px 8px}.cstamps figure{margin:0;display:grid;justify-items:center;gap:1px;transform:rotate(-8deg)}.cstamps figure:nth-child(even){transform:rotate(7deg)}.cstamps img{width:clamp(28px,5vw,44px);height:clamp(28px,5vw,44px);border-radius:50%;object-fit:cover;border:2px dashed #b9862c;outline:2px solid #d9a441;outline-offset:1px;filter:sepia(.15) saturate(1.1)}@media (max-width:700px){.cstamps{position:static;display:flex;justify-content:center;order:9}.csign,.cbook{order:10}}.cstamps figcaption{font:700 clamp(7px,1.1vw,9px) var(--display);color:#8a5a14;text-transform:uppercase;letter-spacing:.04em}
 .cguards{display:flex;gap:clamp(8px,2.2vw,20px);justify-content:center}.cguards figure{margin:0;display:grid;justify-items:center;gap:2px}.cguards img{width:clamp(40px,7.5vw,66px);height:clamp(40px,7.5vw,66px);border-radius:50%;object-fit:cover;object-position:50% 22%;border:2px solid #d9a441;box-shadow:0 2px 6px rgba(0,0,0,.3)}.cguards figcaption{font:700 clamp(9px,1.5vw,12px) var(--display);color:#7a4a10}
 .cgem{width:1.25em;height:1.25em;vertical-align:-.25em;margin-right:.3em;filter:drop-shadow(0 0 6px #3dffa0) drop-shadow(0 1px 2px rgba(0,0,0,.4))}
 .cgems{font-family:var(--display);font-size:clamp(18px,3.6vw,30px);color:#1f7a50;font-weight:700}
@@ -1959,7 +1960,7 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}}
  function sync(){B.hidden=!(gems>0)}
  window.openCert=function(){document.getElementById('certGems').textContent=gems;const u=UN.filter(x=>gems>=x[0]).map(x=>x[1]);
-  document.getElementById('certUn').textContent=u.length?('and unlocked '+(u.length>1?u.slice(0,-1).join(', ')+' and '+u[u.length-1]:u[0])+'.'):'on the way to the Elderstone card.';
+  {const SI={15:['img/m_elder.jpg','Elderstone'],30:['img/p037.jpg','Zolara'],50:['img/p071.jpg','Raptor'],80:['img/p080.jpg','Emerald Moon']};const cs=document.getElementById('certStamps');cs.innerHTML='';UN.filter(x=>gems>=x[0]).forEach(x=>{const f_=document.createElement('figure');const im=document.createElement('img');im.src=SI[x[0]][0];im.alt='';const c_=document.createElement('figcaption');c_.textContent=SI[x[0]][1];f_.append(im,c_);cs.append(f_)})}document.getElementById('certUn').textContent=u.length?('and unlocked '+(u.length>1?u.slice(0,-1).join(', ')+' and '+u[u.length-1]:u[0])+'.'):'on the way to the Elderstone card.';
   document.getElementById('certDate').textContent=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
   N.value=ls('gg_name')||'';C.hidden=false;if(typeof stopVoice==='function')stopVoice();
   if(typeof say==='function')say('Here is your Guardian certificate. Type your name, then print it and hang it on your wall.','voice/v_cert1.mp3');if(!N.value)setTimeout(()=>N.focus(),300)};
