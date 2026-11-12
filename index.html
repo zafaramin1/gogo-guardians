@@ -40,8 +40,8 @@ section{padding-block:72px}
 .hero h1{font:900 clamp(44px,7vw,84px)/0.98 var(--deco);text-wrap:balance}
 .hero .orn{color:var(--gold);letter-spacing:.4em;margin:14px 0}
 .hero h1{position:relative;z-index:1}
-.hero{position:relative}.hero>*:not(.fire){position:relative;z-index:1}.hero .fire{position:absolute;right:-6vw;bottom:-70px;width:min(1000px,64vw);height:min(560px,78vh);max-width:none;margin:0;pointer-events:none;z-index:0}
-.hero .fire video{width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.7;-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%,#000 85%,transparent),linear-gradient(0deg,transparent 0%,#000 18%,#000 45%,transparent 95%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 30%,#000 85%,transparent),linear-gradient(0deg,transparent 0%,#000 18%,#000 45%,transparent 95%);mask-composite:intersect}.hero .fire video{opacity:.55}
+.hero .fire{position:relative;height:120px;max-width:470px;margin:-78px 0 0;pointer-events:none}
+.hero .fire video{width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.7;-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent),linear-gradient(0deg,transparent 2%,#000 30%,#000 55%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent),linear-gradient(0deg,transparent 2%,#000 30%,#000 55%,transparent);mask-composite:intersect}
 @media (prefers-reduced-motion:reduce){.hero .fire{display:none}}
 .getbox{margin:18px 0 6px;padding:14px 18px;border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(246,210,122,.08),transparent)}.getbox ul{margin:8px 0 0;padding-left:20px;color:var(--muted);line-height:1.55}.getbox li b{color:var(--gold-hi)}
 .hero .lead{font-size:20px;color:var(--muted);max-width:32em}
@@ -141,11 +141,11 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
 
 <main>
 <div class="wrap hero">
-    <div class="fire" aria-hidden="true"><video src="/img/fire_strip.mp4" autoplay muted loop playsinline preload="auto"></video></div>
   <div class="cover"><img src="/img/cover5.jpg" alt="Book cover: Oliver and Alibaba on a flying carpet"><img class="gogo" src="/img/pose_cheer.jpg" alt=""></div>
   <div>
     <span class="eyebrow">A magic phone. Forty thieves. One question.</span>
     <h1 class="gold">Gogo Guardians</h1>
+    <div class="fire" aria-hidden="true"><video src="/img/fire_strip.mp4" autoplay muted loop playsinline preload="auto"></video></div>
     <p class="lead">Oliver's grandma gives him a phone for his 13th birthday. That night it starts to glow. Inside lives Gogo, an ancient guardian spirit, and soon Oliver is flying with Alibaba and the Forty Thieves across worlds no one on Earth has seen.</p>
     <div class="row"><a class="btn" href="/play/">Play free</a><a class="btn ghost" href="/read/">Read the story</a><a class="btn ghost" href="#play">See the riddles</a></div>
   </div>
