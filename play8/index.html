@@ -1446,7 +1446,7 @@ function addCue(area,D){const W=area.clientWidth,H=area.clientHeight;const b=el(
   const L=Math.min(W*.5,320);stick.hidden=pull<8;stick.style.width=L+'px';stick.style.transform='translate('+(o.x-Math.cos(a)*(D/2+6+pull*.6))+'px,'+(o.y-Math.sin(a)*(D/2+6+pull*.6)-4.5)+'px) rotate('+(a+Math.PI)+'rad)';
   aim.hidden=pull<8;aim.style.width=Math.min(W,140+pull*2.5)+'px';aim.style.transform='translate('+o.x+'px,'+o.y+'px) rotate('+a+'rad)'});
  b.addEventListener('pointerup',()=>{if(!aiming)return;aiming=false;const dx=o.x-px,dy=o.y-py,pull=Math.min(150,Math.hypot(dx,dy));stick.hidden=aim.hidden=true;if(pull<8)return;const a=Math.atan2(dy,dx),sp=pull*13;
-  stick.hidden=false;stick.animate([{opacity:1},{opacity:0}],{duration:250});setTimeout(()=>stick.hidden=true,250);o.vx=Math.cos(a)*sp;o.vy=Math.sin(a)*sp;clack(Math.min(1,pull/120));SHOTS++;if(GOLF)playSfx('air',.35);
+  stick.hidden=false;stick.animate([{opacity:1},{opacity:0}],{duration:250});setTimeout(()=>stick.hidden=true,250);o.vx=Math.cos(a)*sp;o.vy=Math.sin(a)*sp;clack(Math.min(1,pull/120));SHOTS++;
   if(GOLF)setHint('<span>'+(SHOTS>1?'Shot '+SHOTS+'. ':'')+'Keep going! When the ball stops, pull back and shoot again.</span>');else setHint('<span>Nice shot! Keep shooting, or tap any ball to choose its riddle.</span>')});
  b.addEventListener('click',e=>e.preventDefault())}
 function scratch(o,q){o.vx=o.vy=0;thunk();o.b.animate([{opacity:1},{opacity:0},{opacity:1}],{duration:700});const a=o.b.parentNode;o.x=Math.max(o.D,a.clientWidth*.22);o.y=a.clientHeight/2;placeBalls();setHint('<span><b>Scratch!</b> The white ball fell in. It is back on the table. Shoot again!</span>')}
