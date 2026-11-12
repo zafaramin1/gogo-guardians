@@ -1145,7 +1145,8 @@ addEventListener('pointerdown',()=>{sfxLoad(PLAYLIST[0]);sfxLoad('gong_deep');se
   // a drop of sweat now and then when the music is pumping
   if(e>.45&&Math.random()<.012*e)drops.push({x:sx+(Math.random()<.5?-5:5),y:hd-2,vx:(Math.random()<.5?-1:1)*(18+Math.random()*16),vy:-28-Math.random()*14,life:.9})}
  function sweat(dt){g.fillStyle='#9fd8ff';for(let i=drops.length-1;i>=0;i--){const d=drops[i];d.vy+=110*dt;d.x+=d.vx*dt;d.y+=d.vy*dt;d.life-=dt;if(d.life<=0||d.y>H){drops.splice(i,1);continue}g.globalAlpha=Math.min(1,d.life*2);const a=Math.atan2(d.vy,d.vx);g.beginPath();g.arc(d.x,d.y,1.4,0,7);g.moveTo(d.x-Math.cos(a)*3.2,d.y-Math.sin(a)*3.2);g.lineTo(d.x+Math.cos(a+1.57)*1.3,d.y+Math.sin(a+1.57)*1.3);g.lineTo(d.x-Math.cos(a+1.57)*1.3,d.y-Math.sin(a+1.57)*1.3);g.fill()}g.globalAlpha=1}
- const zs=[];let zt=0;
+ const zs=[];let zt=0,fallW=null,fallS=0,nextFall=performance.now()/1000+(window.__ff?2:25+Math.random()*20),TT=0;
+ function fy(who){if(fallW!==who)return 0;const t=TT-fallS;if(t<.75)return Math.min(H+30,4+90*t*t);if(t<2.4)return H+30;if(t<3.1){const k=(t-2.4)/.7;return (H+10)*(1-k)-Math.sin(k*Math.PI)*6}fallW=null;nextFall=TT+35+Math.random()*40;return 0}
  function sleeper(x,who,col,T){const y=H-6,br=Math.sin(T*1.3)*.8;g.strokeStyle=col;g.lineWidth=2;g.lineCap='round';g.lineJoin='round';g.shadowColor='rgba(246,210,122,.6)';g.shadowBlur=3;g.beginPath();
   g.moveTo(x+6,y-1);g.quadraticCurveTo(x+14,y-3-br,x+20,y-1);g.lineTo(x+27,y-4);g.lineTo(x+31,y);g.moveTo(x+20,y-1);g.lineTo(x+30,y-1);
   g.moveTo(x+9,y-2);g.lineTo(x+4,y-7);g.lineTo(x-1,y-4);g.stroke();
@@ -1156,7 +1157,7 @@ addEventListener('pointerdown',()=>{sfxLoad(PLAYLIST[0]);sfxLoad('gong_deep');se
   if(en>avg*1.3&&en>.16&&T-lastBeat>.26){let iv=T-lastBeat;lastBeat=T;if(iv<2){while(iv>.8)iv/=2;while(iv<.32)iv*=2;ivs.push(iv);if(ivs.length>10)ivs.shift();const so=[...ivs].sort((a,b)=>a-b);per=so[so.length>>1]}
    beat=1;const k=Math.round(ph/Math.PI)*Math.PI;ph+=(k-ph)*.6;beats++;if(beats%8===0)move=(move+1+(Math.random()*2|0))%4}
   beat=Math.max(0,beat-dt*5);lvl+=(Math.min(1,en*2.4)-lvl)*Math.min(1,dt*(en?6:10));
-  if(lvl>.03)ph+=dt*Math.PI/per;g.clearRect(0,0,W,H);const sleepy=!hold&&MUSIC&&MSRC&&typeof PLAYLIST!=='undefined'&&PLAYLIST[PLI%PLAYLIST.length]==='m_rise';if(sleepy){sleeper(14,0,"#f6d27a",T);sleeper(46,1,'#ffe7a8',T+1.7);zzz(dt,T)}else{zs.length=0;fig(26,0,"#f6d27a");fig(56,1,'#ffe7a8');sweat(dt)}requestAnimationFrame(frame)}
+  if(lvl>.03)ph+=dt*Math.PI/per;g.clearRect(0,0,W,H);const sleepy=!hold&&MUSIC&&MSRC&&typeof PLAYLIST!=='undefined'&&PLAYLIST[PLI%PLAYLIST.length]==='m_rise';if(sleepy){sleeper(14,0,"#f6d27a",T);sleeper(46,1,'#ffe7a8',T+1.7);zzz(dt,T)}else{zs.length=0;TT=T;if(fallW===null&&lvl>.3&&T>nextFall){fallW=Math.random()<.5?0:1;fallS=T}else if(fallW===null&&lvl<=.3&&T>nextFall)nextFall=T+8;[[26,0,"#f6d27a"],[56,1,'#ffe7a8']].forEach(([x_,w_,c_])=>{const o_=fy(w_);g.save();if(o_){const t_=T-fallS;g.translate(x_,0);g.rotate(t_<.75?Math.min(1.2,t_*1.8)*(w_?1:-1):0);g.translate(-x_,o_)}fig(x_,w_,c_);g.restore()});sweat(dt)}requestAnimationFrame(frame)}
  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)requestAnimationFrame(frame);else{lvl=0;frame(performance.now())}})();
 
 function spooky(){if(MG)try{MG.gain.linearRampToValueAtTime(0,AC.currentTime+.5);setTimeout(musicDuck,9000)}catch(e){}if(playSfx('spooky',.55))return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime+.05;
