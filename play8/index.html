@@ -1591,7 +1591,7 @@ function gClass(t){t=t.toLowerCase();
  if(/^(is|are|do|does|did|can|will|would|have|has|am|was|were|should)\b/.test(t.trim())||/\?$/.test(t.trim()))return 'sky';
  return null}
 function askGuard(k){st.q=k;st.ans=answerFor(st.asked,k);stage.querySelectorAll('.gbtn').forEach(b=>b.disabled=true);
- guardSay(st.asked,st.ans,()=>{draw();say('Which path will you take?','voice/v_gd_which.mp3');if(MG)try{MG.gain.linearRampToValueAtTime(0,AC.currentTime+.4);setTimeout(musicDuck,10500)}catch(e){}playSfx('tense',.32)})}
+ guardSay(st.asked,st.ans,()=>{draw();say('Which path will you take?','voice/v_gd_which.mp3');if(MG)try{MG.gain.linearRampToValueAtTime(0,AC.currentTime+.4);setTimeout(musicDuck,10500)}catch(e){}0})}
 function finish(p){st.done=p;scene();const win=p===st.safe,good=st.q==='other'||st.q==='otherd',pts=win?(good?(st.hints?15:25):10):0;
  const g=GN[st.asked],liarName=GN[st.liar];
  let why,whyf;const lucky=win?'You got lucky! ':'';
@@ -1602,7 +1602,7 @@ function finish(p){st.done=p;scene();const win=p===st.safe,good=st.q==='other'||
  else{why=lucky+'Now you know whether '+g+' tells the truth, but you have used up your only question, so you still don’t know the way.';whyf='voice/v_gd_sky.mp3'}
  const after=()=>{stage.innerHTML='';stage.classList.add('result');stage.append(el('<h2 class="agedgold gtitle">'+(win?'You found Alibaba!':'Back to the fork')+'</h2>'));const w=el('<p class="calli"></p>');w.textContent=why;stage.append(w);
   if(win){GW.guards=1;save()}
-  if(win){const nx=gbtn('Next: Dracula’s Forest ›',()=>go('bats'),'arch');const c=el('<div class="centerrow"></div>');c.append(nx);stage.append(c)}const pa=gbtn('Play again with two new guards',()=>{stage.classList.remove('result');newRound();sayGuards()},'arch small');const br=el('<div class="brrow"></div>');br.append(pa);stage.append(br);say(why,whyf)};
+  if(win){const nx=gbtn('Next: Dracula’s Forest ›',()=>go('bats'),'arch');const c=el('<div class="centerrow"></div>');c.append(nx);stage.append(c)}const pa=gbtn('Play again with two new guards',()=>{stage.classList.remove('result');newRound();sayGuards()},'arch small');const br=el('<div class="brrow"></div>');br.append(pa);if(!win){const sk=gbtn('Skip to Dracula’s Forest ›',()=>go('bats'),'arch small');br.append(sk)}stage.append(br);say(why,whyf)};
  setTimeout(()=>{RVF=win?'voice/v_gd_win.mp3':'voice/v_gd_lose.mp3';if(win)playSfx('horse',.5);if(win)reveal('img/p030.jpg','You found Alibaba!','The path opens, and there he is: Alibaba, smiling like he knew you would make it.',pts,after);
   else{reveal('img/p026.jpg','The spirits of Isfahan!','The wrong path. The spirits rise from the sand... and Gogo pulls you back just in time.',0,after);spiritsOn()}},900)}
 // the spirits of Isfahan drift over the picture on the wrong path
