@@ -1092,7 +1092,7 @@ function harmNote(f,at,dur,vol){const g=AC.createGain(),fl=AC.createBiquadFilter
  g.gain.setValueAtTime(.0001,at);g.gain.linearRampToValueAtTime(vol,at+.09);g.gain.setValueAtTime(vol,at+dur);g.gain.exponentialRampToValueAtTime(.0001,at+dur+.45);fl.connect(g);g.connect(AC.destination)}
 const HARM=[[146.8,185,196,220],[220,196,185,155.6,146.8],[146.8,155.6,185,196,220],[196,220,233.1,220,196],[110,146.8,155.6,185,146.8]];
 const SFXB={};function sfxLoad(n){if(SFXB[n]!==undefined)return;SFXB[n]=null;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();fetch('sfx/'+n+'.mp3').then(r=>r.arrayBuffer()).then(a=>AC.decodeAudioData(a,b=>{SFXB[n]=b},()=>{})).catch(()=>{})}catch(e){}}
-addEventListener('pointerdown',()=>{['harm_short','harm_long','spooky','swoosh','horse','air','tense'].forEach(sfxLoad)},{capture:true,once:true});
+addEventListener('pointerdown',()=>{['harm_short','harm_long','spooky','swoosh','horse'].forEach(sfxLoad)},{capture:true,once:true});
 function playSfx(n,vol){try{const b=SFXB[n];if(!b){sfxLoad(n);return false}if(AC.state!=='running')AC.resume();const src=AC.createBufferSource(),g=AC.createGain();g.gain.value=vol||.5;src.buffer=b;src.connect(g);g.connect(AC.destination);src.start();return true}catch(e){return false}}
 
 // ===== night music: harmonium tracks in rotation, ducking when Gogo talks =====
