@@ -22,6 +22,7 @@
 .cavehole.win{animation:cavewin .9s ease-out 2}
 @keyframes cavepulse{50%{box-shadow:0 0 0 4px #f0c96a,0 0 40px 14px rgba(246,210,122,.75),inset 0 6px 14px #000}}
 @keyframes cavewin{50%{transform:scale(1.25);box-shadow:0 0 0 6px #fff3c4,0 0 70px 30px rgba(47,227,154,.8),inset 0 6px 14px #000}}
+.bumper.villain::before,.bumper.villain::after{display:none!important}.bumper.villain{background-color:#2a1a06!important;background-size:165%!important;background-position:50% 20%!important;box-shadow:0 4px 12px rgba(0,0,0,.7),0 0 0 3px #b9862c,0 0 0 5px #3a2206,0 0 14px rgba(255,60,40,.45)!important}
 .bumper{position:absolute;border-radius:50%;z-index:1;background:radial-gradient(circle at 35% 30%,#d8a85a,#8a5a1c 55%,#3a2206);box-shadow:0 4px 10px rgba(0,0,0,.6),0 0 0 2px #5a3a0c}
 .bumper::after{content:"";position:absolute;inset:22%;border-radius:50%;background:radial-gradient(circle,#2fe39a,#0a6a42);box-shadow:0 0 10px #2fe39a}
 .ball.cueball.goldball .sph{background:radial-gradient(circle at 32% 28%,#fff8d8,#f6d27a 35%,#c9902a 70%,#6a4410)!important;box-shadow:0 0 18px rgba(246,210,122,.8),0 4px 8px rgba(0,0,0,.6)!important}
@@ -1348,9 +1349,9 @@ function layGolf(area){cancelAnimationFrame(BALL_RAF);area.innerHTML='';BALLS=[]
  const hx=W*(.72+Math.random()*.16),hy=H*(.22+Math.random()*.56);
  POCKETS=[{x:hx,y:hy,r:R}];
  const cave=el('<span class="cavehole '+GOLFTH+'"><i></i><em></em></span>');cave.querySelector('em').textContent=HOLE[GOLFTH];cave.style.width=cave.style.height=(R*2)+'px';cave.style.left=(hx-R)+'px';cave.style.top=(hy-R)+'px';area.append(cave);
- const nb=W>700?3:2;for(let n=0,tries_=0;n<nb&&tries_<60;tries_++){const r=Math.max(18,D*.7),x=W*(.35+Math.random()*.3),y=H*(.15+Math.random()*.7);
+ const nb=W>700?3:2;for(let n=0,tries_=0;n<nb&&tries_<60;tries_++){const r=Math.max(22,D*.9),x=W*(.35+Math.random()*.3),y=H*(.15+Math.random()*.7);
   if(Math.hypot(x-hx,y-hy)<R+r+D*1.5||BUMPS.some(b=>Math.hypot(b.x-x,b.y-y)<b.r+r+D*1.4)||Math.hypot(x-W*.18,y-H/2)<r+D*2)continue;
-  BUMPS.push({x,y,r});const b=el('<span class="bumper"></span>');b.style.width=b.style.height=(r*2)+'px';b.style.left=(x-r)+'px';b.style.top=(y-r)+'px';area.append(b);n++}
+  const VIL=['m_farid','m_karim','m_guard','m_reptocrat'];const vi=VIL[(n+Math.floor(Math.random()*4))%4];const b=el('<span class="bumper villain"></span>');b.style.backgroundImage='url(img/'+vi+'.jpg)';BUMPS.push({x,y,r,el:b});b.style.width=b.style.height=(r*2)+'px';b.style.left=(x-r)+'px';b.style.top=(y-r)+'px';area.append(b);n++}
  addCue(area,D);CUE.x=Math.max(D,W*.16);CUE.b.classList.add('goldball');RACKED=false;placeBalls();ballLoop();
  requestAnimationFrame(()=>{if((Math.abs(area.clientHeight-H)>2||Math.abs(area.clientWidth-W)>2)&&!area.__re){area.__re=1;layBalls(area);area.__re=0}})}
 function golfIn(o,q){o.sunk=true;o.vx=o.vy=0;o.b.style.transition='transform .4s ease-in,opacity .4s';o.b.style.transform='translate('+(q.x-o.D/2)+'px,'+(q.y-o.D/2)+'px) scale(.15)';o.b.style.opacity='0';
@@ -1389,7 +1390,7 @@ function addCue(area,D){const W=area.clientWidth,H=area.clientHeight;const b=el(
  const o={b,cue:true,ch:0,k:0,D,x:Math.max(D,W*.22),y:H/2,vx:0,vy:0,drag:false,sunk:false};CUE=o;BALLS.push(o);
  const stick=el('<div class="cuestick" hidden></div>'),aim=el('<div class="aimline" hidden></div>');area.append(stick);area.append(aim);
  let aiming=false,px=0,py=0;const rect=()=>area.getBoundingClientRect();
- b.addEventListener('pointerdown',e=>{if(o.sunk||Math.hypot(o.vx,o.vy)>5)return;aiming=true;b.setPointerCapture(e.pointerId);const r=rect();px=e.clientX-r.left;py=e.clientY-r.top;e.preventDefault()});
+ b.addEventListener('pointerdown',e=>{if(o.sunk)return;aiming=true;b.setPointerCapture(e.pointerId);const r=rect();px=e.clientX-r.left;py=e.clientY-r.top;e.preventDefault()});
  b.addEventListener('pointermove',e=>{if(!aiming)return;const r=rect();px=e.clientX-r.left;py=e.clientY-r.top;const dx=o.x-px,dy=o.y-py,pull=Math.min(150,Math.hypot(dx,dy)),a=Math.atan2(dy,dx);
   const L=Math.min(W*.5,320);stick.hidden=pull<8;stick.style.width=L+'px';stick.style.transform='translate('+(o.x-Math.cos(a)*(D/2+6+pull*.6))+'px,'+(o.y-Math.sin(a)*(D/2+6+pull*.6)-4.5)+'px) rotate('+(a+Math.PI)+'rad)';
   aim.hidden=pull<8;aim.style.width=Math.min(W,140+pull*2.5)+'px';aim.style.transform='translate('+o.x+'px,'+o.y+'px) rotate('+a+'rad)'});
@@ -1421,7 +1422,7 @@ function ballLoop(){let last=performance.now();const area=document.querySelector
  (function step(t){const dt=Math.min(.033,(t-last)/1000);last=t;if(!area||!area.isConnected||!document.querySelector('.screen.on[data-name="pick"]'))return;
   for(const o of BALLS){if(o.drag||o.sunk)continue;const sp=Math.hypot(o.vx,o.vy);if(sp<4){o.vx=o.vy=0;continue}o.x+=o.vx*dt;o.y+=o.vy*dt;const f=Math.pow(.55,dt);o.vx*=f;o.vy*=f;
    // pockets pull a ball in when it rolls close
-   for(const q of POCKETS){const d=Math.hypot(o.x-q.x,o.y-q.y);if(d<q.r+o.D*.2){sink(o,q);break}}if(!o.sunk)clampBall(o,area);if(!o.sunk)for(const b of BUMPS){const dx=o.x-b.x,dy=o.y-b.y,d=Math.hypot(dx,dy),m=b.r+o.D/2;if(d>0&&d<m){const nx=dx/d,ny=dy/d;o.x=b.x+nx*m;o.y=b.y+ny*m;const vn=o.vx*nx+o.vy*ny;if(vn<0){o.vx-=1.8*vn*nx;o.vy-=1.8*vn*ny;clack(Math.min(1,-vn/900))}}}}
+   for(const q of POCKETS){const d=Math.hypot(o.x-q.x,o.y-q.y);if(d<q.r+o.D*.2){sink(o,q);break}}if(!o.sunk)clampBall(o,area);if(!o.sunk)for(const b of BUMPS){const dx=o.x-b.x,dy=o.y-b.y,d=Math.hypot(dx,dy),m=b.r+o.D/2;if(d>0&&d<m){const nx=dx/d,ny=dy/d;o.x=b.x+nx*m;o.y=b.y+ny*m;const vn=o.vx*nx+o.vy*ny;if(vn<0){o.vx-=2.15*vn*nx;o.vy-=2.15*vn*ny;clack(Math.min(1,-vn/900));if(b.el&&-vn>60)b.el.animate([{transform:'scale(1) rotate(0)'},{transform:'scale(1.2) rotate(-10deg)'},{transform:'scale(.95) rotate(6deg)'},{transform:'scale(1) rotate(0)'}],{duration:380})}}}}
   for(let i=0;i<BALLS.length;i++)for(let j=i+1;j<BALLS.length;j++){const a=BALLS[i],b=BALLS[j];if(a.sunk||b.sunk)continue;const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),m=(a.D+b.D)/2;
    if(d>0&&d<m){const nx=dx/d,ny=dy/d,ov=(m-d)/2;if(!a.drag){a.x-=nx*ov;a.y-=ny*ov}if(!b.drag){b.x+=nx*ov;b.y+=ny*ov}
     const va=a.vx*nx+a.vy*ny,vb=b.vx*nx+b.vy*ny;if(va-vb>0){const imp=(va-vb)*.95;if(!a.drag){a.vx-=imp*nx;a.vy-=imp*ny}if(!b.drag){b.vx+=imp*nx;b.vy+=imp*ny}if(imp>120)clack(Math.min(1,imp/1200))}}}
