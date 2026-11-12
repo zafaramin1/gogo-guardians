@@ -299,7 +299,7 @@
 
   /* ---------- home page and game: one floating button ---------- */
   function setupFab(spot, where) {
-    var old = document.querySelector('a.note, a[href*="jotform"].ggc-replace'); if (old) old.remove();
+    var old = document.querySelector('a.note, a[href*="jotform"]:not([data-keep]).ggc-replace'); if (old) old.remove();
     var b = el('button', 'ggc-fab', '💬 Comments'); b.type = 'button';
     b.onclick = function () { drawer ? closeDrawer() : openDrawer({ spot: spot, where: where }); };
     document.body.appendChild(b);
@@ -309,10 +309,10 @@
   function start() {
     if (!ENDPOINT) return;               // not switched on yet: keep the old note links
     if (PAGE === 'read') setupRead();
-    else if (PAGE === 'play') { if (!document.querySelector('a[href*="jotform"]')) setupFab('game', 'the game'); }
+    else if (PAGE === 'play') { if (!document.querySelector('a[href*="jotform"]:not([data-keep])')) setupFab('game', 'the game'); }
     else setupFab('home', 'the home page');
-    if (PAGE === 'read') { document.querySelectorAll('a[href*="jotform"]').forEach(function (a) { a.remove(); }); var h = document.getElementById('howto'); if (h) h.innerHTML = '<b>Family preview.</b> Tap <b>\uD83D\uDCAC Comment</b> under the cover, any picture or the end of any chapter. You can also select any words and tap <b>Comment</b>. Your note shows right there, and everyone in the family can see it.'; }
-    else document.querySelectorAll('a[href*="jotform"]').forEach(function (a) {
+    if (PAGE === 'read') { document.querySelectorAll('a[href*="jotform"]:not([data-keep])').forEach(function (a) { a.remove(); }); var h = document.getElementById('howto'); if (h) h.innerHTML = '<b>Family preview.</b> Tap <b>\uD83D\uDCAC Comment</b> under the cover, any picture or the end of any chapter. You can also select any words and tap <b>Comment</b>. Your note shows right there, and everyone in the family can see it.'; }
+    else document.querySelectorAll('a[href*="jotform"]:not([data-keep])').forEach(function (a) {
       a.removeAttribute('target'); a.innerHTML = '&#128172; Comments';
       a.href = '#';
       a.onclick = function (e) { e.preventDefault(); openDrawer(PAGE === 'play' ? { spot: 'game', where: 'the game' } : { spot: PAGE, where: 'this page' }); };
