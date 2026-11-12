@@ -1078,13 +1078,14 @@ const SFXB={};function sfxLoad(n){if(SFXB[n]!==undefined)return;SFXB[n]=null;try
 addEventListener('pointerdown',()=>{['harm_short','harm_long','spooky','swoosh','horse','air','tense'].forEach(sfxLoad)},{capture:true,once:true});
 function playSfx(n,vol){try{const b=SFXB[n];if(!b){sfxLoad(n);return false}if(AC.state!=='running')AC.resume();const src=AC.createBufferSource(),g=AC.createGain();g.gain.value=vol||.5;src.buffer=b;src.connect(g);g.connect(AC.destination);src.start();return true}catch(e){return false}}
 
-// ===== soft night music: a harmonium and oud loop that ducks when Gogo talks =====
+// ===== night music: harmonium tracks in rotation, ducking when Gogo talks =====
 let MUSIC=true;try{MUSIC=localStorage.getItem('gg_music')!=='0'}catch(e){}
 let MSRC=null,MG=null;
-function musicStart(){if(!MUSIC||MSRC)return;const b=SFXB.night;if(!b){sfxLoad('night');setTimeout(musicStart,1200);return}try{if(AC.state!=='running')AC.resume();MG=AC.createGain();MG.gain.value=0;MSRC=AC.createBufferSource();MSRC.buffer=b;MSRC.loop=true;MSRC.connect(MG);MG.connect(AC.destination);MSRC.start();MG.gain.linearRampToValueAtTime(VEL.paused?.16:.06,AC.currentTime+2)}catch(e){}}
+const PLAYLIST=['m_feast','m_desert','m_lahore'];let PLI=0;
+function musicStart(){if(!MUSIC||MSRC)return;const nm=PLAYLIST[PLI%PLAYLIST.length];const b=SFXB[nm];if(!b){sfxLoad(nm);setTimeout(musicStart,1200);return}try{if(AC.state!=='running')AC.resume();MG=AC.createGain();MG.gain.value=0;const src=AC.createBufferSource();MSRC=src;src.buffer=b;src.loop=false;src.onended=()=>{if(MSRC===src){MSRC=null;PLI++;sfxLoad(PLAYLIST[PLI%PLAYLIST.length]);setTimeout(musicStart,400)}};src.connect(MG);MG.connect(AC.destination);src.start();MG.gain.linearRampToValueAtTime(VEL.paused?.16:.06,AC.currentTime+2);sfxLoad(PLAYLIST[(PLI+1)%PLAYLIST.length])}catch(e){}}
 function musicStop(){try{if(MG)MG.gain.linearRampToValueAtTime(0,AC.currentTime+.6);const s_=MSRC;MSRC=null;setTimeout(()=>{try{s_&&s_.stop()}catch(e){}},700)}catch(e){}}
 function musicDuck(){if(MG&&AC)try{MG.gain.cancelScheduledValues(AC.currentTime);MG.gain.linearRampToValueAtTime(VEL.paused||VEL.ended?.16:.06,AC.currentTime+.4)}catch(e){}}
-addEventListener('pointerdown',()=>{sfxLoad('night');setTimeout(musicStart,300)},{capture:true,once:true});
+addEventListener('pointerdown',()=>{sfxLoad(PLAYLIST[0]);setTimeout(musicStart,300)},{capture:true,once:true});
 (()=>{const m=document.getElementById('mswitch');if(!m)return;const ui=()=>{m.classList.toggle('on',MUSIC);m.setAttribute('aria-pressed',MUSIC);m.title=MUSIC?'Music on':'Music off'};ui();m.onclick=()=>{MUSIC=!MUSIC;try{localStorage.setItem('gg_music',MUSIC?'1':'0')}catch(e){}ui();MUSIC?musicStart():musicStop()}})();
 function spooky(){if(MG)try{MG.gain.linearRampToValueAtTime(0,AC.currentTime+.5);setTimeout(musicDuck,9000)}catch(e){}if(playSfx('spooky',.55))return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();const t=AC.currentTime+.05;
  harmNote(55,t,5.2,.05);harmNote(77.8,t+.4,4.6,.035);
