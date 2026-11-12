@@ -344,7 +344,7 @@ body.rvopen .caption{bottom:auto;top:calc(10px + env(safe-area-inset-top,0px))}
 .pg img.pic{width:100%;max-height:52%;object-fit:cover;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.35)}
 .pg.turned{transform:rotateY(-178deg);pointer-events:none}
 @media (prefers-reduced-motion:no-preference){.pg{transition:transform .9s cubic-bezier(.4,.1,.25,1)}}
-.fctl{display:flex;gap:14px;align-items:center}
+.fctl{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center}.fmus.off{opacity:.6}
 .fnum{white-space:nowrap;font:800 13px var(--display);letter-spacing:.12em;color:#d9b46a}
 .fclose{position:absolute;z-index:2;top:max(12px,env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;font:800 26px/1 var(--body);color:#f6d27a;background:#1a1204;border:1px solid #b9862c;cursor:pointer}
 
@@ -1065,7 +1065,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
 <div class="pg"><p>They were my first audience and my biggest supporters. They laughed so loud that telling the story was easy. Honestly, I loved those nights as much as they did.</p><p>Seeing their reaction, I thought, why not write a book? So I did, and I&#x27;m really glad I have.</p><p class="sig">Zafar Amin</p></div>
 <!--CHAPTERS-->
 <div class="pg"><div class="mid"><h4>The end of Book 1!</h4><p class="orn">~ &#9670; ~</p><p style="text-indent:0;text-align:center">You’ve finished the whole adventure. Now take on Gogo’s riddles and win every emerald on the first try.</p><button class="btn" type="button" data-flipgo="trail">Go to the Riddle Trail</button></div></div></div>
-  <div class="fctl"><button class="navb" id="fprev" type="button">&lsaquo; Back</button><span class="fnum" id="fnum"></span><button class="navb next" id="fnext" type="button">Turn the page &rsaquo;</button><button class="navb" type="button" onclick="document.getElementById('fclose').click()">Close</button></div>
+  <div class="fctl"><button class="navb" id="fprev" type="button">&lsaquo; Back</button><span class="fnum" id="fnum"></span><button class="navb next" id="fnext" type="button">Turn the page &rsaquo;</button><button class="navb fmus" id="fmus" type="button" aria-pressed="true">&#9835; Music: On</button><button class="navb" type="button" onclick="document.getElementById('fclose').click()">Close</button></div>
   <button class="fclose" id="fclose" type="button" aria-label="Close the book">&times; Close the book</button>
 </div>
 <div class="toast" id="toast" hidden></div>
@@ -1813,7 +1813,7 @@ let BOOK_READY=false;function layoutBook(){if(BOOK_READY)return;BOOK_READY=true;
     el_.textContent=words.slice(0,lo).join(' ');words=words.slice(lo);first=false;cont=true;push()}});
   const end=document.createElement('p');end.className='endorn';end.innerHTML='~ &#9670; ~';p.append(end);if(!fits(p)){end.remove()}made.push(p.outerHTML)});
  meas.remove();mark.after(...made.map(h=>{const d=document.createElement('div');d.innerHTML=h;const pgel=d.firstChild;pgel.style.position='';pgel.style.removeProperty('padding-bottom');pgel.querySelectorAll('img.pic').forEach(i=>i.style.removeProperty('height'));pgel.classList.remove('measure');pgel.classList.add('gen');return pgel}));
- [...fb.querySelectorAll('.pg')].forEach((p,i)=>{const of_=p.querySelector('.foot');if(of_)of_.remove();if(i>0){const f=document.createElement('div');f.className='foot';f.innerHTML='<span>Gogo the Magic Phone &middot; '+(i+1)+'</span>';p.append(f)}})}
+ [...fb.querySelectorAll('.pg')].forEach((p,i)=>{const of_=p.querySelector('.foot');if(of_)of_.remove();if(i>0){const f=document.createElement('div');f.className='foot';f.innerHTML='<span>Gogo Guardians &middot; '+(i+1)+'</span>';p.append(f)}})}
 (function(){let STARTS={};const F=document.getElementById('flip');let pg=[];let at=0;
  function prep(){if(BOOK_READY)return;layoutBook();STARTS=window.__STARTS;pg=[...document.querySelectorAll('#fbook .pg')];pg.forEach((p,i)=>p.style.zIndex=pg.length-i)}
  BOOK.open=(ch)=>{if(ch>3&&typeof paid==='function'&&!paid()){openPaywall('Chapter '+ch+' of the book is part of the full adventure.');return}if(!BOOK_READY){toast('Opening the book...');const wl=document.readyState==='complete'?Promise.resolve():new Promise(r=>addEventListener('load',r,{once:true}));const fl=Promise.race([wl.then(()=>document.fonts?Promise.all([document.fonts.load('16px Literata'),document.fonts.load('italic 16px Literata'),document.fonts.load('800 16px Cinzel')]).then(()=>document.fonts.ready):0),new Promise(r=>setTimeout(r,5000))]);fl.catch(()=>{}).then(()=>{prep();BOOK.open(ch)});return}at=ch?STARTS[ch]:0;show();F.hidden=false;document.getElementById('fnext').focus();say(ch?'Chapter '+ch+'. Turn the pages and read along.':'Here is the book. Turn the page.')};
@@ -2171,5 +2171,6 @@ body:not(.gg-at-home) .top .tl{padding-left:118px}
  atHome();
 })();
 </script>
+<script>(()=>{const b=document.getElementById('fmus'),m=document.getElementById('mswitch');if(!b)return;const sync=()=>{b.innerHTML='&#9835; Music: '+(MUSIC?'On':'Off');b.setAttribute('aria-pressed',MUSIC);b.classList.toggle('off',!MUSIC)};b.onclick=e=>{e.stopPropagation();if(m)m.click();else{MUSIC=!MUSIC;try{localStorage.setItem('gg_music',MUSIC?'1':'0')}catch(_){}MUSIC?musicStart():musicStop()}sync()};new MutationObserver(sync).observe(document.getElementById('flip'),{attributes:true,attributeFilter:['hidden']});sync()})();</script>
 </body>
 </html>
