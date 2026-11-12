@@ -966,7 +966,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
 </style>
 <div class="app">
   <header class="top">
-    <div class="tl"><a class="mock" href="/" style="text-decoration:none">&larr; Home</a><a class="mock" href="https://form.jotform.com/263087088389069" target="_blank" rel="noopener" style="text-decoration:none">&#9998; Leave a note</a></div>
+    <div class="tl"><a class="mock" href="/" style="text-decoration:none">&larr; Website</a><a class="mock" href="https://form.jotform.com/263087088389069" target="_blank" rel="noopener" style="text-decoration:none">&#9998; Leave a note</a></div>
     <div class="tc"><span class="goal" id="goal"><span class="gtxt" id="gtxt">Collect 25 to unlock the Elderstone card</span><span class="gbar"><i id="gfill"></i><span class="coins" id="coins"></span></span></span><span class="gems" aria-live="polite"><svg class="gemi"><use href="#gem"/></svg><span id="gemCount">0</span></span></div>
     <div class="tr"><button class="mswitch on" id="mswitch" type="button" aria-pressed="true" aria-label="Music">♫</button><button class="vswitch on" id="vswitch" type="button" aria-pressed="true" aria-label="Gogo's voice"><span class="lamp"><i></i></span><span class="vlbl"><b>GOGO'S VOICE</b><em id="vstate">ON</em></span></button></div>
   </header>
@@ -1968,5 +1968,40 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 .btn.readbig small{display:block;font-size:12px;font-weight:700;color:#f6d27a;letter-spacing:.02em;margin-top:2px}
 .btn.readbig:hover{filter:brightness(1.08)}
 </style>
+<!-- A way out from anywhere (owner, 2026-11-11): one Home button that is always
+     on top, closes whatever is open (reward, book, certificate) and goes to the
+     game's home screen. Emeralds already won are kept and the game is saved.
+     It stands in for the header's End game button, which overlays covered. -->
+<style>
+#ggHome{position:fixed;z-index:120;top:max(10px,env(safe-area-inset-top,0px));left:max(10px,env(safe-area-inset-left,0px));display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:1px solid #d9a441;background:rgba(8,6,20,.88);color:#f6d27a;font:800 15px/1 var(--body,system-ui,sans-serif);letter-spacing:.02em;cursor:pointer;box-shadow:0 0 14px rgba(217,164,65,.35)}
+#ggHome:hover,#ggHome:focus-visible{background:#1b1430;outline:2px solid #f6d27a;outline-offset:2px}
+#ggHome svg{width:17px;height:17px}
+body.gg-at-home #ggHome{display:none}
+.top .endgame{display:none!important}
+body:not(.gg-at-home) .top .tl{padding-left:118px}
+@media (max-width:820px){#ggHome{padding:7px 11px;font-size:13px}body:not(.gg-at-home) .top .tl{padding-left:96px}}
+</style>
+<button id="ggHome" type="button" aria-label="Game home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</button>
+<script>
+(function(){
+ var B=document.getElementById('ggHome');
+ function atHome(){var open=['reveal','flip','cert'].some(function(id){var e=document.getElementById(id);return e&&!e.hidden});
+  var s=document.querySelector('.screen.on');document.body.classList.toggle('gg-at-home',!open&&!!s&&s.dataset.name==='home')}
+ B.onclick=function(){
+  try{if(typeof rvPts!=='undefined'&&rvPts&&!rvDone){rvDone=true;addGems(rvPts)}}catch(e){}
+  try{rvNext=null}catch(e){}
+  ['reveal','flip','cert'].forEach(function(id){var e=document.getElementById(id);if(e)e.hidden=true});
+  document.body.classList.remove('rvopen');
+  try{document.querySelectorAll('#fp .spirits').forEach(function(x){x.remove()})}catch(e){}
+  try{if(typeof stopVoice==='function')stopVoice()}catch(e){}
+  try{speechSynthesis.cancel()}catch(e){}
+  try{capHide(0)}catch(e){}
+  var eg=document.querySelector('.top .endgame');
+  try{if(eg&&eg.onclick)eg.onclick();else go('home')}catch(e){location.hash='';location.reload();return}
+  atHome()};
+ new MutationObserver(atHome).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','hidden']});
+ atHome();
+})();
+</script>
 </body>
 </html>
