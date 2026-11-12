@@ -967,7 +967,7 @@ body.rvopen .speech,body.rvopen .gtab{visibility:hidden}
   <header class="top">
     <div class="tl"><a class="mock" href="/" style="text-decoration:none">&larr; Website</a><a class="mock" href="https://form.jotform.com/263087088389069" target="_blank" rel="noopener" style="text-decoration:none">&#9998; Leave a note</a></div>
     <div class="tc"><span class="goal" id="goal"><span class="gtxt" id="gtxt">Collect 25 to unlock the Elderstone card</span><span class="gbar"><i id="gfill"></i><span class="coins" id="coins"></span></span></span><span class="gems" aria-live="polite"><svg class="gemi"><use href="#gem"/></svg><span id="gemCount">0</span></span></div>
-    <div class="tr"><button class="mswitch on" id="mswitch" type="button" aria-pressed="true" aria-label="Music">♫</button><button class="vswitch on" id="vswitch" type="button" aria-pressed="true" aria-label="Gogo's voice"><span class="lamp"><i></i></span><span class="vlbl"><b>GOGO'S VOICE</b><em id="vstate">ON</em></span></button></div>
+    <div class="tr"><button class="mswitch on" id="mswitch" type="button" aria-pressed="true" aria-label="Music on or off"><span class="mn">♫</span><span class="mlbl"><b>MUSIC</b><em>ON</em></span></button><button class="vswitch on" id="vswitch" type="button" aria-pressed="true" aria-label="Gogo's voice"><span class="lamp"><i></i></span><span class="vlbl"><b>GOGO'S VOICE</b><em id="vstate">ON</em></span></button></div>
   </header>
 
   <main class="screens" id="screens">
@@ -1088,13 +1088,13 @@ function musicStart(){if(!MUSIC||MSRC)return;const nm=PLAYLIST[PLI%PLAYLIST.leng
 function musicStop(){try{if(MG)MG.gain.linearRampToValueAtTime(0,AC.currentTime+.6);const s_=MSRC;MSRC=null;setTimeout(()=>{try{s_&&s_.stop()}catch(e){}},700)}catch(e){}}
 function musicDuck(){if(MG&&AC)try{MG.gain.cancelScheduledValues(AC.currentTime);MG.gain.setValueAtTime(MG.gain.value,AC.currentTime);MG.gain.linearRampToValueAtTime(mLevel(),AC.currentTime+(VEL.paused||VEL.ended?2.5:.3))}catch(e){}}
 addEventListener('pointerdown',()=>{sfxLoad(PLAYLIST[0]);setTimeout(musicStart,300)},{capture:true,once:true});
-(()=>{const m=document.getElementById('mswitch');if(!m)return;const ui=()=>{m.classList.toggle('on',MUSIC);m.setAttribute('aria-pressed',MUSIC);m.title='Music';};ui();
+(()=>{const m=document.getElementById('mswitch');if(!m)return;const ui=()=>{m.classList.toggle('on',MUSIC);m.setAttribute('aria-pressed',MUSIC);m.title='Music';const e_=m.querySelector('.mlbl em');if(e_)e_.textContent=MUSIC?'ON':'OFF'};const sb=document.createElement('button');sb.type='button';sb.className='msongs';sb.setAttribute('aria-label','Choose a song');sb.title='Choose a song';sb.textContent='▾';m.after(sb);ui();
  const p=document.createElement('div');p.className='mpanel';p.hidden=true;
  p.innerHTML='<div class="mph"><b>Music</b><button type="button" class="mpx" aria-label="Close">&times;</button></div><label class="mpon"><input type="checkbox"> Music on</label><label class="mpvol">Volume <input type="range" min="0" max="1" step="0.05"></label><div class="mpl"></div>';
  document.body.append(p);const cb=p.querySelector('.mpon input'),rg=p.querySelector('.mpvol input'),list=p.querySelector('.mpl');
  const draw=()=>{cb.checked=MUSIC;rg.value=MVOL;list.innerHTML='';SONGS.forEach(([k,n],i)=>{const b=document.createElement('button');b.type='button';b.className='mps'+(i===PLI%SONGS.length&&MUSIC?' on':'');b.textContent=(i===PLI%SONGS.length&&MUSIC?'♫  ':'')+n;b.onclick=()=>{PLI=i;try{localStorage.setItem('gg_song',i)}catch(e){}MUSIC=true;try{localStorage.setItem('gg_music','1')}catch(e){}ui();const s_=MSRC;MSRC=null;try{s_&&s_.stop()}catch(e){}sfxLoad(k);setTimeout(musicStart,150);draw()};list.append(b)})};
  const place=()=>{const r=m.getBoundingClientRect();p.style.top=(r.bottom+8)+'px';p.style.left=Math.max(8,Math.min(innerWidth-270,r.left-110))+'px'};
- m.onclick=e=>{e.stopPropagation();p.hidden=!p.hidden;if(!p.hidden){place();draw()}};
+ m.onclick=e=>{e.stopPropagation();MUSIC=!MUSIC;try{localStorage.setItem('gg_music',MUSIC?'1':'0')}catch(_){}ui();MUSIC?musicStart():musicStop();if(!p.hidden)draw()};sb.onclick=e=>{e.stopPropagation();p.hidden=!p.hidden;if(!p.hidden){place();draw()}};
  window.__mdraw=()=>{if(!p.hidden)draw();m.title='Music'+(MUSIC?': '+SONGS[PLI%SONGS.length][1]:'')};p.querySelector('.mpx').onclick=()=>{p.hidden=true};p.addEventListener('click',e=>e.stopPropagation());document.addEventListener('click',()=>{p.hidden=true});
  cb.onchange=()=>{MUSIC=cb.checked;try{localStorage.setItem('gg_music',MUSIC?'1':'0')}catch(e){}ui();MUSIC?musicStart():musicStop();draw()};
  rg.oninput=()=>{MVOL=+rg.value;try{localStorage.setItem('gg_mvol',MVOL)}catch(e){}if(MG&&AC)try{MG.gain.cancelScheduledValues(AC.currentTime);MG.gain.setTargetAtTime(mLevel(),AC.currentTime,.05)}catch(e){}};
@@ -1888,6 +1888,9 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 .mswitch.on{color:#2a1a06;background:radial-gradient(circle at 35% 30%,#fff3c4,#f0c96a 45%,#b9862c);box-shadow:0 0 12px rgba(246,210,122,.6),0 2px 6px #000}
 .tr{display:flex;align-items:center;justify-content:flex-end}
 @media (max-width:820px){.mswitch{width:34px;height:34px;font-size:16px;margin-right:6px}}
+.mswitch{width:auto;border-radius:999px;padding:0 12px 0 10px;display:inline-flex;align-items:center;gap:7px;margin-right:3px;font:900 18px/1 serif}.mswitch .mlbl{display:grid;font:800 10px/1.15 system-ui,sans-serif;letter-spacing:.08em;text-align:left}.mswitch .mlbl em{font-style:normal;font-size:13px}
+.msongs{width:24px;height:40px;border:0;border-radius:999px;margin-right:8px;background:#1a1206;color:#f6d27a;box-shadow:inset 0 0 0 1px #5a3a0c;cursor:pointer;font-size:13px;vertical-align:middle;padding:0}
+@media (max-width:820px){.mswitch{width:auto;height:34px;padding:0 9px 0 7px;gap:5px}.mswitch .mlbl b{display:none}.msongs{height:34px;width:20px;margin-right:6px}}
 </style>
 <style>@media (min-width:821px){.reveal{height:100dvh!important;max-height:100dvh!important;overflow:hidden!important}.rv2{height:100dvh!important;max-height:100dvh!important;box-sizing:border-box!important;padding-bottom:26px!important;overflow:hidden}.rv2 #rvgo{padding:12px 34px!important;font-size:20px!important}}</style>
 <style>
@@ -1914,10 +1917,11 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
   <div class="cseal">&#9670;</div>
   <div class="ctop">Certificate of the</div>
   <div class="ctitle">Gogo Guardians</div>
+  <div class="cguards"><figure><img src="img/m_oliver.jpg" alt=""><figcaption>Oliver</figcaption></figure><figure><img src="img/m_jack.jpg" alt=""><figcaption>Jack</figcaption></figure><figure><img src="img/m_leah.jpg" alt=""><figcaption>Leah</figcaption></figure><figure><img src="img/m_gogo.jpg" alt=""><figcaption>Gogo</figcaption></figure></div>
   <div class="cline">This certifies that</div>
   <input id="certName" class="cname" maxlength="28" placeholder="Type your name" aria-label="Your name" autocomplete="off">
   <div class="cline">has joined the Guardians of the Emerald and collected</div>
-  <div class="cgems"><span id="certGems">0</span> emeralds</div>
+  <div class="cgems"><svg class="cgem" aria-hidden="true"><use href="#gem"/></svg><span id="certGems">0</span> emeralds</div>
   <div class="cline" id="certUn"></div>
   <div class="csign"><div><span class="cs">Gogo</span><small>the Magic Phone</small></div><div><span class="cs" id="certDate"></span><small>date</small></div></div>
   <button type="button" class="cbook" id="certBook"><img src="img/cover5.jpg" alt=""><div>Read the whole adventure:<b>Gogo the Magic Phone</b>gogoguardians.com</div></button>
@@ -1936,6 +1940,8 @@ const start=idx((location.hash||'').slice(1));go(start>=0?start:0,true);if(start
 .cline{font-size:clamp(12px,2vw,16px)}
 .cname{font-family:var(--deco);font-size:clamp(20px,4.2vw,36px);text-align:center;color:#1f5a3c;background:transparent;border:0;border-bottom:2px solid #b9862c;width:80%;outline:none;padding:2px}
 .cname::placeholder{color:#b9a27a}
+.cguards{display:flex;gap:clamp(8px,2.2vw,20px);justify-content:center}.cguards figure{margin:0;display:grid;justify-items:center;gap:2px}.cguards img{width:clamp(40px,7.5vw,66px);height:clamp(40px,7.5vw,66px);border-radius:50%;object-fit:cover;object-position:50% 22%;border:2px solid #d9a441;box-shadow:0 2px 6px rgba(0,0,0,.3)}.cguards figcaption{font:700 clamp(9px,1.5vw,12px) var(--display);color:#7a4a10}
+.cgem{width:1.25em;height:1.25em;vertical-align:-.25em;margin-right:.3em;filter:drop-shadow(0 0 6px #3dffa0) drop-shadow(0 1px 2px rgba(0,0,0,.4))}
 .cgems{font-family:var(--display);font-size:clamp(18px,3.6vw,30px);color:#1f7a50;font-weight:700}
 .csign{display:flex;justify-content:space-around;width:100%}
 .csign div{display:grid;gap:2px;min-width:30%}
