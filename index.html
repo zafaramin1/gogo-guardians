@@ -114,6 +114,7 @@ a.card h3::after{content:" \203a"}
 .candlebox .wick{position:absolute;width:63.1px;left:17.8px;top:83.2px}
 .candlebox .cflame{position:absolute;width:120px;height:130px;left:-10.5px;top:-25px;pointer-events:none}
 </style>
+<style>.ages{font:700 17px system-ui,sans-serif;color:#9fe8c6;letter-spacing:.04em;margin:2px 0 10px}.buywrap{display:inline-flex;align-items:center;gap:8px}.bounce{display:inline-block;font:900 30px system-ui;color:#f6d27a;animation:ggb 0.9s ease-in-out infinite}@keyframes ggb{0%,100%{transform:translateX(0)}50%{transform:translateX(10px)}}.privnote{color:#c9b98f;font:14px system-ui,sans-serif;margin-top:8px}</style>
 </head>
 <body>
 <div id="gate" style="position:fixed;inset:0;z-index:999;background:radial-gradient(circle at 50% 40%,#1a1206,#000 75%);display:grid;place-items:center;font-family:Georgia,serif;color:#f6d27a;padding:16px">
@@ -139,13 +140,14 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
 
 <main>
 <div class="wrap hero">
-  <div class="cover"><img src="/img/cover5.jpg" alt="Book cover: Oliver and Alibaba on a flying carpet"><img class="gogo" src="/img/pose_cheer.jpg" alt=""></div>
+  <div class="cover"><img src="/promo/cover.jpg" alt="Gogo Guardians book cover: Oliver and Alibaba on a flying carpet"><img class="gogo" src="/img/pose_cheer.jpg" alt=""></div>
   <div>
     <span class="eyebrow">A magic phone. Forty thieves. One question.</span>
     <h1 class="gold">Gogo Guardians</h1>
+    <p class="ages">For ages 8 to 12 &middot; An illustrated book and a riddle game</p>
     <div class="fire" aria-hidden="true"><video src="/img/fire_strip.mp4" autoplay muted loop playsinline preload="auto"></video></div>
     <p class="lead">Oliver's grandma gives him a phone for his 13th birthday. That night it starts to glow. Inside lives Gogo, an ancient guardian spirit, and soon Oliver is flying with Alibaba and the Forty Thieves across worlds no one on Earth has seen.</p>
-    <div class="row"><a class="btn" href="/play/">Play free</a><a class="btn ghost" href="/read/">Read the story</a><a class="btn ghost" href="#play">See the riddles</a></div>
+    <div class="row"><span class="buywrap"><a class="btn" href="/buy/">Get the complete adventure &middot; $14.95</a><span class="bounce" aria-hidden="true">&#x2190;</span></span><a class="btn ghost" href="/play/">Play 3 chapters free</a><a class="btn ghost" href="/read/">Read the story</a></div>
   </div>
 </div>
 
@@ -168,28 +170,29 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
 
 <span class="divider" aria-hidden="true"><canvas class="dgem"></canvas></span>
 <section id="book"><div class="wrap book">
-  <div class="lock"><img src="/img/p071.jpg" alt="Flying carpets carrying a giant emerald"><div class="door"><div><b class="gold">The whole adventure</b><p style="margin-top:8px">Family preview: all 21 chapters are open for you to read.</p></div></div></div>
+  <div class="lock"><img src="/img/p071.jpg" alt="Flying carpets carrying a giant emerald"><div class="door"><div><b class="gold">The whole adventure</b><p style="margin-top:8px">Chapters 1 to 3 are free. The whole adventure unlocks with one purchase.</p></div></div></div>
   <div>
     <span class="eyebrow">The book</span>
     <h2 class="gold">Gogo and the Forty Thieves</h2>
     <p style="font:700 20px Georgia,serif;color:var(--gold-hi);margin:4px 0 6px">A 200-page illustrated adventure. 21 chapters. 90+ full-color pictures.</p>
-    <p style="color:var(--muted)">Sumner County, ancient Persia, a planet of bird scholars, a jungle world of lizard people, and an emerald big enough to change everything. Every chapter comes with short living films that bring its pictures to life, and riddles to prove you read it.</p>
+    <p style="color:var(--muted)">Oliver's small town in Kansas, ancient Persia, a planet of bird scholars, a jungle world of lizard people, and an emerald big enough to change everything. Every chapter comes with short living films that bring its pictures to life, and riddles to prove you read it.</p>
     <p class="quote">It started as bedtime stories, made up on the spot for my own three children. They laughed so loud that telling the story was easy.</p>
     <div class="price"><s style="font-size:24px;color:var(--muted);font-weight:600">$19.95</s> $14.95 <span class="soon">Founders price</span></div>
     <p style="color:var(--muted);margin:4px 0 0;font-size:15px">After launch: book $12.95 &middot; game $15.95 &middot; <b style="color:var(--gold-hi)">both $19.95</b></p>
     <p style="color:var(--muted);margin:6px 0 0">The full bundle: illustrated book (read online or as a PDF), the whole riddle game, the films and the soundtrack. Founders price for a limited time. For parents and guardians.</p>
-    <div class="row"><a data-keep class="btn" href="/buy/">Get it now: $14.95</a><a class="btn ghost" href="/read/">Read the whole book</a></div>
+    <div class="row"><span class="buywrap"><a data-keep class="btn" href="/buy/">Get it now: $14.95</a><span class="bounce" aria-hidden="true">&#x2190;</span></span><a class="btn ghost" href="/read/">Read 3 chapters free</a></div>
+    <p class="privnote">Kids never make an account or share anything. We collect nothing from children. <a href="/privacy/" style="color:#f6d27a">Privacy for families</a></p>
     <div class="getbox"><b class="gold" style="font:700 20px Georgia,serif">What you get</b><ul>
       <li><b>The illustrated book</b>: 200 pages, 21 chapters, 90+ full-color illustrations. Read online or as a PDF.</li>
       <li><b>The riddle game</b>: 85+ riddles from the story, easy to hard, with Gogo cheering you on out loud.</li>
       <li><b>Ten worlds to unlock</b>: the two guards, Dracula's bats, Zolara, Raptor, the Haunted Mountain and more.</li>
       <li><b>Living films for every chapter</b>: the pictures move, breathe and glow while you solve the riddles.</li>
-      <li><b>The soundtrack</b>: six songs with music from the region. Free download.</li>
+      <li><b>The soundtrack</b>: six songs of harmonium, dhol and tabla from Alibaba's part of the world. Free download.</li>
       <li><b>A little dancing family</b> that lives on the screen, and <b>Game Secrets</b> that open after Chapter 12.</li>
       <li><b>Emerald treasure, prizes and a Guardian certificate</b> with your child's name on it.</li>
     </ul></div>
     <div class="getbox"><b class="gold" style="font:700 20px Georgia,serif">Share it and earn 35%</b><p style="margin:6px 0 4px;color:var(--muted)">Parents, teachers and homeschool groups: tell other families about Gogo Guardians and earn 35% of every sale you send, about $5.23 each. Free to join.</p><a data-keep class="btn" style="background:linear-gradient(#3ee6a0,#13875a);color:#03140c;border:1px solid #9fffd0;box-shadow:0 0 18px rgba(47,227,154,.5)" href="/partners/" target="_blank" rel="noopener">Join as a Guardian partner: earn 35%</a></div>
-    <p style="margin-top:14px;color:var(--muted)">&#9835; <a data-keep href="/soundtrack/gogo-guardians-soundtrack.zip" download style="color:var(--gold-hi);font-weight:700">Download the soundtrack free</a>: six songs with music from the region, from the game and the film, ours to share with you. Free for personal listening; please do not resell or re-upload it.</p>
+    <p style="margin-top:14px;color:var(--muted)">&#9835; <a data-keep href="/soundtrack/gogo-guardians-soundtrack.zip" download style="color:var(--gold-hi);font-weight:700">Download the soundtrack free</a>: six songs of harmonium, dhol and tabla, from the game and the film, ours to share with you. Free for personal listening; please do not resell or re-upload it.</p>
   </div>
 </div></section>
 
@@ -204,7 +207,7 @@ document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(d
     <div class="skill"><b>Careful thinking</b><span>Logic puzzles like the two guards.</span></div>
     <div class="skill"><b>Spelling and writing</b><span>Bonus emeralds for typing answers.</span></div>
   </div>
-  <p style="color:var(--muted);margin-top:20px">Kids play with a Guardian name only. No chat with strangers. Classroom licenses are coming.</p>
+  <p style="color:var(--muted);margin-top:20px">Kids play with a Guardian name only. No accounts, no chat, and nothing is collected from children. <a href="/privacy/" style="color:var(--gold-hi)">Privacy for families</a>.<br>Teachers and schools: classroom licenses are coming. <a href="https://payhip.com/GogoGuardians/contact" style="color:var(--gold-hi)">Join the waitlist</a>.</p>
 </div></div></section>
 
 <span class="divider" aria-hidden="true"><canvas class="dgem"></canvas></span>
