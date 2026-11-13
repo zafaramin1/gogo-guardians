@@ -22,17 +22,6 @@
 </style>
 </head>
 <body>
-<div id="gate" style="position:fixed;inset:0;z-index:999;background:radial-gradient(circle at 50% 40%,#1a1206,#000 75%);display:grid;place-items:center;font-family:Georgia,serif;color:#f6d27a;padding:16px">
-<form id="gateform" style="display:grid;gap:12px;justify-items:center;text-align:center;max-width:360px">
-<img src="/img/pose_happy.jpg" alt="" style="width:120px;border-radius:50%;-webkit-mask-image:radial-gradient(#000 60%,transparent 72%);mask-image:radial-gradient(#000 60%,transparent 72%)">
-<div style="font-size:26px;font-weight:bold">Gogo Guardians</div>
-<div style="color:#e8dcbc;font-family:system-ui,sans-serif">Family preview. Enter the secret word.</div>
-<label for="gatecode" style="position:absolute;left:-9999px">Secret word</label>
-<input id="gatecode" autocomplete="off" style="font-size:18px;padding:10px 14px;border-radius:10px;border:1px solid #b9862c;background:#120c02;color:#fff3d6;text-align:center">
-<button style="font:bold 17px system-ui,sans-serif;padding:10px 22px;border-radius:999px;border:0;background:linear-gradient(#f3cf78,#a86e1e);color:#1e1202;cursor:pointer">Enter</button>
-<div id="gatemsg" style="color:#ff9aa5;font-family:system-ui,sans-serif;min-height:1em"></div></form></div>
-<script>(function(){var ok=false;try{ok=localStorage.getItem('gg_family')==='1'}catch(e){}var g=document.getElementById('gate');if(ok){g.remove();return}
-document.getElementById('gateform').onsubmit=function(e){e.preventDefault();if(document.getElementById('gatecode').value.trim().toLowerCase()==='fortythieves'){try{localStorage.setItem('gg_family','1')}catch(e){}g.remove()}else document.getElementById('gatemsg').textContent='Not quite. Ask the author for the secret word.'}})();</script>
 <a href="https://form.jotform.com/263087088389069" target="_blank" rel="noopener" style="position:fixed;left:max(12px,env(safe-area-inset-left,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:60;font:800 14px system-ui,sans-serif;color:#1e1202;background:linear-gradient(#f3cf78,#a86e1e);padding:9px 14px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px #000a">&#9998; Leave a note</a>
 <title>Gogo Guardians</title>
 <meta name="claude:viewport-fit-sides" content="cover">
