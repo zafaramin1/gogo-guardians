@@ -2,6 +2,8 @@
    Comments are saved in a Google Sheet through a small Google Apps Script web app.
    ENDPOINT is the web app link (ends in /exec). Until it is set, the old note form is used. */
 (function () {
+  /* Family only: children using the public site never see a box that asks for a name or posts text (COPPA). */
+  try { if (localStorage.getItem('gg_family') !== '1') return; } catch (e) { return; }
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycby-LZcWKq61NIN3xxQRmMGCfeDKE0sXke5_djFhG9dwd9GCTfzcoe1f36wJN1EPX7BRCg/exec';
   var KEY = 'emerald';
   var FALLBACK = 'https://form.jotform.com/263087088389069';
